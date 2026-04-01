@@ -271,9 +271,12 @@ export default function GoldenGroveRecovery() {
           .site-nav { height: 56px !important; padding: 0 12px !important; }
           .nav-wordmark svg { height: 28px !important; }
 
-          .hero-section { padding: 90px 16px 50px !important; min-height: auto !important; }
-          .hero-section h1 { font-size: 1.6rem !important; }
-          .hero-wordmark svg { height: 36px !important; }
+          .hero-section { padding: 80px 20px 40px !important; min-height: auto !important; }
+          .hero-section h1 { font-size: 1.5rem !important; line-height: 1.3 !important; margin-bottom: 14px !important; }
+          .hero-section .hero-subtitle { font-size: 0.95rem !important; margin-bottom: 28px !important; }
+          .hero-section .gg-pill { font-size: 10px !important; margin-bottom: 18px !important; }
+          .hero-wordmark { margin-bottom: 20px !important; }
+          .hero-wordmark svg { height: 28px !important; }
           .hero-stats { grid-template-columns: 1fr 1fr 1fr !important; }
           .hero-stats > div { padding: 12px 8px !important; }
           .hero-ctas { flex-direction: column !important; align-items: stretch !important; }
@@ -298,17 +301,28 @@ export default function GoldenGroveRecovery() {
           .cta-banner-ctas { flex-direction: column !important; align-items: stretch !important; }
           .cta-banner-ctas .gg-btn { width: 100% !important; }
 
-          .footer-grid { grid-template-columns: 1fr 1fr !important; gap: 24px !important; }
-          .footer-bottom-inner { flex-direction: column !important; text-align: center !important; }
+          .site-footer { padding: 32px 16px 0 !important; }
+          .footer-wordmark svg { height: 28px !important; }
+          .footer-wordmark { margin-bottom: 20px !important; }
+          .footer-grid { grid-template-columns: 1fr 1fr !important; gap: 20px !important; }
+          .footer-grid .footer-col-title { font-size: 11px !important; margin-bottom: 10px !important; }
+          .footer-grid a, .footer-grid span, .footer-grid p { font-size: 12px !important; }
+          .footer-grid .footer-contact-block p { font-size: 12px !important; line-height: 1.5 !important; margin-bottom: 8px !important; }
+          .footer-bottom-bar { padding: 12px 16px !important; }
+          .footer-bottom-inner { flex-direction: column !important; text-align: center !important; gap: 8px !important; }
+          .footer-bottom-inner div { font-size: 11px !important; }
+          .footer-bottom-inner span { font-size: 11px !important; }
 
           .mobile-menu { top: 56px !important; }
         }
         @media (max-width: 480px) {
           .nav-wordmark svg { height: 22px !important; }
-          .hero-wordmark svg { height: 28px !important; }
+          .hero-wordmark svg { height: 22px !important; }
+          .hero-section h1 { font-size: 1.3rem !important; }
           .hero-stats { grid-template-columns: 1fr !important; }
           .therapy-grid { grid-template-columns: 1fr !important; }
           .footer-grid { grid-template-columns: 1fr !important; }
+          .footer-wordmark svg { height: 22px !important; }
         }
         @media (min-width: 769px) {
           .hamburger { display: none !important; }
@@ -403,7 +417,7 @@ export default function GoldenGroveRecovery() {
             letterSpacing: "-0.03em", marginBottom: 20 }}>
             {SITE.tagline}
           </h1>
-          <p style={{ fontSize: "clamp(1rem, 2vw, 1.2rem)", lineHeight: 1.7, color: "rgba(255,255,255,0.75)",
+          <p className="hero-subtitle" style={{ fontSize: "clamp(1rem, 2vw, 1.2rem)", lineHeight: 1.7, color: "rgba(255,255,255,0.75)",
             maxWidth: 640, margin: "0 auto 40px" }}>
             Compassionate, evidence-based addiction treatment and dual diagnosis recovery.
             Whether you're beginning your journey or returning to it, Golden Grove provides
@@ -698,9 +712,9 @@ export default function GoldenGroveRecovery() {
       </section>
 
       {/* ═══ FOOTER ════════════════════════════════════════════════════════════ */}
-      <footer style={{ background: B.coffeeDark, color: B.dust, padding: "48px 24px 0" }}>
+      <footer className="site-footer" style={{ background: B.coffeeDark, color: B.dust, padding: "48px 24px 0" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <div style={{ marginBottom: 32 }}>
+          <div className="footer-wordmark" style={{ marginBottom: 32 }}>
             <Wordmark height={48} variant="white" />
           </div>
           <div className="footer-grid" style={{
@@ -708,7 +722,7 @@ export default function GoldenGroveRecovery() {
             gap: 40, marginBottom: 40,
           }}>
             <div>
-              <div style={{ fontSize: 12, fontWeight: 700, color: B.gold, marginBottom: 16,
+              <div className="footer-col-title" style={{ fontSize: 12, fontWeight: 700, color: B.gold, marginBottom: 16,
                 letterSpacing: "0.06em", textTransform: "uppercase" }}>Quick Links</div>
               {["About Us", "What to Expect", "FAQ", "Contact Us", "Insurance"].map((l, i) => (
                 <div key={i} style={{ marginBottom: 8 }}>
@@ -720,7 +734,7 @@ export default function GoldenGroveRecovery() {
               ))}
             </div>
             <div>
-              <div style={{ fontSize: 12, fontWeight: 700, color: B.gold, marginBottom: 16,
+              <div className="footer-col-title" style={{ fontSize: 12, fontWeight: 700, color: B.gold, marginBottom: 16,
                 letterSpacing: "0.06em", textTransform: "uppercase" }}>Programs</div>
               {["Residential Treatment", "PHP", "Co-Occurring Disorders", "MAT"].map((l, i) => (
                 <div key={i} style={{ marginBottom: 8 }}>
@@ -731,7 +745,7 @@ export default function GoldenGroveRecovery() {
               ))}
             </div>
             <div>
-              <div style={{ fontSize: 12, fontWeight: 700, color: B.gold, marginBottom: 16,
+              <div className="footer-col-title" style={{ fontSize: 12, fontWeight: 700, color: B.gold, marginBottom: 16,
                 letterSpacing: "0.06em", textTransform: "uppercase" }}>Resources</div>
               {["Alcohol Addiction", "Opioid Addiction", "Drug Rehab Louisville", "All Resources"].map((l, i) => (
                 <div key={i} style={{ marginBottom: 8 }}>
@@ -739,8 +753,8 @@ export default function GoldenGroveRecovery() {
                 </div>
               ))}
             </div>
-            <div>
-              <div style={{ fontSize: 12, fontWeight: 700, color: B.gold, marginBottom: 16,
+            <div className="footer-contact-block">
+              <div className="footer-col-title" style={{ fontSize: 12, fontWeight: 700, color: B.gold, marginBottom: 16,
                 letterSpacing: "0.06em", textTransform: "uppercase" }}>Contact</div>
               <p style={{ fontSize: 13, lineHeight: 1.7, marginBottom: 12 }}>
                 <span style={{ color: B.gold, fontWeight: 600 }}>Address</span><br />
@@ -758,7 +772,7 @@ export default function GoldenGroveRecovery() {
           </div>
         </div>
 
-        <div style={{
+        <div className="footer-bottom-bar" style={{
           borderTop: `1px solid rgba(242,209,125,0.15)`,
           background: "rgba(0,0,0,0.2)", padding: "16px 24px",
         }}>
