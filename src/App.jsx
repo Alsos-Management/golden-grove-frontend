@@ -399,20 +399,26 @@ export default function GoldenGroveRecovery() {
         background: `linear-gradient(165deg, ${B.coffeeDark} 0%, ${B.coffee} 40%, ${B.butterscotch} 100%)`,
         color: B.white, position: "relative", overflow: "hidden",
       }}>
-        {/* Cherry blossom botanical illustration — brand guidelines p.18 */}
-        <div style={{
-          position: "absolute", bottom: 0, left: 0, right: 0, height: "50%",
-          backgroundImage: `url(${import.meta.env.BASE_URL}cherry-blossom.png)`,
-          backgroundRepeat: "repeat-x", backgroundPosition: "bottom center",
-          backgroundSize: "auto 100%", opacity: 0.4, pointerEvents: "none",
-        }} />
-        <div style={{
-          position: "absolute", top: 0, left: 0, right: 0, height: "40%",
-          backgroundImage: `url(${import.meta.env.BASE_URL}cherry-blossom.png)`,
-          backgroundRepeat: "repeat-x", backgroundPosition: "top center",
-          backgroundSize: "auto 100%", opacity: 0.18, transform: "rotate(180deg)",
-          pointerEvents: "none",
-        }} />
+        {/* Cherry blossom — single accent, bottom-right corner */}
+        <img
+          src={`${import.meta.env.BASE_URL}cherry-blossom.png`}
+          alt="" role="presentation"
+          style={{
+            position: "absolute", bottom: -30, right: -60,
+            width: 550, height: "auto", opacity: 0.15,
+            pointerEvents: "none", transform: "scaleX(-1)",
+          }}
+        />
+        {/* Subtle top-left accent — smaller, more transparent */}
+        <img
+          src={`${import.meta.env.BASE_URL}cherry-blossom.png`}
+          alt="" role="presentation"
+          style={{
+            position: "absolute", top: -20, left: -80,
+            width: 380, height: "auto", opacity: 0.08,
+            pointerEvents: "none", transform: "rotate(180deg)",
+          }}
+        />
 
         <FadeIn style={{ position: "relative", zIndex: 1, maxWidth: 800 }}>
           <div className="hero-wordmark" style={{ marginBottom: 32, display: "flex", justifyContent: "center" }}>
