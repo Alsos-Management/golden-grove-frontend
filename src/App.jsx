@@ -407,12 +407,6 @@ export default function GoldenGroveRecovery() {
           <div className="hero-wordmark" style={{ marginBottom: 32, display: "flex", justifyContent: "center" }}>
             <Wordmark height={72} variant="white" />
           </div>
-          <div className="gg-pill" style={{
-            background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)",
-            color: B.gold, marginBottom: 28, justifyContent: "center",
-          }}>
-            Part of {SITE.parent}
-          </div>
           <h1 style={{ fontSize: "clamp(2rem, 5vw, 3.2rem)", fontWeight: 800, lineHeight: 1.15,
             letterSpacing: "-0.03em", marginBottom: 20 }}>
             {SITE.tagline}
