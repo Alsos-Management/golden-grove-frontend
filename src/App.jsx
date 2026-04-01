@@ -259,16 +259,25 @@ export default function GoldenGroveRecovery() {
         }
         .faq-toggle:hover { color: ${B.butterscotch}; }
 
+        /* ── NAV RESPONSIVE ── */
+        .site-nav { height: 64px; padding: 0 24px; }
+        .nav-wordmark svg { height: 44px; transition: height 0.2s; }
+        .hamburger { display: none; }
+
         @media (max-width: 768px) {
           .desktop-only { display: none !important; }
-          .mobile-only { display: flex !important; }
+          .hamburger { display: flex !important; }
 
-          .hero-section { padding: 100px 16px 60px !important; min-height: auto !important; }
-          .hero-section h1 { font-size: 1.75rem !important; }
-          .hero-wordmark svg { height: 44px !important; }
-          .hero-stats { grid-template-columns: 1fr !important; }
-          .hero-ctas { flex-direction: column !important; align-items: center !important; }
-          .hero-ctas .gg-btn { width: 100% !important; max-width: 320px !important; }
+          .site-nav { height: 56px !important; padding: 0 12px !important; }
+          .nav-wordmark svg { height: 28px !important; }
+
+          .hero-section { padding: 90px 16px 50px !important; min-height: auto !important; }
+          .hero-section h1 { font-size: 1.6rem !important; }
+          .hero-wordmark svg { height: 36px !important; }
+          .hero-stats { grid-template-columns: 1fr 1fr 1fr !important; }
+          .hero-stats > div { padding: 12px 8px !important; }
+          .hero-ctas { flex-direction: column !important; align-items: stretch !important; }
+          .hero-ctas .gg-btn { width: 100% !important; }
 
           .section-pad { padding: 50px 16px !important; }
           .program-grid { grid-template-columns: 1fr !important; }
@@ -278,36 +287,41 @@ export default function GoldenGroveRecovery() {
           .conditions-wrap { gap: 6px !important; }
           .conditions-wrap .gg-pill { font-size: 11px !important; padding: 6px 12px !important; }
           .insurance-wrap { gap: 6px !important; }
+          .insurance-wrap > span { padding: 8px 12px !important; font-size: 12px !important; }
 
-          .faq-toggle { padding: 16px 18px !important; font-size: 14px !important; }
+          .faq-toggle { padding: 16px 16px !important; font-size: 14px !important; }
 
-          .map-frame { height: 280px !important; }
+          .map-frame { height: 260px !important; }
 
-          .cta-banner-section h2 { font-size: 1.5rem !important; }
-          .cta-banner-ctas { flex-direction: column !important; align-items: center !important; }
-          .cta-banner-ctas .gg-btn { width: 100% !important; max-width: 320px !important; }
+          .cta-banner-section { padding: 50px 16px !important; }
+          .cta-banner-section h2 { font-size: 1.4rem !important; }
+          .cta-banner-ctas { flex-direction: column !important; align-items: stretch !important; }
+          .cta-banner-ctas .gg-btn { width: 100% !important; }
 
           .footer-grid { grid-template-columns: 1fr 1fr !important; gap: 24px !important; }
           .footer-bottom-inner { flex-direction: column !important; text-align: center !important; }
+
+          .mobile-menu { top: 56px !important; }
         }
         @media (max-width: 480px) {
+          .nav-wordmark svg { height: 22px !important; }
+          .hero-wordmark svg { height: 28px !important; }
+          .hero-stats { grid-template-columns: 1fr !important; }
           .therapy-grid { grid-template-columns: 1fr !important; }
           .footer-grid { grid-template-columns: 1fr !important; }
-          .nav-wordmark svg { height: 32px !important; }
         }
         @media (min-width: 769px) {
-          .mobile-only { display: none !important; }
+          .hamburger { display: none !important; }
         }
       `}</style>
 
       {/* ═══ NAV ═══════════════════════════════════════════════════════════════ */}
-      <nav style={{
+      <nav className="site-nav" style={{
         position: "fixed", top: 0, left: 0, right: 0, zIndex: 1000,
         background: scrolled ? "rgba(255,255,255,0.97)" : "rgba(255,255,255,0.92)",
         backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)",
         borderBottom: `1px solid ${scrolled ? B.dust : "transparent"}`,
         transition: "all 0.3s",
-        padding: "0 24px", height: 64,
         display: "flex", alignItems: "center", justifyContent: "space-between",
       }}>
         <a href="#hero" className="nav-wordmark" style={{ display: "flex", alignItems: "center", textDecoration: "none" }}>
@@ -325,10 +339,10 @@ export default function GoldenGroveRecovery() {
              style={{ padding: "8px 20px", fontSize: 12, borderRadius: 6 }}>
             Call {SITE.phone}
           </a>
-          <button className="mobile-only" onClick={() => setMobileOpen(!mobileOpen)}
+          <button className="hamburger" onClick={() => setMobileOpen(!mobileOpen)}
             style={{
               background: "none", border: "none", cursor: "pointer", padding: 8,
-              display: "flex", flexDirection: "column", gap: 5,
+              flexDirection: "column", gap: 5,
             }}>
             <span style={{ width: 22, height: 2, background: B.coffee, transition: "all 0.3s",
               transform: mobileOpen ? "rotate(45deg) translate(5px, 5px)" : "none" }} />
@@ -342,7 +356,7 @@ export default function GoldenGroveRecovery() {
 
       {/* Mobile Menu */}
       {mobileOpen && (
-        <div style={{
+        <div className="mobile-menu" style={{
           position: "fixed", top: 64, left: 0, right: 0, bottom: 0, zIndex: 999,
           background: "rgba(255,255,255,0.98)", backdropFilter: "blur(12px)",
           padding: "24px", display: "flex", flexDirection: "column", gap: 8,
