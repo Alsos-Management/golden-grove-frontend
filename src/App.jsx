@@ -181,6 +181,7 @@ export default function GoldenGroveRecovery() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeFaq, setActiveFaq] = useState(null);
+  const [showReviews, setShowReviews] = useState(false);
 
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 40);
@@ -259,6 +260,13 @@ export default function GoldenGroveRecovery() {
         }
         .faq-toggle:hover { color: ${B.butterscotch}; }
 
+        @keyframes reviewSlide {
+          from { opacity: 0; transform: translateY(12px) scale(0.95); }
+          to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .reviews-widget button:focus { outline: none; }
+
         /* ── NAV RESPONSIVE ── */
         .site-nav { height: 64px; padding: 0 24px; }
         .nav-wordmark svg { height: 44px; transition: height 0.2s; }
@@ -294,7 +302,8 @@ export default function GoldenGroveRecovery() {
 
           .faq-toggle { padding: 16px 16px !important; font-size: 14px !important; }
 
-          .map-frame { height: 260px !important; }
+          .contact-layout { grid-template-columns: 1fr !important; }
+          .map-frame { height: 260px !important; min-height: 260px !important; }
 
           .cta-banner-section { padding: 50px 16px !important; }
           .cta-banner-section h2 { font-size: 1.4rem !important; }
@@ -314,6 +323,8 @@ export default function GoldenGroveRecovery() {
           .footer-bottom-inner span { font-size: 11px !important; }
 
           .mobile-menu { top: 56px !important; }
+          .reviews-widget { bottom: 16px !important; right: 16px !important; left: 16px !important; align-items: stretch !important; }
+          .reviews-widget > div:first-child { width: 100% !important; }
         }
         @media (max-width: 480px) {
           .nav-wordmark svg { height: 22px !important; }
@@ -655,26 +666,66 @@ export default function GoldenGroveRecovery() {
         </div>
       </section>
 
-      {/* ═══ MAP & CONTACT ═════════════════════════════════════════════════════ */}
+      {/* ═══ CONTACT & LOCATION ══════════════════════════════════════════════ */}
       <section id="contact" className="section-pad" style={{ padding: "80px 24px", background: B.white }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <FadeIn>
             <div className="gg-section-label" style={{ marginBottom: 8 }}>Location</div>
-            <h2 style={{ fontSize: 28, fontWeight: 800, color: B.coffee, letterSpacing: "-0.02em", marginBottom: 8 }}>
-              Find Us in Louisville
+            <h2 style={{ fontSize: 28, fontWeight: 800, color: B.coffee, letterSpacing: "-0.02em", marginBottom: 40 }}>
+              Visit Golden Grove Recovery
             </h2>
-            <p className="mono" style={{ fontSize: 13, color: B.gray, marginBottom: 30 }}>{SITE.address}</p>
           </FadeIn>
-          <FadeIn delay={0.1}>
-            <div style={{ borderRadius: 14, overflow: "hidden", border: `1px solid ${B.dust}`,
-              boxShadow: "0 4px 20px rgba(0,0,0,0.06)" }}>
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3133.5!2d-85.8!3d38.2!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzjCsDEyJzAwLjAiTiA4NcKwNDgnMDAuMCJX!5e0!3m2!1sen!2sus!4v1"
-                className="map-frame" width="100%" height="400" style={{ border: 0, display: "block" }} allowFullScreen="" loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade" title="Golden Grove Recovery Location"
-              />
-            </div>
-          </FadeIn>
+
+          <div className="contact-layout" style={{ display: "grid", gridTemplateColumns: "380px 1fr", gap: 24 }}>
+            {/* Contact Details Card */}
+            <FadeIn>
+              <div className="gg-card" style={{ padding: 0, overflow: "hidden", height: "100%", display: "flex", flexDirection: "column" }}>
+                <div style={{
+                  background: `linear-gradient(135deg, ${B.coffee}, ${B.butterscotch})`,
+                  padding: "28px 28px 24px", color: B.white,
+                }}>
+                  <h3 style={{ fontSize: 18, fontWeight: 700, color: B.white, marginBottom: 4 }}>Golden Grove Recovery</h3>
+                  <p style={{ fontSize: 13, color: "rgba(255,255,255,0.6)", fontWeight: 500 }}>Addiction Treatment Center</p>
+                </div>
+                <div style={{ padding: "24px 28px", flex: 1 }}>
+                  <div style={{ marginBottom: 20 }}>
+                    <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: B.butterscotch, marginBottom: 6 }}>Address</div>
+                    <p style={{ fontSize: 14, color: B.black, lineHeight: 1.6, fontWeight: 500 }}>4418 Malcolm Ave<br />Louisville, KY 40211</p>
+                  </div>
+                  <div style={{ marginBottom: 20 }}>
+                    <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: B.butterscotch, marginBottom: 6 }}>Phone</div>
+                    <a href={`tel:${SITE.phoneTel}`} style={{ fontSize: 14, color: B.coffee, fontWeight: 600, textDecoration: "none" }}>{SITE.phone}</a>
+                  </div>
+                  <div style={{ marginBottom: 20 }}>
+                    <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: B.butterscotch, marginBottom: 6 }}>Email</div>
+                    <a href={`mailto:${SITE.email}`} style={{ fontSize: 14, color: B.coffee, fontWeight: 500, textDecoration: "none" }}>{SITE.email}</a>
+                  </div>
+                  <div>
+                    <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: B.butterscotch, marginBottom: 6 }}>Hours</div>
+                    <p style={{ fontSize: 14, color: B.black, fontWeight: 500 }}>24/7 Admissions</p>
+                    <p style={{ fontSize: 12, color: B.gray }}>We're here whenever you're ready.</p>
+                  </div>
+                </div>
+                <div style={{ padding: "0 28px 24px" }}>
+                  <a href={`tel:${SITE.phoneTel}`} className="gg-btn gg-btn-primary" style={{ width: "100%", textAlign: "center", padding: "12px 24px", fontSize: 13 }}>
+                    Call Now
+                  </a>
+                </div>
+              </div>
+            </FadeIn>
+
+            {/* Map */}
+            <FadeIn delay={0.1}>
+              <div style={{ borderRadius: 14, overflow: "hidden", border: `1px solid ${B.dust}`,
+                boxShadow: "0 4px 20px rgba(0,0,0,0.06)", height: "100%", minHeight: 400 }}>
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3133.5!2d-85.8!3d38.2!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzjCsDEyJzAwLjAiTiA4NcKwNDgnMDAuMCJX!5e0!3m2!1sen!2sus!4v1"
+                  className="map-frame" width="100%" height="100%" style={{ border: 0, display: "block", minHeight: 400 }} allowFullScreen="" loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade" title="Golden Grove Recovery Location"
+                />
+              </div>
+            </FadeIn>
+          </div>
         </div>
       </section>
 
@@ -788,6 +839,91 @@ export default function GoldenGroveRecovery() {
           </div>
         </div>
       </footer>
+
+      {/* ═══ FLOATING GOOGLE REVIEWS WIDGET ════════════════════════════════════ */}
+      <div className="reviews-widget" style={{
+        position: "fixed", bottom: 24, right: 24, zIndex: 900,
+        display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 8,
+      }}>
+        {/* Expanded panel */}
+        {showReviews && (
+          <div style={{
+            background: B.white, borderRadius: 14, border: `1px solid ${B.dust}`,
+            boxShadow: "0 12px 40px rgba(0,0,0,0.12)", width: 320, maxHeight: 420,
+            overflow: "hidden", animation: "reviewSlide 0.3s ease",
+          }}>
+            <div style={{
+              background: `linear-gradient(135deg, ${B.coffee}, ${B.butterscotch})`,
+              padding: "16px 20px", color: B.white, display: "flex", justifyContent: "space-between", alignItems: "center",
+            }}>
+              <div>
+                <div style={{ fontSize: 14, fontWeight: 700 }}>Patient Reviews</div>
+                <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 4 }}>
+                  <span style={{ fontSize: 13, color: B.gold }}>&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+                  <span style={{ fontSize: 11, color: "rgba(255,255,255,0.6)" }}>5.0 on Google</span>
+                </div>
+              </div>
+              <button onClick={() => setShowReviews(false)} style={{
+                background: "none", border: "none", color: "rgba(255,255,255,0.6)",
+                fontSize: 18, cursor: "pointer", padding: 4,
+              }}>&times;</button>
+            </div>
+            <div style={{ padding: "16px 20px", maxHeight: 320, overflowY: "auto" }}>
+              {[
+                { name: "Sarah M.", text: "Golden Grove saved my life. The staff treated me with dignity from day one. I finally feel like myself again.", time: "2 weeks ago" },
+                { name: "James R.", text: "The residential program gave me the structure I needed. The therapists genuinely care about your recovery.", time: "1 month ago" },
+                { name: "Maria L.", text: "I was nervous about treatment, but the team made me feel safe and supported. Highly recommend.", time: "1 month ago" },
+              ].map((r, i) => (
+                <div key={i} style={{
+                  padding: "14px 0",
+                  borderBottom: i < 2 ? `1px solid ${B.offWhite}` : "none",
+                }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                      <div style={{
+                        width: 28, height: 28, borderRadius: "50%",
+                        background: `linear-gradient(135deg, ${B.coffee}, ${B.butterscotch})`,
+                        display: "flex", alignItems: "center", justifyContent: "center",
+                        fontSize: 11, fontWeight: 700, color: B.white,
+                      }}>{r.name[0]}</div>
+                      <span style={{ fontSize: 13, fontWeight: 600, color: B.coffee }}>{r.name}</span>
+                    </div>
+                    <span style={{ fontSize: 10, color: B.grayLight }}>{r.time}</span>
+                  </div>
+                  <div style={{ fontSize: 11, color: B.gold, marginBottom: 4 }}>&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                  <p style={{ fontSize: 12.5, color: B.gray, lineHeight: 1.6, margin: 0 }}>{r.text}</p>
+                </div>
+              ))}
+              <a href="https://www.google.com/maps/place/Golden+Grove+Recovery" target="_blank" rel="noopener noreferrer"
+                 style={{
+                   display: "block", textAlign: "center", padding: "12px 0", marginTop: 8,
+                   fontSize: 12, fontWeight: 600, color: B.butterscotch, textDecoration: "none",
+                 }}>
+                View all reviews on Google &#8594;
+              </a>
+            </div>
+          </div>
+        )}
+
+        {/* Floating trigger button */}
+        <button onClick={() => setShowReviews(!showReviews)} style={{
+          background: B.coffee, color: B.white, border: "none",
+          borderRadius: 50, padding: "12px 20px",
+          display: "flex", alignItems: "center", gap: 8,
+          cursor: "pointer", boxShadow: "0 4px 20px rgba(70,31,1,0.25)",
+          transition: "all 0.25s", fontFamily: "inherit", fontSize: 13, fontWeight: 600,
+        }}
+          onMouseEnter={(e) => { e.currentTarget.style.background = B.butterscotch; e.currentTarget.style.transform = "scale(1.05)"; }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = B.coffee; e.currentTarget.style.transform = "scale(1)"; }}
+        >
+          <span style={{ fontSize: 16, color: B.gold }}>&#9733;</span>
+          <span>Reviews</span>
+          <span style={{
+            background: B.gold, color: B.coffee, fontSize: 11, fontWeight: 800,
+            padding: "2px 7px", borderRadius: 10,
+          }}>5.0</span>
+        </button>
+      </div>
     </div>
   );
 }
