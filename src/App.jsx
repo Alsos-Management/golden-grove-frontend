@@ -262,6 +262,38 @@ export default function GoldenGroveRecovery() {
         @media (max-width: 768px) {
           .desktop-only { display: none !important; }
           .mobile-only { display: flex !important; }
+
+          .hero-section { padding: 100px 16px 60px !important; min-height: auto !important; }
+          .hero-section h1 { font-size: 1.75rem !important; }
+          .hero-wordmark svg { height: 44px !important; }
+          .hero-stats { grid-template-columns: 1fr !important; }
+          .hero-ctas { flex-direction: column !important; align-items: center !important; }
+          .hero-ctas .gg-btn { width: 100% !important; max-width: 320px !important; }
+
+          .section-pad { padding: 50px 16px !important; }
+          .program-grid { grid-template-columns: 1fr !important; }
+          .expect-grid { grid-template-columns: 1fr !important; }
+          .therapy-grid { grid-template-columns: 1fr 1fr !important; }
+          .resource-grid { grid-template-columns: 1fr !important; }
+          .conditions-wrap { gap: 6px !important; }
+          .conditions-wrap .gg-pill { font-size: 11px !important; padding: 6px 12px !important; }
+          .insurance-wrap { gap: 6px !important; }
+
+          .faq-toggle { padding: 16px 18px !important; font-size: 14px !important; }
+
+          .map-frame { height: 280px !important; }
+
+          .cta-banner-section h2 { font-size: 1.5rem !important; }
+          .cta-banner-ctas { flex-direction: column !important; align-items: center !important; }
+          .cta-banner-ctas .gg-btn { width: 100% !important; max-width: 320px !important; }
+
+          .footer-grid { grid-template-columns: 1fr 1fr !important; gap: 24px !important; }
+          .footer-bottom-inner { flex-direction: column !important; text-align: center !important; }
+        }
+        @media (max-width: 480px) {
+          .therapy-grid { grid-template-columns: 1fr !important; }
+          .footer-grid { grid-template-columns: 1fr !important; }
+          .nav-wordmark svg { height: 32px !important; }
         }
         @media (min-width: 769px) {
           .mobile-only { display: none !important; }
@@ -278,7 +310,7 @@ export default function GoldenGroveRecovery() {
         padding: "0 24px", height: 64,
         display: "flex", alignItems: "center", justifyContent: "space-between",
       }}>
-        <a href="#hero" style={{ display: "flex", alignItems: "center", textDecoration: "none" }}>
+        <a href="#hero" className="nav-wordmark" style={{ display: "flex", alignItems: "center", textDecoration: "none" }}>
           <Wordmark height={44} variant="color" />
         </a>
 
@@ -330,7 +362,7 @@ export default function GoldenGroveRecovery() {
       )}
 
       {/* ═══ HERO ══════════════════════════════════════════════════════════════ */}
-      <section id="hero" style={{
+      <section id="hero" className="hero-section" style={{
         minHeight: "100vh", display: "flex", flexDirection: "column",
         justifyContent: "center", alignItems: "center", textAlign: "center",
         padding: "120px 24px 80px",
@@ -344,7 +376,7 @@ export default function GoldenGroveRecovery() {
         }} />
 
         <FadeIn style={{ position: "relative", zIndex: 1, maxWidth: 800 }}>
-          <div style={{ marginBottom: 32 }}>
+          <div className="hero-wordmark" style={{ marginBottom: 32 }}>
             <Wordmark height={72} variant="white" />
           </div>
           <div className="gg-pill" style={{
@@ -363,14 +395,14 @@ export default function GoldenGroveRecovery() {
             Whether you're beginning your journey or returning to it, Golden Grove provides
             the clinical expertise and human understanding you deserve.
           </p>
-          <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
+          <div className="hero-ctas" style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
             <a href={`tel:${SITE.phoneTel}`} className="gg-btn gg-btn-light">Call {SITE.phone}</a>
             <a href="#contact" className="gg-btn gg-btn-secondary">Start Your Assessment</a>
           </div>
         </FadeIn>
 
         <FadeIn delay={0.3} style={{ position: "relative", zIndex: 1, marginTop: 60, width: "100%", maxWidth: 700 }}>
-          <div style={{
+          <div className="hero-stats" style={{
             display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 1,
             background: "rgba(255,255,255,0.08)", borderRadius: 12, overflow: "hidden",
           }}>
@@ -390,7 +422,7 @@ export default function GoldenGroveRecovery() {
       </section>
 
       {/* ═══ PROGRAMS ══════════════════════════════════════════════════════════ */}
-      <section id="programs" style={{ padding: "80px 24px", maxWidth: 1100, margin: "0 auto" }}>
+      <section id="programs" className="section-pad" style={{ padding: "80px 24px", maxWidth: 1100, margin: "0 auto" }}>
         <FadeIn>
           <div className="gg-section-label" style={{ marginBottom: 8 }}>Treatment Programs</div>
           <h2 style={{ fontSize: 28, fontWeight: 800, color: B.coffee, letterSpacing: "-0.02em", marginBottom: 8 }}>
@@ -401,7 +433,7 @@ export default function GoldenGroveRecovery() {
           </p>
         </FadeIn>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(400px, 100%), 1fr))", gap: 18 }}>
+        <div className="program-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(400px, 100%), 1fr))", gap: 18 }}>
           {PROGRAMS.map((p, i) => (
             <FadeIn key={i} delay={i * 0.1}>
               <div className="gg-card" style={{ padding: "32px 28px", height: "100%" }}>
@@ -432,7 +464,7 @@ export default function GoldenGroveRecovery() {
       </section>
 
       {/* ═══ WHAT TO EXPECT ════════════════════════════════════════════════════ */}
-      <section id="about" style={{ padding: "80px 24px", background: B.white }}>
+      <section id="about" className="section-pad" style={{ padding: "80px 24px", background: B.white }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <FadeIn>
             <div className="gg-section-label" style={{ marginBottom: 8 }}>Your Journey</div>
@@ -444,7 +476,7 @@ export default function GoldenGroveRecovery() {
             </p>
           </FadeIn>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 16 }}>
+          <div className="expect-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 16 }}>
             {EXPECT.map((e, i) => (
               <FadeIn key={i} delay={i * 0.06}>
                 <div className="gg-card" style={{ padding: "24px 22px", height: "100%" }}>
@@ -464,7 +496,7 @@ export default function GoldenGroveRecovery() {
       </section>
 
       {/* ═══ THERAPY MODALITIES ════════════════════════════════════════════════ */}
-      <section id="therapy" style={{ padding: "80px 24px", maxWidth: 1100, margin: "0 auto" }}>
+      <section id="therapy" className="section-pad" style={{ padding: "80px 24px", maxWidth: 1100, margin: "0 auto" }}>
         <FadeIn>
           <div className="gg-section-label" style={{ marginBottom: 8 }}>Clinical Approach</div>
           <h2 style={{ fontSize: 28, fontWeight: 800, color: B.coffee, letterSpacing: "-0.02em", marginBottom: 8 }}>
@@ -475,7 +507,7 @@ export default function GoldenGroveRecovery() {
           </p>
         </FadeIn>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(240px, 100%), 1fr))", gap: 16 }}>
+        <div className="therapy-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(240px, 100%), 1fr))", gap: 16 }}>
           {THERAPIES.map((t, i) => (
             <FadeIn key={i} delay={i * 0.08}>
               <div className="gg-card" style={{ padding: "24px 22px", height: "100%" }}>
@@ -494,7 +526,7 @@ export default function GoldenGroveRecovery() {
       </section>
 
       {/* ═══ CONDITIONS ════════════════════════════════════════════════════════ */}
-      <section style={{ padding: "60px 24px", background: B.white }}>
+      <section className="section-pad" style={{ padding: "60px 24px", background: B.white }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <FadeIn>
             <div className="gg-section-label" style={{ marginBottom: 8 }}>Dual Diagnosis</div>
@@ -506,7 +538,7 @@ export default function GoldenGroveRecovery() {
             </p>
           </FadeIn>
           <FadeIn delay={0.1}>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+            <div className="conditions-wrap" style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
               {CONDITIONS.map((c, i) => (
                 <span key={i} className="gg-pill" style={{
                   background: B.coffee, color: B.white, padding: "8px 16px",
@@ -519,7 +551,7 @@ export default function GoldenGroveRecovery() {
       </section>
 
       {/* ═══ RESOURCES ═════════════════════════════════════════════════════════ */}
-      <section style={{ padding: "80px 24px", maxWidth: 1100, margin: "0 auto" }}>
+      <section className="section-pad" style={{ padding: "80px 24px", maxWidth: 1100, margin: "0 auto" }}>
         <FadeIn>
           <div className="gg-section-label" style={{ marginBottom: 8 }}>Education</div>
           <h2 style={{ fontSize: 28, fontWeight: 800, color: B.coffee, letterSpacing: "-0.02em", marginBottom: 8 }}>
@@ -529,7 +561,7 @@ export default function GoldenGroveRecovery() {
             Knowledge is power in recovery. Explore comprehensive guides.
           </p>
         </FadeIn>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(240px, 100%), 1fr))", gap: 14 }}>
+        <div className="resource-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(240px, 100%), 1fr))", gap: 14 }}>
           {RESOURCES.map((r, i) => (
             <FadeIn key={i} delay={i * 0.08}>
               <div className="gg-card" style={{ padding: "24px 22px", cursor: "pointer", height: "100%" }}>
@@ -543,7 +575,7 @@ export default function GoldenGroveRecovery() {
       </section>
 
       {/* ═══ INSURANCE ═════════════════════════════════════════════════════════ */}
-      <section id="insurance" style={{ padding: "60px 24px", background: B.white }}>
+      <section id="insurance" className="section-pad" style={{ padding: "60px 24px", background: B.white }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <FadeIn>
             <div className="gg-section-label" style={{ marginBottom: 8 }}>Coverage</div>
@@ -555,7 +587,7 @@ export default function GoldenGroveRecovery() {
             </p>
           </FadeIn>
           <FadeIn delay={0.1}>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+            <div className="insurance-wrap" style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
               {INSURANCE.map((ins, i) => (
                 <span key={i} style={{
                   padding: "10px 18px", borderRadius: 8, fontSize: 13, fontWeight: 500,
@@ -569,7 +601,7 @@ export default function GoldenGroveRecovery() {
       </section>
 
       {/* ═══ FAQ ═══════════════════════════════════════════════════════════════ */}
-      <section id="faq" style={{ padding: "80px 24px", maxWidth: 800, margin: "0 auto" }}>
+      <section id="faq" className="section-pad" style={{ padding: "80px 24px", maxWidth: 800, margin: "0 auto" }}>
         <FadeIn>
           <div className="gg-section-label" style={{ marginBottom: 8 }}>Common Questions</div>
           <h2 style={{ fontSize: 28, fontWeight: 800, color: B.coffee, letterSpacing: "-0.02em", marginBottom: 40 }}>
@@ -602,7 +634,7 @@ export default function GoldenGroveRecovery() {
       </section>
 
       {/* ═══ MAP & CONTACT ═════════════════════════════════════════════════════ */}
-      <section id="contact" style={{ padding: "80px 24px", background: B.white }}>
+      <section id="contact" className="section-pad" style={{ padding: "80px 24px", background: B.white }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <FadeIn>
             <div className="gg-section-label" style={{ marginBottom: 8 }}>Location</div>
@@ -616,7 +648,7 @@ export default function GoldenGroveRecovery() {
               boxShadow: "0 4px 20px rgba(0,0,0,0.06)" }}>
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3133.5!2d-85.8!3d38.2!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzjCsDEyJzAwLjAiTiA4NcKwNDgnMDAuMCJX!5e0!3m2!1sen!2sus!4v1"
-                width="100%" height="400" style={{ border: 0, display: "block" }} allowFullScreen="" loading="lazy"
+                className="map-frame" width="100%" height="400" style={{ border: 0, display: "block" }} allowFullScreen="" loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade" title="Golden Grove Recovery Location"
               />
             </div>
@@ -625,7 +657,7 @@ export default function GoldenGroveRecovery() {
       </section>
 
       {/* ═══ CTA BANNER ════════════════════════════════════════════════════════ */}
-      <section style={{
+      <section className="cta-banner-section section-pad" style={{
         padding: "80px 24px", textAlign: "center", color: B.white,
         background: `linear-gradient(135deg, ${B.coffeeDark} 0%, ${B.coffee} 50%, ${B.butterscotch} 100%)`,
         position: "relative", overflow: "hidden",
@@ -644,7 +676,7 @@ export default function GoldenGroveRecovery() {
             maxWidth: 500, margin: "0 auto 36px" }}>
             Contact Golden Grove Recovery today for a confidential assessment.
           </p>
-          <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
+          <div className="cta-banner-ctas" style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
             <a href={`tel:${SITE.phoneTel}`} className="gg-btn gg-btn-light">Call {SITE.phone}</a>
             <a href="#contact" className="gg-btn gg-btn-secondary">Schedule Assessment</a>
           </div>
@@ -657,7 +689,7 @@ export default function GoldenGroveRecovery() {
           <div style={{ marginBottom: 32 }}>
             <Wordmark height={48} variant="white" />
           </div>
-          <div style={{
+          <div className="footer-grid" style={{
             display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
             gap: 40, marginBottom: 40,
           }}>
@@ -716,7 +748,7 @@ export default function GoldenGroveRecovery() {
           borderTop: `1px solid rgba(242,209,125,0.15)`,
           background: "rgba(0,0,0,0.2)", padding: "16px 24px",
         }}>
-          <div style={{
+          <div className="footer-bottom-inner" style={{
             maxWidth: 1100, margin: "0 auto",
             display: "flex", justifyContent: "space-between", alignItems: "center",
             flexWrap: "wrap", gap: 12,
