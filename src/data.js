@@ -29,7 +29,7 @@ export const SITE = {
   phone: "(502) 610-4829",
   phoneTel: "+15026104829",
   address: "4418 Malcolm Ave, Louisville, KY 40211",
-  email: "info@goldengroverecovery.com",
+  email: "admissions@goldengroverecovery.com",
   parent: "Alsos Behavioral Health",
   parentUrl: "https://alsosbehavioralhealth.com",
 };
