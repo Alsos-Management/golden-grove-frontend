@@ -1,14 +1,7 @@
-import { useEffect } from "react";
 import { B, SITE, MAPS_EMBED_URL } from "../data";
 import { FadeIn } from "../components/shared";
 
 export default function Contact() {
-  useEffect(() => {
-    document.title = "Contact Us | Golden Grove Recovery";
-    const meta = document.querySelector('meta[name="description"]');
-    if (meta) meta.setAttribute("content", "Contact Golden Grove Recovery at (502) 610-4829. Located at 4418 Malcolm Ave, Louisville, KY 40211. 24/7 admissions available for addiction treatment and dual diagnosis recovery.");
-  }, []);
-
   return (
     <>
       {/* HERO */}

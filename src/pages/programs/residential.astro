@@ -1,0 +1,13 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Residential from "../../react-pages/Residential.jsx";
+import { GlobalStyles } from "../../components/shared.jsx";
+
+const title = "Residential Treatment Program | Golden Grove Recovery";
+const description = "24/7 residential addiction treatment in Louisville, KY. 21-28 day programs with medical support, therapy, and trauma-informed care.";
+---
+
+<BaseLayout title={title} description={description}>
+  <GlobalStyles client:load />
+  <Residential client:load />
+</BaseLayout>

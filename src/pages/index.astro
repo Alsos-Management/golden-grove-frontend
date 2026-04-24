@@ -1,0 +1,37 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Home from "../react-pages/Home.jsx";
+import { GlobalStyles } from "../components/shared.jsx";
+import { SITE } from "../data.js";
+
+const title = "Addiction Treatment in Louisville, KY | Golden Grove Recovery";
+const description = "Evidence-based addiction treatment and dual diagnosis recovery in Louisville, KY. Residential and PHP with trauma-informed care. Call (502) 610-4829.";
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": ["MedicalBusiness", "MedicalClinic", "LocalBusiness"],
+    name: SITE.name,
+    description,
+    url: new URL(Astro.url.pathname, Astro.site).toString(),
+    telephone: SITE.phone,
+    email: SITE.email,
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "4418 Malcolm Ave",
+      addressLocality: "Louisville",
+      addressRegion: "KY",
+      postalCode: "40211",
+      addressCountry: "US",
+    },
+    geo: { "@type": "GeoCoordinates", latitude: 38.1771149, longitude: -85.7913178 },
+    parentOrganization: { "@type": "Organization", name: SITE.parent, url: SITE.parentUrl },
+    medicalSpecialty: ["Addiction Medicine", "Psychiatry"],
+  },
+];
+---
+
+<BaseLayout title={title} description={description} jsonLd={jsonLd}>
+  <GlobalStyles client:load />
+  <Home client:load />
+</BaseLayout>

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://alsosmanagement.github.io/golden-grove-frontend/sitemap-index.xml

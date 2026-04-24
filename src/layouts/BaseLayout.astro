@@ -1,0 +1,104 @@
+---
+import Nav from "../components/Nav.jsx";
+import Footer from "../components/Footer.jsx";
+import { SITE } from "../data.js";
+
+export interface Props {
+  title: string;
+  description: string;
+  canonical?: string;
+  ogImage?: string;
+  noindex?: boolean;
+  jsonLd?: Record<string, any> | Record<string, any>[];
+}
+
+const {
+  title,
+  description,
+  canonical,
+  ogImage = "/cherry-blossom.png",
+  noindex = false,
+  jsonLd,
+} = Astro.props as Props;
+
+const BASE = import.meta.env.BASE_URL.endsWith("/")
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
+const assetPath = (p: string) =>
+  p.startsWith("http") ? p : `${BASE}${p.replace(/^\//, "")}`;
+
+const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).toString();
+const ogImageURL = ogImage.startsWith("http")
+  ? ogImage
+  : new URL(assetPath(ogImage), Astro.site).toString();
+const jsonLdArray = Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href={assetPath("favicon.svg")} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+    {noindex && <meta name="robots" content="noindex,nofollow" />}
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content={ogImageURL} />
+    <meta property="og:site_name" content={SITE.name} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageURL} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"
+    />
+
+    {jsonLdArray.map((block) => (
+      <script type="application/ld+json" set:html={JSON.stringify(block)} />
+    ))}
+
+    <style is:global>
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+      html, body { width: 100%; min-height: 100vh; overflow-x: hidden; }
+      html { scroll-behavior: smooth; }
+      body { font-family: 'Montserrat', sans-serif; background: #FAF7F2; color: #1A1A1A; }
+      ::-webkit-scrollbar { width: 6px; }
+      ::-webkit-scrollbar-track { background: #EFE2C8; }
+      ::-webkit-scrollbar-thumb { background: #8C6934; border-radius: 3px; }
+    </style>
+  </head>
+
+  <body>
+    <Nav client:load />
+
+    <main>
+      <slot />
+    </main>
+
+    <Footer />
+
+    <!-- Further (talkfurther) widget loader -->
+    <script is:inline>
+      (function () {
+        var a = document.createElement("script");
+        var b = document.getElementsByTagName("script")[0];
+        a.type = "text/javascript";
+        a.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + "js.talkfurther.com/talkfurther_init.min.js";
+        a.async = true;
+        b.parentNode.insertBefore(a, b);
+      })();
+    </script>
+  </body>
+</html>

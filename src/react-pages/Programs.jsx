@@ -1,15 +1,8 @@
-import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "../lib/site.jsx";
 import { B, SITE, PROGRAMS } from "../data";
 import { FadeIn } from "../components/shared";
 
 export default function Programs() {
-  useEffect(() => {
-    document.title = "Treatment Programs | Golden Grove Recovery";
-    const meta = document.querySelector('meta[name="description"]');
-    if (meta) meta.setAttribute("content", "Explore Golden Grove Recovery's addiction treatment programs: Residential Treatment (21-28 days, 24/7 support) and Partial Hospitalization Program (PHP). Evidence-based care in Louisville, KY.");
-  }, []);
-
   return (
     <>
       {/* HERO BANNER */}

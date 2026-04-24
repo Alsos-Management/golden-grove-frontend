@@ -1,0 +1,13 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import InsurancePage from "../react-pages/Insurance.jsx";
+import { GlobalStyles } from "../components/shared.jsx";
+
+const title = "Insurance Accepted | Golden Grove Recovery";
+const description = "Golden Grove Recovery accepts most major insurance plans including Kentucky Medicaid, BCBS, Aetna, UnitedHealthcare, Humana, and more.";
+---
+
+<BaseLayout title={title} description={description}>
+  <GlobalStyles client:load />
+  <InsurancePage client:load />
+</BaseLayout>

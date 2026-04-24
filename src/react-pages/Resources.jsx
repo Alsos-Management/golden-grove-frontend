@@ -1,15 +1,8 @@
-import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "../lib/site.jsx";
 import { B, SITE, RESOURCES } from "../data";
 import { FadeIn } from "../components/shared";
 
 export default function Resources() {
-  useEffect(() => {
-    document.title = "Addiction Resources & Guides | Golden Grove Recovery";
-    const meta = document.querySelector('meta[name="description"]');
-    if (meta) meta.setAttribute("content", "Educational resources about addiction, substance use disorders, and recovery. Guides on alcohol, opioids, drug rehab in Louisville, and more from Golden Grove Recovery.");
-  }, []);
-
   return (
     <>
       {/* HERO */}

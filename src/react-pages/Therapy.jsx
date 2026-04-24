@@ -1,15 +1,8 @@
-import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "../lib/site.jsx";
 import { B, SITE, THERAPIES } from "../data";
 import { FadeIn } from "../components/shared";
 
 export default function Therapy() {
-  useEffect(() => {
-    document.title = "Therapy & Treatment Modalities | Golden Grove Recovery";
-    const meta = document.querySelector('meta[name="description"]');
-    if (meta) meta.setAttribute("content", "Evidence-based therapy modalities at Golden Grove Recovery: CBT, DBT, EMDR, 12-Step, SMART Recovery, yoga, art therapy, and more. Comprehensive addiction treatment in Louisville, KY.");
-  }, []);
-
   return (
     <>
       {/* HERO */}

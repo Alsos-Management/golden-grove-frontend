@@ -1,17 +1,10 @@
-import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "../lib/site.jsx";
 import { B, SITE, PROGRAMS } from "../data";
 import { FadeIn } from "../components/shared";
 
 const program = PROGRAMS[1];
 
 export default function PHP() {
-  useEffect(() => {
-    document.title = "Partial Hospitalization Program (PHP) | Golden Grove Recovery";
-    const meta = document.querySelector('meta[name="description"]');
-    if (meta) meta.setAttribute("content", "Golden Grove Recovery's PHP provides structured daytime addiction treatment 5-6 days per week. 30+ hours of weekly programming while maintaining work and family connections in Louisville, KY.");
-  }, []);
-
   return (
     <>
       {/* HERO */}

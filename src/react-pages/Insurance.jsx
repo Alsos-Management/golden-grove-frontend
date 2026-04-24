@@ -1,15 +1,8 @@
-import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "../lib/site.jsx";
 import { B, SITE, INSURANCE } from "../data";
 import { FadeIn } from "../components/shared";
 
 export default function InsurancePage() {
-  useEffect(() => {
-    document.title = "Insurance Accepted | Golden Grove Recovery";
-    const meta = document.querySelector('meta[name="description"]');
-    if (meta) meta.setAttribute("content", "Golden Grove Recovery accepts most major insurance plans including Aetna, Anthem BCBS, CareSource, Cigna, Humana, Kentucky Medicaid, and more. Call (502) 610-4829 to verify coverage.");
-  }, []);
-
   return (
     <>
       {/* HERO */}

@@ -1,0 +1,13 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Therapy from "../react-pages/Therapy.jsx";
+import { GlobalStyles } from "../components/shared.jsx";
+
+const title = "Therapy & Treatment Modalities | Golden Grove Recovery";
+const description = "Evidence-based therapies including CBT, DBT, EMDR, and trauma-focused care, integrated with holistic wellness practices at Golden Grove Recovery.";
+---
+
+<BaseLayout title={title} description={description}>
+  <GlobalStyles client:load />
+  <Therapy client:load />
+</BaseLayout>

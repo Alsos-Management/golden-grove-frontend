@@ -1,0 +1,13 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import MAT from "../../react-pages/MAT.jsx";
+import { GlobalStyles } from "../../components/shared.jsx";
+
+const title = "Medication-Assisted Treatment (MAT) | Golden Grove Recovery";
+const description = "Evidence-based MAT in Louisville, KY — Suboxone, buprenorphine, naltrexone, and Brixadi to reduce cravings and support lasting recovery.";
+---
+
+<BaseLayout title={title} description={description}>
+  <GlobalStyles client:load />
+  <MAT client:load />
+</BaseLayout>

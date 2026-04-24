@@ -1,0 +1,13 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import CoOccurring from "../../react-pages/CoOccurring.jsx";
+import { GlobalStyles } from "../../components/shared.jsx";
+
+const title = "Co-Occurring Disorders Treatment | Golden Grove Recovery";
+const description = "Integrated dual-diagnosis treatment for addiction and co-occurring mental health conditions including depression, anxiety, PTSD, and bipolar.";
+---
+
+<BaseLayout title={title} description={description}>
+  <GlobalStyles client:load />
+  <CoOccurring client:load />
+</BaseLayout>
