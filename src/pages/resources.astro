@@ -1,0 +1,13 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Resources from "../react-pages/Resources.jsx";
+import { GlobalStyles } from "../components/shared.jsx";
+
+const title = "Addiction Resources & Guides | Golden Grove Recovery";
+const description = "Educational resources on alcohol, opioid, and other substance use disorders, plus guides for families navigating addiction and recovery.";
+---
+
+<BaseLayout title={title} description={description}>
+  <GlobalStyles client:load />
+  <Resources client:load />
+</BaseLayout>

@@ -1,0 +1,13 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Programs from "../../react-pages/Programs.jsx";
+import { GlobalStyles } from "../../components/shared.jsx";
+
+const title = "Treatment Programs | Golden Grove Recovery";
+const description = "Residential, PHP, co-occurring, and medication-assisted treatment programs for substance use disorder in Louisville, KY.";
+---
+
+<BaseLayout title={title} description={description}>
+  <GlobalStyles client:load />
+  <Programs client:load />
+</BaseLayout>

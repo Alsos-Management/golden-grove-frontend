@@ -1,15 +1,8 @@
-import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "../lib/site.jsx";
 import { B, SITE } from "../data";
 import { FadeIn } from "../components/shared";
 
 export default function MAT() {
-  useEffect(() => {
-    document.title = "Medication-Assisted Treatment (MAT) | Golden Grove Recovery";
-    const meta = document.querySelector('meta[name="description"]');
-    if (meta) meta.setAttribute("content", "FDA-approved medication-assisted treatment (MAT) for opioid and alcohol addiction at Golden Grove Recovery. Buprenorphine, naltrexone, Suboxone, and Brixadi combined with therapy in Louisville, KY.");
-  }, []);
-
   return (
     <>
       {/* HERO */}

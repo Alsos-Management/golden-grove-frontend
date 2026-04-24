@@ -1,15 +1,8 @@
-import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "../lib/site.jsx";
 import { B, SITE, EXPECT, CONDITIONS } from "../data";
 import { FadeIn } from "../components/shared";
 
 export default function About() {
-  useEffect(() => {
-    document.title = "About Our Approach | Golden Grove Recovery";
-    const meta = document.querySelector('meta[name="description"]');
-    if (meta) meta.setAttribute("content", "Learn what to expect at Golden Grove Recovery. Comprehensive assessment, evidence-based treatment, dual diagnosis expertise, holistic wellness, and aftercare planning in Louisville, KY.");
-  }, []);
-
   return (
     <>
       {/* HERO BANNER */}

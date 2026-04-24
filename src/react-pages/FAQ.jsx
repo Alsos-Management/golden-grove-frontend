@@ -1,17 +1,10 @@
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link } from "../lib/site.jsx";
 import { B, SITE, FAQS } from "../data";
 import { FadeIn } from "../components/shared";
 
 export default function FAQPage() {
   const [activeFaq, setActiveFaq] = useState(null);
-
-  useEffect(() => {
-    document.title = "Frequently Asked Questions | Golden Grove Recovery";
-    const meta = document.querySelector('meta[name="description"]');
-    if (meta) meta.setAttribute("content", "Answers to common questions about addiction treatment at Golden Grove Recovery. Learn about admissions, treatment duration, MAT, insurance, visitors, and aftercare in Louisville, KY.");
-  }, []);
-
   return (
     <>
       {/* HERO */}

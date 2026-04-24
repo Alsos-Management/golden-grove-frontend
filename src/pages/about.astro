@@ -1,0 +1,13 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import About from "../react-pages/About.jsx";
+import { GlobalStyles } from "../components/shared.jsx";
+
+const title = "About Our Approach | Golden Grove Recovery";
+const description = "Learn about Golden Grove Recovery's trauma-informed, evidence-based approach to addiction and co-occurring mental health treatment in Louisville, KY.";
+---
+
+<BaseLayout title={title} description={description}>
+  <GlobalStyles client:load />
+  <About client:load />
+</BaseLayout>

@@ -1,15 +1,8 @@
-import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "../lib/site.jsx";
 import { B, SITE, PROGRAMS, EXPECT, REVIEWS } from "../data";
 import { FadeIn, Wordmark } from "../components/shared";
 
 export default function Home() {
-  useEffect(() => {
-    document.title = "Addiction Treatment in Louisville | Golden Grove Recovery";
-    const meta = document.querySelector('meta[name="description"]');
-    if (meta) meta.setAttribute("content", "Expert addiction treatment and dual diagnosis recovery in Louisville, KY. Residential and PHP programs with trauma-informed, evidence-based care. Call (502) 610-4829.");
-  }, []);
-
   return (
     <>
       {/* HERO */}

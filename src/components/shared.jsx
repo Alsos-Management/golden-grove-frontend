@@ -1,15 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { useLocation } from "react-router-dom";
 import { B } from "../data";
-
-// ─── SCROLL TO TOP ON ROUTE CHANGE ──────────────────────────────────────────
-export function ScrollToTop() {
-  const { pathname } = useLocation();
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
-  return null;
-}
 
 // ─── INTERSECTION OBSERVER HOOK ─────────────────────────────────────────────
 export function useOnScreen(threshold = 0.15) {

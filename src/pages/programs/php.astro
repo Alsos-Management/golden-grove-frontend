@@ -1,0 +1,13 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PHP from "../../react-pages/PHP.jsx";
+import { GlobalStyles } from "../../components/shared.jsx";
+
+const title = "Partial Hospitalization Program (PHP) | Golden Grove Recovery";
+const description = "Structured daytime addiction treatment in Louisville, KY. PHP provides 30+ hours weekly while you live at home and maintain work or family commitments.";
+---
+
+<BaseLayout title={title} description={description}>
+  <GlobalStyles client:load />
+  <PHP client:load />
+</BaseLayout>

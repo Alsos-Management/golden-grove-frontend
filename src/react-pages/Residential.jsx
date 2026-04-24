@@ -1,17 +1,10 @@
-import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "../lib/site.jsx";
 import { B, SITE, PROGRAMS } from "../data";
 import { FadeIn } from "../components/shared";
 
 const program = PROGRAMS[0];
 
 export default function Residential() {
-  useEffect(() => {
-    document.title = "Residential Treatment Program | Golden Grove Recovery";
-    const meta = document.querySelector('meta[name="description"]');
-    if (meta) meta.setAttribute("content", "Golden Grove Recovery's residential treatment provides 24/7 intensive addiction care for 21-28 days. Individual therapy, group sessions, medication management, and holistic wellness in Louisville, KY.");
-  }, []);
-
   return (
     <>
       {/* HERO */}

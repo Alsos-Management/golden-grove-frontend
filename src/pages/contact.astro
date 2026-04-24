@@ -1,0 +1,13 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Contact from "../react-pages/Contact.jsx";
+import { GlobalStyles } from "../components/shared.jsx";
+
+const title = "Contact Us | Golden Grove Recovery";
+const description = "Reach Golden Grove Recovery in Louisville, KY. Call (502) 610-4829, email admissions@goldengroverecovery.com, or start your assessment online.";
+---
+
+<BaseLayout title={title} description={description}>
+  <GlobalStyles client:load />
+  <Contact client:load />
+</BaseLayout>

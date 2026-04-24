@@ -1,15 +1,8 @@
-import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "../lib/site.jsx";
 import { B, SITE, CONDITIONS } from "../data";
 import { FadeIn } from "../components/shared";
 
 export default function CoOccurring() {
-  useEffect(() => {
-    document.title = "Co-Occurring Disorders Treatment | Golden Grove Recovery";
-    const meta = document.querySelector('meta[name="description"]');
-    if (meta) meta.setAttribute("content", "Integrated dual diagnosis treatment for co-occurring addiction and mental health conditions. ADHD, anxiety, depression, PTSD, bipolar disorder and more at Golden Grove Recovery in Louisville, KY.");
-  }, []);
-
   return (
     <>
       {/* HERO */}
