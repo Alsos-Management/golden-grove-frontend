@@ -1,0 +1,33 @@
+---
+import { getEntry } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import SiloStyles from "../../components/SiloStyles.astro";
+import MentalHealthPage from "../../components/MentalHealthPage.astro";
+
+const m = (await getEntry("mentalHealth", "ptsd-trauma-and-addiction"))!.data;
+const facility = (await getEntry("facility", "golden-grove-recovery"))!.data;
+
+const title = `PTSD, Trauma, and Addiction Treatment in ${facility.city}, ${facility.stateCode} | Golden Grove Recovery`;
+const description = `Trauma-informed integrated treatment for PTSD and substance use disorder. EMDR, trauma-focused CBT, and psychiatric care delivered together. Kentucky Medicaid covered.`;
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "MedicalWebPage",
+    name: title,
+    description,
+    about: { "@type": "MedicalCondition", name: "Post-Traumatic Stress Disorder", code: { "@type": "MedicalCode", codeValue: "F43.10", codingSystem: "ICD-10" } },
+  },
+];
+---
+
+<BaseLayout title={title} description={description} jsonLd={jsonLd}>
+  <SiloStyles />
+  <Breadcrumbs trail={[
+    { label: "Home", href: "/" },
+    { label: "Mental Health", href: "/mental-health" },
+    { label: m.name },
+  ]} />
+  <MentalHealthPage slug="ptsd-trauma-and-addiction" />
+</BaseLayout>

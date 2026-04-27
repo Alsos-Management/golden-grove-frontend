@@ -1,0 +1,64 @@
+---
+import { getCollection, getEntry } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import Cta from "../../components/Cta.astro";
+import SiloStyles from "../../components/SiloStyles.astro";
+
+const facility = (await getEntry("facility", "golden-grove-recovery"))!.data;
+const conditions = (await getCollection("mentalHealth")).sort((a, b) => a.data.name.localeCompare(b.data.name));
+
+const title = `Dual-Diagnosis Treatment in ${facility.city}, ${facility.stateCode} | Golden Grove Recovery`;
+const description = `Integrated treatment for substance use disorder and co-occurring depression, anxiety, PTSD, bipolar, and other mental health conditions. Kentucky Medicaid covered.`;
+
+const jsonLd = { "@context": "https://schema.org", "@type": "MedicalWebPage", name: title, description };
+
+const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
+const link = (p: string) => `${BASE}${p}`;
+---
+
+<BaseLayout title={title} description={description} jsonLd={jsonLd}>
+  <SiloStyles />
+  <Breadcrumbs trail={[
+    { label: "Home", href: "/" },
+    { label: "Co-Occurring Mental Health" },
+  ]} />
+
+  <article class="silo-page">
+    <div class="silo-eyebrow">Co-Occurring Mental Health</div>
+    <h1>Dual-diagnosis treatment for addiction and mental health</h1>
+    <p class="silo-lede">
+      Substance use disorder and mental health conditions co-occur at high rates. Treating one
+      without the other produces worse outcomes for both. Golden Grove Recovery delivers integrated
+      dual-diagnosis treatment that addresses addiction and mental health conditions in the same
+      episode of care — the clinical standard supported by decades of research.
+    </p>
+
+    <h2>Conditions we treat alongside SUD</h2>
+    <ul>
+      {conditions.map((c) => (
+        <li><a href={link(`/mental-health/${c.data.slug}`)}>{c.data.name}</a></li>
+      ))}
+    </ul>
+
+    <h2>Why integrated treatment matters</h2>
+    <p>
+      For decades, the standard practice was to treat addiction first and defer mental health
+      treatment until the patient was "stable in recovery." That approach is now widely understood
+      to fail patients — untreated mental health conditions are one of the strongest predictors of
+      relapse, and untreated substance use prevents the brain from responding properly to
+      psychiatric treatment. Integrated care addresses both conditions at the same time, in the
+      same setting, with the same care team.
+    </p>
+
+    <h2>Insurance coverage for dual-diagnosis</h2>
+    <p>
+      Kentucky Medicaid administers behavioral health and SUD as a unified benefit. All six
+      Kentucky Medicaid MCOs cover integrated dual-diagnosis care, including psychiatric medication
+      management, evidence-based therapy, and SUD services in the same episode. See
+      <a href={link("/medicaid")}>Kentucky Medicaid coverage</a> for details by plan.
+    </p>
+
+    <Cta heading="Verify your coverage and start integrated treatment" />
+  </article>
+</BaseLayout>

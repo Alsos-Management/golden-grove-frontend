@@ -1,0 +1,75 @@
+---
+import { getEntry, getCollection } from "astro:content";
+import Cta from "./Cta.astro";
+import InsuranceDisclaimer from "./InsuranceDisclaimer.astro";
+
+export interface Props {
+  slug: string;
+}
+
+const { slug } = Astro.props as Props;
+const entry = await getEntry("mentalHealth", slug);
+if (!entry) throw new Error(`Mental health entry not found: ${slug}`);
+const m = entry.data;
+const facility = (await getEntry("facility", "golden-grove-recovery"))!.data;
+const others = (await getCollection("mentalHealth"))
+  .filter((e) => e.data.slug !== m.slug)
+  .sort((a, b) => a.data.name.localeCompare(b.data.name));
+
+const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
+const link = (p: string) => `${BASE}${p}`;
+---
+
+<article class="silo-page">
+  <div class="silo-eyebrow">Co-Occurring Mental Health</div>
+  <h1>{m.name} treatment in {facility.city}, {facility.stateCode}</h1>
+  <p class="silo-lede">{m.coOccurringWithSudNote}</p>
+
+  <InsuranceDisclaimer variant="medicaid" />
+
+  {m.selfMedicationSigns.length > 0 && (
+    <>
+      <h2>Signs you may be self-medicating</h2>
+      <ul>
+        {m.selfMedicationSigns.map((s) => <li>{s}</li>)}
+      </ul>
+    </>
+  )}
+
+  <h2>Integrated dual-diagnosis treatment</h2>
+  <p>{m.integratedTreatmentApproach}</p>
+
+  {m.recommendedTherapies.length > 0 && (
+    <>
+      <h2>Therapies we use for {m.name.split(" ")[0].toLowerCase()} and addiction</h2>
+      <ul>
+        {m.recommendedTherapies.map((t) => <li>{t.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())}</li>)}
+      </ul>
+    </>
+  )}
+
+  {m.medicaidCoverageSummary && (
+    <>
+      <h2>Does Kentucky Medicaid cover dual-diagnosis treatment?</h2>
+      <p>{m.medicaidCoverageSummary}</p>
+      <p>
+        Read more about <a href={link("/medicaid")}>Kentucky Medicaid coverage</a> for SUD and
+        behavioral health, or pick your <a href={link("/medicaid")}>Medicaid MCO</a> for
+        plan-specific details.
+      </p>
+    </>
+  )}
+
+  <Cta heading="Verify your coverage and start integrated treatment" />
+
+  <h2>Other co-occurring conditions we treat</h2>
+  <ul>
+    {others.map((o) => (
+      <li><a href={link(`/mental-health/${o.data.slug}`)}>{o.data.name}</a></li>
+    ))}
+  </ul>
+
+  <p style="margin-top: 24px;">
+    Return to <a href={link("/mental-health")}>co-occurring mental health overview</a>.
+  </p>
+</article>

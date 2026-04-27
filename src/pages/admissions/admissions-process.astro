@@ -1,0 +1,91 @@
+---
+import { getEntry } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import Cta from "../../components/Cta.astro";
+import SiloStyles from "../../components/SiloStyles.astro";
+
+const facility = (await getEntry("facility", "golden-grove-recovery"))!.data;
+
+const title = `The Admissions Process — Step by Step | Golden Grove Recovery`;
+const description = `From first call through admission day — exactly what happens when you start treatment at Golden Grove Recovery in Louisville, KY.`;
+
+const jsonLd = { "@context": "https://schema.org", "@type": "WebPage", name: title, description };
+
+const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
+const link = (p: string) => `${BASE}${p}`;
+---
+
+<BaseLayout title={title} description={description} jsonLd={jsonLd}>
+  <SiloStyles />
+  <Breadcrumbs trail={[
+    { label: "Home", href: "/" },
+    { label: "Admissions", href: "/admissions" },
+    { label: "Admissions Process" },
+  ]} />
+
+  <article class="silo-page">
+    <div class="silo-eyebrow">Admissions</div>
+    <h1>The admissions process — step by step</h1>
+    <p class="silo-lede">
+      Most patients move from first call to admission within a few days. Some — especially patients
+      in active withdrawal or crisis — start the same day. Here's what each step looks like.
+    </p>
+
+    <h2>Step 1 — Initial call (Day 1)</h2>
+    <p>
+      Call admissions at <a href={`tel:${facility.phoneTel}`}>{facility.phone}</a>. We learn the
+      basics, gather insurance information, and answer your initial questions. See
+      <a href={link("/admissions/what-to-expect-first-call")}>what to expect on your first call</a>
+      for details.
+    </p>
+
+    <h2>Step 2 — Insurance verification (Day 1–2)</h2>
+    <p>
+      Our admissions team verifies your benefits with your insurance — Kentucky Medicaid MCO or
+      commercial. We confirm what level of care is covered, what authorization (if any) is
+      required, and whether you have any out-of-pocket responsibility. See
+      <a href={link("/admissions/verify-insurance")}>verify your insurance</a> for what we'll need.
+    </p>
+
+    <h2>Step 3 — Clinical assessment (Day 1–3)</h2>
+    <p>
+      A clinician conducts a confidential assessment — typically by phone, video, or in person if
+      you're local. We use ASAM criteria to determine the appropriate level of care: medical detox,
+      residential, PHP, IOP, or outpatient. The assessment also identifies any co-occurring mental
+      health conditions that need integrated treatment.
+    </p>
+
+    <h2>Step 4 — Authorization &amp; scheduling (Day 2–4)</h2>
+    <p>
+      With assessment results in hand, our team submits any required authorization to your
+      insurance. For Kentucky Medicaid detox and residential, this is typically an urgent or
+      same-day process. We then schedule your admission date and confirm logistics.
+    </p>
+
+    <h2>Step 5 — Admission day</h2>
+    <p>
+      You arrive at our facility (or transportation can be arranged through your Medicaid MCO if
+      you don't have a way to get here). Intake includes a medical evaluation, paperwork,
+      orientation to the program, and meeting your treatment team. If you're admitting to detox,
+      symptom-based medication management starts as soon as withdrawal symptoms appear.
+    </p>
+
+    <h2>Step 6 — Treatment</h2>
+    <p>
+      Each level of care follows a structured schedule (see
+      <a href={link("/levels-of-care")}>levels of care</a> for daily breakdowns). MAT, individual
+      therapy, group therapy, family involvement, and integrated mental health care are all
+      coordinated by your treatment team.
+    </p>
+
+    <h2>Step 7 — Discharge planning</h2>
+    <p>
+      Discharge planning starts on day one, not at the end. By the time you leave residential or
+      PHP, you have a clear continuing-care plan: outpatient providers, MAT continuity, support
+      groups, recovery housing if needed, and family support resources.
+    </p>
+
+    <Cta heading="Ready to start? Call admissions" />
+  </article>
+</BaseLayout>

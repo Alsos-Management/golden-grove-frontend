@@ -1,0 +1,91 @@
+---
+import { getEntry } from "astro:content";
+import Cta from "./Cta.astro";
+import InsuranceDisclaimer from "./InsuranceDisclaimer.astro";
+
+export interface Props {
+  slug: string;
+}
+
+const { slug } = Astro.props as Props;
+const entry = await getEntry("locations", slug);
+if (!entry) throw new Error(`Location entry not found: ${slug}`);
+const loc = entry.data;
+const facility = (await getEntry("facility", "golden-grove-recovery"))!.data;
+
+const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
+const link = (p: string) => `${BASE}${p}`;
+---
+
+<article class="silo-page">
+  <div class="silo-eyebrow">Service Area</div>
+  <h1>Drug &amp; alcohol rehab serving {loc.name}, {facility.stateCode}</h1>
+  <p class="silo-lede">
+    Golden Grove Recovery is located in {facility.city}, {facility.stateCode} and serves {loc.name} residents
+    with addiction treatment that's covered by Kentucky Medicaid and most major insurance plans.
+  </p>
+
+  <InsuranceDisclaimer variant="pre-opening" />
+
+  {loc.transitNote && (
+    <>
+      <h2>Getting to Golden Grove from {loc.name}</h2>
+      <p>{loc.transitNote}</p>
+      {loc.distanceFromFacility && <p><strong>Distance:</strong> {loc.distanceFromFacility}.</p>}
+    </>
+  )}
+
+  {loc.localContext && (
+    <>
+      <h2>Addiction treatment in {loc.name}</h2>
+      <p>{loc.localContext}</p>
+    </>
+  )}
+
+  <h2>Kentucky Medicaid coverage for {loc.name} residents</h2>
+  <p>
+    All six Kentucky Medicaid managed care organizations cover the full ASAM continuum of substance
+    use disorder treatment for {loc.name} residents — including detox, residential, PHP, IOP,
+    outpatient, and MAT. See <a href={link("/medicaid")}>Kentucky Medicaid coverage</a> or pick your
+    plan: <a href={link("/medicaid/passport-health-plan")}>Passport</a>,
+    <a href={link("/medicaid/anthem-medicaid-kentucky")}>Anthem</a>,
+    <a href={link("/medicaid/humana-healthy-horizons-kentucky")}>Humana Healthy Horizons</a>,
+    <a href={link("/medicaid/wellcare-of-kentucky")}>WellCare</a>,
+    <a href={link("/medicaid/aetna-better-health-of-kentucky")}>Aetna Better Health</a>, or
+    <a href={link("/medicaid/united-healthcare-community-plan-kentucky")}>UHC Community Plan</a>.
+  </p>
+
+  <h2>What we treat</h2>
+  <ul>
+    <li><a href={link("/substance-use/alcohol")}>Alcohol Use Disorder</a></li>
+    <li><a href={link("/substance-use/opioids")}>Opioid Use Disorder</a> (including <a href={link("/substance-use/opioids/fentanyl")}>fentanyl</a> and <a href={link("/substance-use/opioids/heroin")}>heroin</a>)</li>
+    <li><a href={link("/substance-use/stimulants/meth-methamphetamine")}>Methamphetamine</a></li>
+    <li><a href={link("/substance-use/benzodiazepines")}>Benzodiazepines</a></li>
+    <li><a href={link("/mental-health/depression-and-addiction")}>Depression and addiction (dual diagnosis)</a></li>
+    <li><a href={link("/mental-health/anxiety-and-addiction")}>Anxiety and addiction</a></li>
+    <li><a href={link("/mental-health/ptsd-trauma-and-addiction")}>PTSD, trauma, and addiction</a></li>
+  </ul>
+
+  <h2>Address &amp; contact</h2>
+  <p>
+    <strong>{facility.name}</strong><br />
+    {facility.address.street}<br />
+    {facility.address.city}, {facility.address.state} {facility.address.postalCode}<br />
+    <a href={`tel:${facility.phoneTel}`}>{facility.phone}</a> · <a href={`mailto:${facility.email}`}>{facility.email}</a>
+  </p>
+
+  {facility.mapEmbedUrl && (
+    <iframe
+      src={facility.mapEmbedUrl}
+      width="100%"
+      height="320"
+      style="border:0; border-radius: 12px; margin: 16px 0;"
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"
+      title={`Map showing ${facility.name} location`}
+    />
+  )}
+
+  <Cta heading={`Verify your coverage from ${loc.name}`}
+       subhead="Our admissions team confirms benefits and coordinates the next step." />
+</article>
