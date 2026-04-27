@@ -1,0 +1,84 @@
+---
+export interface Crumb {
+  label: string;
+  href?: string;
+}
+
+export interface Props {
+  trail: Crumb[];
+}
+
+const { trail } = Astro.props as Props;
+const BASE = import.meta.env.BASE_URL.endsWith("/")
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
+
+const itemListElement = trail.map((c, i) => ({
+  "@type": "ListItem",
+  position: i + 1,
+  name: c.label,
+  ...(c.href && {
+    item: new URL(`${BASE}${c.href.replace(/^\//, "")}`, Astro.site).toString(),
+  }),
+}));
+
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement,
+};
+---
+
+<nav aria-label="Breadcrumb" class="breadcrumbs">
+  <ol>
+    {trail.map((c, i) => (
+      <li>
+        {c.href && i < trail.length - 1 ? (
+          <a href={`${BASE}${c.href.replace(/^\//, "")}`}>{c.label}</a>
+        ) : (
+          <span aria-current="page">{c.label}</span>
+        )}
+      </li>
+    ))}
+  </ol>
+</nav>
+
+<script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
+
+<style>
+  .breadcrumbs {
+    max-width: 1100px;
+    margin: 96px auto 0;
+    padding: 24px 24px 0;
+    font-size: 12px;
+    color: #6B6B6B;
+    letter-spacing: 0.02em;
+  }
+  .breadcrumbs ol {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 0;
+    margin: 0;
+  }
+  .breadcrumbs li:not(:first-child)::before {
+    content: "›";
+    margin-right: 6px;
+    color: #9A9A9A;
+  }
+  .breadcrumbs a {
+    color: #8C6934;
+    text-decoration: none;
+  }
+  .breadcrumbs a:hover {
+    text-decoration: underline;
+  }
+  .breadcrumbs [aria-current="page"] {
+    color: #461F01;
+    font-weight: 600;
+  }
+  @media (max-width: 768px) {
+    .breadcrumbs { padding: 16px 16px 0; margin-top: 72px; }
+  }
+</style>

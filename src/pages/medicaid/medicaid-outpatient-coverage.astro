@@ -1,0 +1,94 @@
+---
+import { getCollection, getEntry } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import Cta from "../../components/Cta.astro";
+import SiloStyles from "../../components/SiloStyles.astro";
+import InsuranceDisclaimer from "../../components/InsuranceDisclaimer.astro";
+
+const outpatient = (await getEntry("levelsOfCare", "outpatient"))!.data;
+const mcos = (await getCollection("mcos")).sort((a, b) => a.data.name.localeCompare(b.data.name));
+
+const title = "Does Kentucky Medicaid Cover Outpatient Addiction Treatment? | Golden Grove Recovery";
+const description = "Kentucky Medicaid covers outpatient SUD therapy, group counseling, MAT management, and continuing care (ASAM 1) with no arbitrary visit caps when medically necessary.";
+
+const faqs = [
+  { q: "Does Kentucky Medicaid cover outpatient addiction therapy?", a: "Yes. All six Kentucky Medicaid MCOs cover outpatient SUD services — including individual therapy, group counseling, family therapy, and MAT management — when medically necessary." },
+  { q: "Is there a visit cap on outpatient SUD coverage?", a: "No. Kentucky Medicaid does not impose arbitrary visit caps on medically necessary outpatient SUD services. Coverage continues as long as the level of care is appropriate to clinical need." },
+  { q: "Can I do MAT at the outpatient level long-term?", a: "Yes. MAT is the clinical standard for OUD and AUD and is intended to be a long-term treatment for many patients. Outpatient MAT management is fully covered." },
+  { q: "What if I'm just starting and need to ease into treatment?", a: "Outpatient is the lowest-intensity ASAM level and can be a starting point for patients with mild SUD or those returning to recovery after a stable period. ASAM criteria determine the appropriate level of care." },
+];
+
+const jsonLd = [
+  { "@context": "https://schema.org", "@type": "MedicalWebPage", name: title, description },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+  },
+];
+
+const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
+const link = (p: string) => `${BASE}${p}`;
+---
+
+<BaseLayout title={title} description={description} jsonLd={jsonLd}>
+  <SiloStyles />
+  <Breadcrumbs trail={[
+    { label: "Home", href: "/" },
+    { label: "Medicaid", href: "/medicaid" },
+    { label: "Outpatient Coverage" },
+  ]} />
+
+  <article class="silo-page">
+    <div class="silo-eyebrow">Kentucky Medicaid · Coverage Detail</div>
+    <h1>Does Kentucky Medicaid cover outpatient addiction treatment?</h1>
+    <p class="silo-lede">
+      <strong>Yes.</strong> All six Kentucky Medicaid MCOs cover outpatient SUD services (ASAM
+      level 1) — including individual therapy, group counseling, family therapy, and MAT management
+      — with no arbitrary visit caps when medically necessary.
+    </p>
+
+    <InsuranceDisclaimer variant="medicaid" />
+
+    <h2>What outpatient covers</h2>
+    <p>{outpatient.description}</p>
+
+    <h2>Who benefits from outpatient</h2>
+    <ul>
+      {outpatient.whoBenefits.map((b) => <li>{b}</li>)}
+    </ul>
+
+    <h2>What outpatient looks like in practice</h2>
+    <p>{outpatient.typicalDay}</p>
+    <p><strong>Frequency:</strong> {outpatient.hoursPerWeek}.</p>
+
+    <h2>Outpatient as continuing care</h2>
+    <p>
+      For most patients, outpatient is the long tail of the treatment continuum after
+      <a href={link("/medicaid/medicaid-residential-coverage")}>residential</a>,
+      <a href={link("/medicaid/medicaid-php-iop-coverage")}>PHP, and IOP</a>. Outpatient
+      relationships often continue for months or years and are particularly important for
+      patients on long-term <a href={link("/medicaid/medicaid-mat-coverage")}>MAT</a>.
+    </p>
+
+    <h2>Outpatient coverage by MCO</h2>
+    <ul>
+      {mcos.map((m) => (
+        <li><a href={link(`/medicaid/${m.data.slug}`)}>{m.data.name}</a></li>
+      ))}
+    </ul>
+
+    <Cta heading="Verify your Kentucky Medicaid outpatient coverage" />
+
+    <h2>Frequently asked questions</h2>
+    <div class="silo-faq">
+      {faqs.map((f) => (
+        <details>
+          <summary>{f.q}</summary>
+          <p>{f.a}</p>
+        </details>
+      ))}
+    </div>
+  </article>
+</BaseLayout>

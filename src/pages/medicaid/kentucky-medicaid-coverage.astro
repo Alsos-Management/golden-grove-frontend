@@ -1,0 +1,150 @@
+---
+import { getCollection, getEntry } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import Cta from "../../components/Cta.astro";
+import SiloStyles from "../../components/SiloStyles.astro";
+import InsuranceDisclaimer from "../../components/InsuranceDisclaimer.astro";
+
+const facility = (await getEntry("facility", "golden-grove-recovery"))!.data;
+const mcos = (await getCollection("mcos")).sort((a, b) => a.data.name.localeCompare(b.data.name));
+
+const title = "How Kentucky Medicaid Covers Drug & Alcohol Rehab | Golden Grove Recovery";
+const description = "Pillar overview of how Kentucky Medicaid managed care covers SUD treatment — ASAM continuum, MAT, dual diagnosis, and the 1115 waiver that funds residential rehab.";
+
+const faqs = [
+  { q: "Does Kentucky Medicaid cover drug rehab?", a: "Yes. Kentucky Medicaid covers the full ASAM continuum for substance use disorder treatment — medical detox, residential, PHP, IOP, outpatient, and MAT — when medically necessary." },
+  { q: "Does Kentucky Medicaid cover Suboxone or methadone?", a: "Yes. All six Kentucky Medicaid MCOs cover Suboxone, Subutex, methadone, Vivitrol, and oral naltrexone for opioid use disorder. Methadone is delivered through licensed opioid treatment programs (OTPs)." },
+  { q: "How does Kentucky's 1115 waiver affect Medicaid coverage of residential rehab?", a: "Kentucky's 1115 demonstration waiver allows Medicaid to pay for residential SUD treatment in IMD-sized facilities (institutions for mental disease larger than 16 beds), making residential treatment broadly accessible to Kentucky Medicaid members." },
+  { q: "Can I get treatment for both addiction and depression on Kentucky Medicaid?", a: "Yes. Kentucky Medicaid administers behavioral health and SUD services as a unified benefit. Integrated dual-diagnosis treatment for SUD plus depression, anxiety, PTSD, bipolar, or other mental health conditions is covered." },
+];
+
+const jsonLd = [
+  { "@context": "https://schema.org", "@type": "MedicalWebPage", name: title, description },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+  },
+];
+
+const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
+const link = (p: string) => `${BASE}${p}`;
+---
+
+<BaseLayout title={title} description={description} jsonLd={jsonLd}>
+  <SiloStyles />
+  <Breadcrumbs trail={[
+    { label: "Home", href: "/" },
+    { label: "Medicaid", href: "/medicaid" },
+    { label: "How KY Medicaid covers SUD" },
+  ]} />
+
+  <article class="silo-page">
+    <div class="silo-eyebrow">Kentucky Medicaid · Pillar</div>
+    <h1>How Kentucky Medicaid covers drug &amp; alcohol rehab</h1>
+    <p class="silo-lede">
+      Kentucky Medicaid is one of the most comprehensive Medicaid programs in the country for substance
+      use disorder treatment. Through six managed care organizations and the state's 1115 demonstration
+      waiver, Kentucky covers the full ASAM continuum of SUD care — including residential treatment in
+      facilities larger than 16 beds, which historically were excluded from Medicaid payment.
+    </p>
+
+    <InsuranceDisclaimer variant="medicaid" />
+
+    <h2>Kentucky's six Medicaid MCOs</h2>
+    <p>
+      If you have Kentucky Medicaid, your benefits are administered through one of six managed care
+      organizations. Click your plan to see exactly what's covered, what authorization typically
+      involves, and how MAT is handled.
+    </p>
+    <ul>
+      {mcos.map((m) => (
+        <li><a href={link(`/medicaid/${m.data.slug}`)}>{m.data.name}</a></li>
+      ))}
+    </ul>
+
+    <h2>The ASAM continuum on Kentucky Medicaid</h2>
+    <p>
+      All six MCOs use ASAM (American Society of Addiction Medicine) criteria to determine medical
+      necessity. Coverage spans the full continuum:
+    </p>
+    <div class="silo-table-wrap">
+      <table class="silo-table">
+        <thead>
+          <tr><th>Level</th><th>Description</th><th>More</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>3.7 / 4</td><td>Medical detox (withdrawal management)</td><td><a href={link("/medicaid/medicaid-detox-coverage")}>Detox coverage</a></td></tr>
+          <tr><td>3.1 / 3.3 / 3.5</td><td>Residential / inpatient SUD treatment</td><td><a href={link("/medicaid/medicaid-residential-coverage")}>Residential coverage</a></td></tr>
+          <tr><td>2.5</td><td>Partial Hospitalization (PHP)</td><td><a href={link("/medicaid/medicaid-php-iop-coverage")}>PHP / IOP coverage</a></td></tr>
+          <tr><td>2.1</td><td>Intensive Outpatient (IOP)</td><td><a href={link("/medicaid/medicaid-php-iop-coverage")}>PHP / IOP coverage</a></td></tr>
+          <tr><td>1</td><td>Outpatient SUD services</td><td><a href={link("/medicaid/medicaid-outpatient-coverage")}>Outpatient coverage</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Medication-Assisted Treatment (MAT) on Kentucky Medicaid</h2>
+    <p>
+      All six Kentucky Medicaid MCOs cover MAT for opioid use disorder. The standard formulary
+      includes Suboxone (buprenorphine + naloxone), Subutex (buprenorphine alone, used during
+      pregnancy), methadone, Vivitrol (extended-release naltrexone injection), and oral naltrexone.
+      For alcohol use disorder, naltrexone, acamprosate, and disulfiram are also covered Medicaid
+      benefits.
+    </p>
+    <p>
+      Pharmacy prior authorization may apply to specific MAT formulations depending on the MCO.
+      Methadone treatment is delivered only through licensed opioid treatment programs (OTPs);
+      buprenorphine products and Vivitrol can be prescribed in standard outpatient settings.
+      Read more about <a href={link("/medicaid/medicaid-mat-coverage")}>Medicaid MAT coverage</a>.
+    </p>
+
+    <h2>Kentucky's 1115 waiver and residential rehab</h2>
+    <p>
+      The federal IMD (Institution for Mental Disease) exclusion historically prevented Medicaid from
+      paying for SUD treatment in facilities larger than 16 beds. Kentucky's 1115 demonstration waiver
+      lifts this restriction for SUD treatment, meaning Kentucky Medicaid members can access
+      residential rehab at full-size licensed facilities — a major access expansion compared to
+      states without 1115 waivers.
+    </p>
+
+    <h2>Dual diagnosis: addiction + mental health on Medicaid</h2>
+    <p>
+      Kentucky Medicaid administers behavioral health and SUD services as a unified benefit, which
+      means integrated treatment for co-occurring conditions is fully covered. Common combinations
+      include addiction with <a href={link("/mental-health/depression-and-addiction")}>depression</a>,
+      <a href={link("/mental-health/anxiety-and-addiction")}>anxiety</a>, or
+      <a href={link("/mental-health/ptsd-trauma-and-addiction")}>PTSD and trauma</a>. Treating both
+      conditions in the same episode of care produces meaningfully better outcomes than treating one
+      and deferring the other.
+    </p>
+
+    <h2>Eligibility &amp; application</h2>
+    <p>
+      Kentucky Medicaid eligibility is income-based, with expanded coverage under the Affordable Care
+      Act for adults under 138% of the federal poverty level. Pregnant members, children, and adults
+      with disabilities have separate eligibility pathways. See
+      <a href={link("/medicaid/how-to-apply-for-medicaid-kentucky")}>how to apply for Kentucky Medicaid</a>
+      for the application steps and documents you'll need.
+    </p>
+
+    <h2>What if I don't have Medicaid (yet)?</h2>
+    <p>
+      If you're uninsured, see <a href={link("/medicaid/no-insurance-options")}>no-insurance options</a>
+      for sliding-scale, state-funded, and charity-care pathways while you apply for Medicaid coverage.
+      Our admissions team can also help you determine quickly whether you may qualify.
+    </p>
+
+    <Cta heading="Verify your Kentucky Medicaid coverage" />
+
+    <h2>Frequently asked questions</h2>
+    <div class="silo-faq">
+      {faqs.map((f) => (
+        <details>
+          <summary>{f.q}</summary>
+          <p>{f.a}</p>
+        </details>
+      ))}
+    </div>
+  </article>
+</BaseLayout>

@@ -1,0 +1,140 @@
+---
+// Shared typography + section styles for content silos (Medicaid, substances, etc.)
+---
+
+<style is:global>
+  .silo-page {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 32px 24px 0;
+    color: #1A1A1A;
+    font-family: 'Montserrat', sans-serif;
+    line-height: 1.7;
+  }
+  .silo-eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #8C6934;
+    margin-bottom: 12px;
+  }
+  .silo-page h1 {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: #461F01;
+    line-height: 1.15;
+    margin: 0 0 16px;
+  }
+  .silo-lede {
+    font-size: 17px;
+    color: #444;
+    line-height: 1.7;
+    margin-bottom: 32px;
+  }
+  .silo-page h2 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #461F01;
+    letter-spacing: -0.01em;
+    margin: 40px 0 14px;
+  }
+  .silo-page h3 {
+    font-size: 17px;
+    font-weight: 700;
+    color: #461F01;
+    margin: 28px 0 10px;
+  }
+  .silo-page p { margin-bottom: 14px; color: #333; font-size: 15px; }
+  .silo-page ul, .silo-page ol {
+    padding-left: 24px;
+    margin-bottom: 16px;
+  }
+  .silo-page li {
+    margin-bottom: 6px;
+    color: #333;
+    font-size: 15px;
+  }
+  .silo-page a {
+    color: #8C6934;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    text-decoration-thickness: 1px;
+  }
+  .silo-page a:hover { color: #461F01; }
+
+  .silo-card {
+    background: #FFFFFF;
+    border: 1px solid #EFE2C8;
+    border-radius: 12px;
+    padding: 24px;
+    margin: 16px 0;
+  }
+  .silo-card h3 { margin-top: 0; }
+
+  .silo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+    gap: 16px;
+    margin: 24px 0;
+  }
+
+  .silo-table-wrap {
+    overflow-x: auto;
+    margin: 16px 0 24px;
+  }
+  .silo-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  .silo-table th, .silo-table td {
+    text-align: left;
+    padding: 10px 12px;
+    border-bottom: 1px solid #EFE2C8;
+    vertical-align: top;
+  }
+  .silo-table th {
+    background: #FAF7F2;
+    color: #461F01;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .silo-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    background: #F2D17D22;
+    color: #8C6934;
+    border: 1px solid #F2D17D55;
+    margin: 0 6px 6px 0;
+  }
+
+  .silo-faq details {
+    border: 1px solid #EFE2C8;
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin: 8px 0;
+    background: #FFFFFF;
+  }
+  .silo-faq details[open] { background: #FAF7F2; }
+  .silo-faq summary {
+    cursor: pointer;
+    font-weight: 600;
+    color: #461F01;
+    font-size: 15px;
+  }
+  .silo-faq details > *:not(summary) {
+    margin-top: 10px;
+    color: #333;
+    font-size: 14px;
+  }
+</style>
