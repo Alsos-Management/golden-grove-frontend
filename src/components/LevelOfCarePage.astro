@@ -1,17 +1,21 @@
 ---
 import { getCollection, getEntry } from "astro:content";
+import SiloHero from "./SiloHero.astro";
+import Breadcrumbs, { type Crumb } from "./Breadcrumbs.astro";
 import Cta from "./Cta.astro";
 import InsuranceDisclaimer from "./InsuranceDisclaimer.astro";
 
 export interface Props {
   slug: string;
+  trail: Crumb[];
 }
 
-const { slug } = Astro.props as Props;
+const { slug, trail } = Astro.props as Props;
 const entry = await getEntry("levelsOfCare", slug);
 if (!entry) throw new Error(`Level of care entry not found: ${slug}`);
 const l = entry.data;
 const facility = (await getEntry("facility", "golden-grove-recovery"))!.data;
+const mcos = (await getCollection("mcos")).sort((a, b) => a.data.name.localeCompare(b.data.name));
 const allLevels = (await getCollection("levelsOfCare"))
   .filter((e) => e.data.slug !== l.slug)
   .sort((a, b) => Number(b.data.asamCode) - Number(a.data.asamCode));
@@ -20,58 +24,78 @@ const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
 const link = (p: string) => `${BASE}${p}`;
 ---
 
-<article class="silo-page">
-  <div class="silo-eyebrow">Level of Care · ASAM {l.asamCode}</div>
-  <h1>{l.name} in {facility.city}, {facility.stateCode}</h1>
-  <p class="silo-lede">{l.description}</p>
+<div class="silo-body">
+  <SiloHero
+    eyebrow={`${facility.city}, ${facility.stateCode} · ASAM ${l.asamCode}`}
+    title={`${l.name} in ${facility.city}, ${facility.stateCode}`}
+    lede={l.description.split(". ")[0] + "."}
+  />
+  <Breadcrumbs trail={trail} />
 
-  <InsuranceDisclaimer variant="medicaid" />
-
-  <h2>Who benefits from {l.shortName.toLowerCase()}</h2>
-  <ul>
-    {l.whoBenefits.map((w) => <li>{w}</li>)}
-  </ul>
-
-  {l.typicalDay && (
-    <>
-      <h2>What a typical day looks like</h2>
-      <p>{l.typicalDay}</p>
-      <p><strong>Typical duration:</strong> {l.typicalDuration}{l.hoursPerWeek ? ` · ${l.hoursPerWeek}` : ""}</p>
-    </>
-  )}
-
-  {l.imdExclusionNote && (
-    <>
-      <h2>The IMD exclusion and Kentucky's 1115 waiver</h2>
-      <p>{l.imdExclusionNote}</p>
-    </>
-  )}
-
-  {l.medicaidCoverageSummary && (
-    <>
-      <h2>Does Kentucky Medicaid cover {l.shortName.toLowerCase()}?</h2>
-      <p>{l.medicaidCoverageSummary}</p>
+  <section class="silo-section is-light">
+    <div class="silo-container">
+      <div class="silo-section-label">Kentucky Medicaid coverage</div>
+      <h2>{l.shortName} is covered by every Kentucky Medicaid MCO</h2>
       <p>
-        Read more: <a href={link("/medicaid")}>Kentucky Medicaid coverage hub</a> or pick your
-        <a href={link("/medicaid")}>Medicaid MCO</a> for plan-specific details.
+        {l.medicaidCoverageSummary ?? `All six Kentucky Medicaid managed care organizations cover ${l.shortName.toLowerCase()} based on ASAM medical-necessity determination.`}
       </p>
-    </>
-  )}
 
-  <Cta heading={`Verify your ${l.shortName.toLowerCase()} coverage`} />
+      <div class="silo-grid">
+        {mcos.map((m) => (
+          <a class="silo-card silo-card-link" href={link(`/medicaid/${m.data.slug}`)}>
+            <div class="silo-card-eyebrow">Verify with</div>
+            <h3>{m.data.shortName}</h3>
+            <p>See {m.data.shortName}'s coverage detail and authorization workflow.</p>
+            <span class="silo-card-arrow">View plan →</span>
+          </a>
+        ))}
+      </div>
 
-  <h2>Other levels of care</h2>
-  <ul>
-    {allLevels.map((other) => (
-      <li>
-        <a href={link(`/levels-of-care/${other.data.slug}`)}>
-          {other.data.shortName} (ASAM {other.data.asamCode})
-        </a> — {other.data.typicalDuration}
-      </li>
-    ))}
-  </ul>
+      <InsuranceDisclaimer variant="pre-opening" />
+    </div>
+  </section>
 
-  <p style="margin-top: 24px;">
-    Return to the <a href={link("/levels-of-care")}>levels of care overview</a>.
-  </p>
-</article>
+  <section class="silo-section is-dust">
+    <div class="silo-container silo-narrow">
+      <div class="silo-section-label">Who this is right for</div>
+      <h2>Patients who benefit from {l.shortName.toLowerCase()}</h2>
+      <ul>
+        {l.whoBenefits.map((w) => <li>{w}</li>)}
+      </ul>
+
+      {l.typicalDay && (
+        <>
+          <h3>Typical day</h3>
+          <p>{l.typicalDay}</p>
+          <p><strong>Duration:</strong> {l.typicalDuration}{l.hoursPerWeek ? ` · ${l.hoursPerWeek}` : ""}</p>
+        </>
+      )}
+
+      {l.imdExclusionNote && (
+        <>
+          <h3>Kentucky's 1115 waiver</h3>
+          <p>{l.imdExclusionNote}</p>
+        </>
+      )}
+    </div>
+  </section>
+
+  <section class="silo-section is-light">
+    <div class="silo-container">
+      <div class="silo-section-label">The treatment continuum</div>
+      <h2>Other levels of care</h2>
+      <div class="silo-grid">
+        {allLevels.map((other) => (
+          <a class="silo-card silo-card-link" href={link(`/levels-of-care/${other.data.slug}`)}>
+            <div class="silo-card-eyebrow">ASAM {other.data.asamCode}</div>
+            <h3>{other.data.shortName}</h3>
+            <p>{other.data.typicalDuration}{other.data.hoursPerWeek ? ` · ${other.data.hoursPerWeek}` : ""}</p>
+            <span class="silo-card-arrow">Read more →</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <Cta heading={`Verify your coverage and start ${l.shortName.toLowerCase()}`} />
+</div>

@@ -1,9 +1,11 @@
 ---
 import { getCollection, getEntry } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import SiloHero from "../../components/SiloHero.astro";
 import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import Cta from "../../components/Cta.astro";
 import SiloStyles from "../../components/SiloStyles.astro";
+import InsuranceDisclaimer from "../../components/InsuranceDisclaimer.astro";
 
 const facility = (await getEntry("facility", "golden-grove-recovery"))!.data;
 const levels = (await getCollection("levelsOfCare"))
@@ -20,64 +22,80 @@ const link = (p: string) => `${BASE}${p}`;
 
 <BaseLayout title={title} description={description} jsonLd={jsonLd}>
   <SiloStyles />
-  <Breadcrumbs trail={[
-    { label: "Home", href: "/" },
-    { label: "Levels of Care" },
-  ]} />
+  <div class="silo-body">
+    <SiloHero
+      eyebrow={`${facility.city}, ${facility.stateCode} · ASAM Continuum`}
+      title="Levels of care for addiction treatment"
+      lede="Kentucky Medicaid covers the full ASAM continuum at Golden Grove Recovery — every level of intensity, from 24/7 medical detox to long-term outpatient. Treatment matched to clinical need."
+    />
+    <Breadcrumbs trail={[
+      { label: "Home", href: "/" },
+      { label: "Levels of Care" },
+    ]} />
 
-  <article class="silo-page">
-    <div class="silo-eyebrow">ASAM Continuum of Care</div>
-    <h1>Levels of care for addiction treatment</h1>
-    <p class="silo-lede">
-      Golden Grove Recovery uses the American Society of Addiction Medicine (ASAM) continuum of care
-      to match each patient to the right level of treatment intensity. Patients commonly move
-      through several levels over the course of recovery — starting at higher intensity during
-      stabilization and stepping down as they build the skills and support to maintain recovery in
-      less structured settings.
-    </p>
+    <section class="silo-section is-light">
+      <div class="silo-container">
+        <div class="silo-section-label">All five levels</div>
+        <h2>Treatment matched to clinical need</h2>
+        <p>
+          Most patients move through several levels of care during recovery — starting at higher
+          intensity for stabilization and stepping down as they build the skills and support to
+          maintain recovery in less structured settings.
+        </p>
 
-    <h2>The five levels we offer</h2>
-    <div class="silo-table-wrap">
-      <table class="silo-table">
-        <thead>
-          <tr><th>Level</th><th>ASAM</th><th>Duration</th><th>Hours / week</th></tr>
-        </thead>
-        <tbody>
-          {levels.map((l) => (
-            <tr>
-              <td>
-                <a href={link(`/levels-of-care/${l.data.slug}`)}><strong>{l.data.shortName}</strong></a>
-              </td>
-              <td>{l.data.asamCode}</td>
-              <td>{l.data.typicalDuration}</td>
-              <td>{l.data.hoursPerWeek ?? "—"}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+        <div class="silo-table-wrap">
+          <table class="silo-table">
+            <thead>
+              <tr><th>Level</th><th>ASAM</th><th>Duration</th><th>Hours / week</th></tr>
+            </thead>
+            <tbody>
+              {levels.map((l) => (
+                <tr>
+                  <td><a href={link(`/levels-of-care/${l.data.slug}`)}><strong>{l.data.shortName}</strong></a></td>
+                  <td>{l.data.asamCode}</td>
+                  <td>{l.data.typicalDuration}</td>
+                  <td>{l.data.hoursPerWeek ?? "—"}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
 
-    {levels.map((l) => (
-      <div class="silo-card">
-        <h3>
-          <a href={link(`/levels-of-care/${l.data.slug}`)}>{l.data.name}</a>
-        </h3>
-        <p>{l.data.description}</p>
+        <InsuranceDisclaimer variant="pre-opening" />
       </div>
-    ))}
+    </section>
 
-    <h2>Insurance coverage for levels of care</h2>
-    <p>
-      All Kentucky Medicaid MCOs cover the full ASAM continuum when medically necessary. See
-      coverage details by level:
-    </p>
-    <ul>
-      <li><a href={link("/medicaid/medicaid-detox-coverage")}>Detox coverage</a></li>
-      <li><a href={link("/medicaid/medicaid-residential-coverage")}>Residential coverage</a></li>
-      <li><a href={link("/medicaid/medicaid-php-iop-coverage")}>PHP / IOP coverage</a></li>
-      <li><a href={link("/medicaid/medicaid-outpatient-coverage")}>Outpatient coverage</a></li>
-    </ul>
+    <section class="silo-section is-dust">
+      <div class="silo-container">
+        <div class="silo-section-label">Each level in detail</div>
+        <h2>Pick your level of care</h2>
+        <div class="silo-grid">
+          {levels.map((l) => (
+            <a class="silo-card silo-card-link" href={link(`/levels-of-care/${l.data.slug}`)}>
+              <div class="silo-card-eyebrow">ASAM {l.data.asamCode}</div>
+              <h3>{l.data.name}</h3>
+              <p>{l.data.description.split(". ")[0]}.</p>
+              <span class="silo-card-arrow">Read more →</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="silo-section is-light">
+      <div class="silo-container silo-narrow">
+        <div class="silo-section-label">Kentucky Medicaid coverage</div>
+        <h2>Coverage by level of care</h2>
+        <ul>
+          <li><a href={link("/medicaid/medicaid-detox-coverage")}>Detox coverage</a></li>
+          <li><a href={link("/medicaid/medicaid-residential-coverage")}>Residential coverage</a></li>
+          <li><a href={link("/medicaid/medicaid-php-iop-coverage")}>PHP / IOP coverage</a></li>
+          <li><a href={link("/medicaid/medicaid-outpatient-coverage")}>Outpatient coverage</a></li>
+          <li><a href={link("/medicaid/medicaid-mat-coverage")}>MAT coverage</a></li>
+        </ul>
+      </div>
+    </section>
 
     <Cta heading="Find the right level of care for you" />
-  </article>
+  </div>
 </BaseLayout>

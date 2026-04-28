@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import SiloHero from "../../components/SiloHero.astro";
 import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import Cta from "../../components/Cta.astro";
 import SiloStyles from "../../components/SiloStyles.astro";
@@ -8,18 +9,14 @@ const title = "No Insurance? Kentucky Drug Rehab Options | Golden Grove Recovery
 const description = "If you don't have insurance, you still have pathways to Kentucky addiction treatment — Medicaid expansion, sliding-scale providers, state-funded programs, and crisis services.";
 
 const faqs = [
-  { q: "Can I get drug rehab in Kentucky without insurance?", a: "Yes. Pathways include applying for Kentucky Medicaid (most adults under 138% FPL qualify), sliding-scale providers, state-funded SUD programs, and charity care. Don't let cost stop you from reaching out — call admissions to discuss your specific situation." },
-  { q: "How fast can I get on Kentucky Medicaid?", a: "Standard processing is 30–45 days, but presumptive eligibility may apply for pregnant members and members with severe SUD. Some providers can begin treatment while your application is pending." },
+  { q: "Can I get drug rehab in Kentucky without insurance?", a: "Yes. Pathways include applying for Kentucky Medicaid (most adults under 138% FPL qualify), sliding-scale providers, state-funded SUD programs, and charity care. Don't let cost stop you from reaching out." },
+  { q: "How fast can I get on Kentucky Medicaid?", a: "Standard processing is 30-45 days, but presumptive eligibility may apply for pregnant members and members with severe SUD. Some providers begin treatment while applications are pending." },
   { q: "What is presumptive eligibility?", a: "Presumptive eligibility allows certain Medicaid-eligible individuals — including pregnant members and, in some cases, members with urgent SUD needs — to receive temporary Medicaid coverage immediately while a full application is processed." },
 ];
 
 const jsonLd = [
   { "@context": "https://schema.org", "@type": "WebPage", name: title, description },
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
-  },
+  { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })) },
 ];
 
 const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
@@ -28,87 +25,74 @@ const link = (p: string) => `${BASE}${p}`;
 
 <BaseLayout title={title} description={description} jsonLd={jsonLd}>
   <SiloStyles />
-  <Breadcrumbs trail={[
-    { label: "Home", href: "/" },
-    { label: "Medicaid", href: "/medicaid" },
-    { label: "No Insurance Options" },
-  ]} />
+  <div class="silo-body">
+    <SiloHero
+      eyebrow="Kentucky Medicaid · Pathways"
+      title="No insurance? Kentucky drug & alcohol rehab options"
+      lede="Cost should never stand between you and treatment. If you don't currently have insurance, you still have several pathways — and most adults qualify for Kentucky Medicaid based on income alone."
+    />
+    <Breadcrumbs trail={[
+      { label: "Home", href: "/" },
+      { label: "Kentucky Medicaid", href: "/medicaid" },
+      { label: "No Insurance Options" },
+    ]} />
 
-  <article class="silo-page">
-    <div class="silo-eyebrow">Kentucky Medicaid · Pathways</div>
-    <h1>No insurance? Kentucky drug &amp; alcohol rehab options</h1>
-    <p class="silo-lede">
-      Cost should never stand between you and treatment. If you don't currently have insurance, you
-      still have several pathways to Kentucky addiction treatment — and most adults qualify for
-      Kentucky Medicaid based on income alone.
-    </p>
-
-    <h2>Option 1 — Apply for Kentucky Medicaid</h2>
-    <p>
-      Kentucky expanded Medicaid under the Affordable Care Act. Most adults under 138% of the
-      federal poverty level qualify based on income. The application is free and takes most people
-      under an hour. Once approved, you'll have access to detox, residential, PHP, IOP, outpatient,
-      and MAT through one of <a href={link("/medicaid")}>Kentucky's six Medicaid MCOs</a>.
-    </p>
-    <p>
-      See <a href={link("/medicaid/how-to-apply-for-medicaid-kentucky")}>how to apply for Kentucky
-      Medicaid</a> for the step-by-step process.
-    </p>
-
-    <h2>Option 2 — Presumptive eligibility</h2>
-    <p>
-      Pregnant members and, in some cases, members with severe substance use disorder may qualify for
-      <strong>presumptive eligibility</strong> — temporary Medicaid coverage that begins immediately
-      while a full application is processed. Our admissions team can help you understand whether you
-      may qualify and connect you with the right resources.
-    </p>
-
-    <h2>Option 3 — Sliding-scale and state-funded programs</h2>
-    <p>
-      Kentucky operates a network of community mental health centers (CMHCs) that offer SUD treatment
-      on a sliding scale based on income. The Kentucky Department for Behavioral Health,
-      Developmental and Intellectual Disabilities (DBHDID) also funds programs for uninsured
-      Kentuckians with SUD. These can serve as bridge care while your Medicaid application is
-      processed.
-    </p>
-
-    <h2>Option 4 — Crisis and immediate help</h2>
-    <p>
-      If you're in immediate crisis or need same-day intervention:
-    </p>
-    <ul>
-      <li><strong>988 Suicide &amp; Crisis Lifeline</strong> — call or text 988 for 24/7 free, confidential support</li>
-      <li><strong>Kentucky's KY Help Call Center</strong> — 1-833-859-4357 (1-833-8KY-HELP) for SUD treatment navigation</li>
-      <li><strong>SAMHSA National Helpline</strong> — 1-800-662-4357 for free, confidential treatment referral 24/7</li>
-      <li><strong>911</strong> — for any medical emergency, including overdose</li>
-    </ul>
-
-    <h2>Option 5 — Naloxone and harm reduction</h2>
-    <p>
-      Whether or not you're in treatment, naloxone (Narcan) saves lives. Naloxone is available
-      without a prescription at most Kentucky pharmacies and through harm-reduction programs across
-      the state. If you or someone you love uses opioids, having naloxone on hand is critical.
-    </p>
-
-    <h2>What about commercial insurance?</h2>
-    <p>
-      If you have a job-based or marketplace plan, Golden Grove Recovery accepts most major
-      insurance carriers — Blue Cross Blue Shield (Anthem), Aetna, Centene (Ambetter),
-      UnitedHealthcare, Optum, Humana, and Cigna / Evernorth. Call admissions to verify your specific
-      benefits.
-    </p>
+    <section class="silo-section is-light">
+      <div class="silo-container">
+        <div class="silo-section-label">Five pathways</div>
+        <h2>Options if you don't have insurance</h2>
+        <div class="silo-grid">
+          <a class="silo-card silo-card-link" href={link("/medicaid/how-to-apply-for-medicaid-kentucky")}>
+            <div class="silo-card-eyebrow">Option 1</div>
+            <h3>Apply for Kentucky Medicaid</h3>
+            <p>Most adults qualify based on income alone. Free application; full SUD continuum coverage once approved.</p>
+            <span class="silo-card-arrow">How to apply →</span>
+          </a>
+          <div class="silo-card">
+            <div class="silo-card-eyebrow">Option 2</div>
+            <h3>Presumptive eligibility</h3>
+            <p>Pregnant members and some members with severe SUD may qualify for immediate temporary Medicaid coverage while a full application is processed.</p>
+          </div>
+          <div class="silo-card">
+            <div class="silo-card-eyebrow">Option 3</div>
+            <h3>Sliding-scale &amp; state-funded programs</h3>
+            <p>Kentucky CMHCs offer SUD treatment on a sliding scale. The Kentucky DBHDID also funds programs for uninsured Kentuckians with SUD.</p>
+          </div>
+          <div class="silo-card">
+            <div class="silo-card-eyebrow">Option 4</div>
+            <h3>Crisis &amp; immediate help</h3>
+            <p>988 Suicide &amp; Crisis Lifeline (24/7), Kentucky's KY Help Call Center (1-833-859-4357), SAMHSA National Helpline (1-800-662-4357).</p>
+          </div>
+          <div class="silo-card">
+            <div class="silo-card-eyebrow">Option 5</div>
+            <h3>Naloxone &amp; harm reduction</h3>
+            <p>Naloxone (Narcan) is available without a prescription at most Kentucky pharmacies and through harm-reduction programs across the state.</p>
+          </div>
+          <div class="silo-card">
+            <div class="silo-card-eyebrow">Option 6</div>
+            <h3>Commercial insurance</h3>
+            <p>If you have a job-based or marketplace plan, Golden Grove accepts most major carriers — BCBS, Aetna, Centene/Ambetter, UnitedHealthcare, Optum, Humana, Cigna.</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <Cta heading="Don't let cost stop you — call us"
          subhead="Our admissions team helps you understand your options and finds the fastest pathway to treatment." />
 
-    <h2>Frequently asked questions</h2>
-    <div class="silo-faq">
-      {faqs.map((f) => (
-        <details>
-          <summary>{f.q}</summary>
-          <p>{f.a}</p>
-        </details>
-      ))}
-    </div>
-  </article>
+    <section class="silo-section is-dust">
+      <div class="silo-container silo-narrow">
+        <div class="silo-section-label">FAQ</div>
+        <h2>Frequently asked questions</h2>
+        <div class="silo-faq">
+          {faqs.map((f) => (
+            <details>
+              <summary>{f.q}</summary>
+              <p>{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+  </div>
 </BaseLayout>

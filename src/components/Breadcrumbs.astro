@@ -6,9 +6,10 @@ export interface Crumb {
 
 export interface Props {
   trail: Crumb[];
+  belowHero?: boolean;
 }
 
-const { trail } = Astro.props as Props;
+const { trail, belowHero = true } = Astro.props as Props;
 const BASE = import.meta.env.BASE_URL.endsWith("/")
   ? import.meta.env.BASE_URL
   : `${import.meta.env.BASE_URL}/`;
@@ -29,30 +30,40 @@ const breadcrumbJsonLd = {
 };
 ---
 
-<nav aria-label="Breadcrumb" class="breadcrumbs">
-  <ol>
-    {trail.map((c, i) => (
-      <li>
-        {c.href && i < trail.length - 1 ? (
-          <a href={`${BASE}${c.href.replace(/^\//, "")}`}>{c.label}</a>
-        ) : (
-          <span aria-current="page">{c.label}</span>
-        )}
-      </li>
-    ))}
-  </ol>
+<nav aria-label="Breadcrumb" class:list={["breadcrumbs", belowHero && "below-hero"]}>
+  <div class="breadcrumbs-inner">
+    <ol>
+      {trail.map((c, i) => (
+        <li>
+          {c.href && i < trail.length - 1 ? (
+            <a href={`${BASE}${c.href.replace(/^\//, "")}`}>{c.label}</a>
+          ) : (
+            <span aria-current="page">{c.label}</span>
+          )}
+        </li>
+      ))}
+    </ol>
+  </div>
 </nav>
 
 <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
 
 <style>
   .breadcrumbs {
-    max-width: 1100px;
-    margin: 96px auto 0;
-    padding: 24px 24px 0;
+    background: #FAF7F2;
+    border-bottom: 1px solid #EFE2C8;
     font-size: 12px;
     color: #6B6B6B;
     letter-spacing: 0.02em;
+  }
+  .breadcrumbs:not(.below-hero) {
+    margin-top: 96px;
+    border-top: 1px solid #EFE2C8;
+  }
+  .breadcrumbs-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 14px 24px;
   }
   .breadcrumbs ol {
     list-style: none;
@@ -71,14 +82,13 @@ const breadcrumbJsonLd = {
     color: #8C6934;
     text-decoration: none;
   }
-  .breadcrumbs a:hover {
-    text-decoration: underline;
-  }
+  .breadcrumbs a:hover { text-decoration: underline; }
   .breadcrumbs [aria-current="page"] {
     color: #461F01;
     font-weight: 600;
   }
   @media (max-width: 768px) {
-    .breadcrumbs { padding: 16px 16px 0; margin-top: 72px; }
+    .breadcrumbs:not(.below-hero) { margin-top: 72px; }
+    .breadcrumbs-inner { padding: 12px 16px; }
   }
 </style>

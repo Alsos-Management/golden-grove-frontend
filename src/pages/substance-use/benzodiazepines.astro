@@ -1,7 +1,6 @@
 ---
 import { getEntry } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import SiloStyles from "../../components/SiloStyles.astro";
 import SubstancePage from "../../components/SubstancePage.astro";
 
@@ -29,10 +28,9 @@ const jsonLd = [
 
 <BaseLayout title={title} description={description} jsonLd={jsonLd}>
   <SiloStyles />
-  <Breadcrumbs trail={[
+  <SubstancePage substanceSlug="benzodiazepines" trail={[
     { label: "Home", href: "/" },
     { label: "Substance Use", href: "/substance-use" },
     { label: s.name },
   ]} />
-  <SubstancePage substanceSlug="benzodiazepines" />
 </BaseLayout>
