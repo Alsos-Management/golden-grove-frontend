@@ -1,0 +1,135 @@
+---
+import { getCollection, getEntry } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SiloHero from "../../components/SiloHero.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import Cta from "../../components/Cta.astro";
+import SiloStyles from "../../components/SiloStyles.astro";
+import InsuranceDisclaimer from "../../components/InsuranceDisclaimer.astro";
+
+const facility = (await getEntry("facility", "golden-grove-recovery"))!.data;
+const mcos = (await getCollection("mcos")).sort((a, b) => a.data.name.localeCompare(b.data.name));
+
+const title = "Medicaid Drug & Alcohol Rehab in Louisville, KY | Golden Grove Recovery";
+const description = "Kentucky Medicaid covers detox, residential, PHP, IOP, outpatient, and MAT. Golden Grove Recovery serves Louisville, KY — verify your Medicaid plan in minutes.";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "MedicalWebPage",
+  name: title,
+  description,
+  about: {
+    "@type": "MedicalAudience",
+    audienceType: "Kentucky Medicaid members with substance use disorder",
+    geographicArea: { "@type": "AdministrativeArea", name: "Kentucky" },
+  },
+};
+
+const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
+const link = (p: string) => `${BASE}${p}`;
+---
+
+<BaseLayout title={title} description={description} jsonLd={jsonLd}>
+  <SiloStyles />
+  <div class="silo-body">
+    <SiloHero
+      eyebrow={`${facility.city}, ${facility.stateCode} · Kentucky Medicaid`}
+      title="Kentucky Medicaid drug & alcohol rehab in Louisville"
+      lede="Every Kentucky Medicaid plan covers the full ASAM continuum for substance use disorder treatment — from medical detox through long-term outpatient and MAT. Golden Grove Recovery is preparing to be in-network with all six MCOs."
+    />
+    <Breadcrumbs trail={[
+      { label: "Home", href: "/" },
+      { label: "Kentucky Medicaid" },
+    ]} />
+
+    <section class="silo-section is-light">
+      <div class="silo-container">
+        <div class="silo-section-label">Pick your plan</div>
+        <h2>Kentucky Medicaid managed care organizations</h2>
+        <p>
+          Pick your plan to see exactly what's covered, how prior authorization works, which MAT
+          medications are on the formulary, and how to verify your benefits with our admissions team.
+        </p>
+
+        <div class="silo-grid">
+          {mcos.map((mco) => (
+            <a class="silo-card silo-card-link" href={link(`/medicaid/${mco.data.slug}`)}>
+              <div class="silo-card-eyebrow">Kentucky Medicaid</div>
+              <h3>{mco.data.name}</h3>
+              <p>{mco.data.description.slice(0, 160)}{mco.data.description.length > 160 ? "…" : ""}</p>
+              <span class="silo-card-arrow">View {mco.data.shortName} coverage →</span>
+            </a>
+          ))}
+        </div>
+
+        <InsuranceDisclaimer variant="pre-opening" />
+      </div>
+    </section>
+
+    <section class="silo-section is-dust">
+      <div class="silo-container">
+        <div class="silo-section-label">Coverage by level of care</div>
+        <h2>What Kentucky Medicaid covers for SUD treatment</h2>
+        <p>
+          Every Kentucky Medicaid MCO covers the full ASAM continuum when medically necessary.
+          Authorization details vary by plan and level of care, but the benefit itself is consistent
+          across the six MCOs.
+        </p>
+
+        <div class="silo-grid">
+          <a class="silo-card silo-card-link" href={link("/medicaid/medicaid-detox-coverage")}>
+            <div class="silo-card-eyebrow">ASAM 3.7 / 4</div>
+            <h3>Medical detox</h3>
+            <p>Life-threatening alcohol or benzo withdrawal handled in supervised settings.</p>
+            <span class="silo-card-arrow">Detox coverage →</span>
+          </a>
+          <a class="silo-card silo-card-link" href={link("/medicaid/medicaid-residential-coverage")}>
+            <div class="silo-card-eyebrow">ASAM 3.1 / 3.3 / 3.5</div>
+            <h3>Residential / inpatient</h3>
+            <p>Kentucky's 1115 waiver allows full Medicaid coverage of residential SUD treatment.</p>
+            <span class="silo-card-arrow">Residential coverage →</span>
+          </a>
+          <a class="silo-card silo-card-link" href={link("/medicaid/medicaid-php-iop-coverage")}>
+            <div class="silo-card-eyebrow">ASAM 2.5 / 2.1</div>
+            <h3>PHP &amp; IOP</h3>
+            <p>Structured step-down or step-up care while you live at home.</p>
+            <span class="silo-card-arrow">PHP / IOP coverage →</span>
+          </a>
+          <a class="silo-card silo-card-link" href={link("/medicaid/medicaid-mat-coverage")}>
+            <div class="silo-card-eyebrow">Standard of Care</div>
+            <h3>Medication-Assisted Treatment</h3>
+            <p>Suboxone, Subutex, methadone, Vivitrol, and naltrexone — covered by every plan.</p>
+            <span class="silo-card-arrow">MAT coverage →</span>
+          </a>
+          <a class="silo-card silo-card-link" href={link("/medicaid/medicaid-outpatient-coverage")}>
+            <div class="silo-card-eyebrow">ASAM 1</div>
+            <h3>Outpatient SUD</h3>
+            <p>Therapy, group counseling, MAT management, and continuing care — no visit caps.</p>
+            <span class="silo-card-arrow">Outpatient coverage →</span>
+          </a>
+          <a class="silo-card silo-card-link" href={link("/medicaid/kentucky-medicaid-coverage")}>
+            <div class="silo-card-eyebrow">Pillar Overview</div>
+            <h3>Kentucky Medicaid &amp; SUD</h3>
+            <p>Background on Medicaid managed care, the 1115 waiver, and integrated dual diagnosis.</p>
+            <span class="silo-card-arrow">Read overview →</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="silo-section is-light">
+      <div class="silo-container silo-narrow">
+        <div class="silo-section-label">Background &amp; eligibility</div>
+        <h2>If you're new to Kentucky Medicaid</h2>
+        <ul>
+          <li><a href={link("/medicaid/how-to-apply-for-medicaid-kentucky")}>How to apply for Kentucky Medicaid</a> — most adults qualify based on income alone</li>
+          <li><a href={link("/medicaid/no-insurance-options")}>What if I don't have insurance?</a> — sliding-scale, presumptive eligibility, state-funded</li>
+          <li><a href={link("/medicaid/kentucky-medicaid-coverage")}>How Kentucky Medicaid covers SUD treatment</a> — the pillar overview</li>
+        </ul>
+      </div>
+    </section>
+
+    <Cta heading="Verify your Kentucky Medicaid coverage"
+         subhead="Tell us your MCO and we'll confirm your benefits before admission. No obligation, no judgment." />
+  </div>
+</BaseLayout>

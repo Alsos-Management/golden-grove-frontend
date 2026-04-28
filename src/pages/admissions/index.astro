@@ -1,0 +1,67 @@
+---
+import { getEntry } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import Cta from "../../components/Cta.astro";
+import SiloStyles from "../../components/SiloStyles.astro";
+import InsuranceDisclaimer from "../../components/InsuranceDisclaimer.astro";
+
+const facility = (await getEntry("facility", "golden-grove-recovery"))!.data;
+
+const title = `Admissions | Golden Grove Recovery`;
+const description = `Start treatment at Golden Grove Recovery in Louisville, KY. Verify insurance, learn what to expect on your first call, and walk through the admissions process step by step.`;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  name: title,
+  description,
+  speakable: { "@type": "SpeakableSpecification", cssSelector: ["h1", ".silo-lede"] },
+};
+
+const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
+const link = (p: string) => `${BASE}${p}`;
+---
+
+<BaseLayout title={title} description={description} jsonLd={jsonLd}>
+  <SiloStyles />
+  <Breadcrumbs trail={[
+    { label: "Home", href: "/" },
+    { label: "Admissions" },
+  ]} />
+
+  <article class="silo-page">
+    <div class="silo-eyebrow">Admissions</div>
+    <h1>How to start treatment at Golden Grove Recovery</h1>
+    <p class="silo-lede">
+      Reaching out for help is the hardest step. We try to make every step that follows as simple as
+      possible — call our admissions team, send a quick insurance verification, and we handle the
+      rest. No judgment, no pressure, no obligation.
+    </p>
+
+    <InsuranceDisclaimer variant="pre-opening" />
+
+    <h2>How to reach us</h2>
+    <ul>
+      <li><strong>Call admissions:</strong> <a href={`tel:${facility.phoneTel}`}>{facility.phone}</a> — 24/7</li>
+      <li><strong>Email:</strong> <a href={`mailto:${facility.email}`}>{facility.email}</a></li>
+      <li><strong>Verify insurance online:</strong> <a href={link("/admissions/verify-insurance")}>start a verification request</a></li>
+    </ul>
+
+    <h2>What to read first</h2>
+    <ul>
+      <li><a href={link("/admissions/what-to-expect-first-call")}>What to expect on your first call</a></li>
+      <li><a href={link("/admissions/admissions-process")}>The admissions process — step by step</a></li>
+      <li><a href={link("/admissions/verify-insurance")}>Verify your insurance coverage</a></li>
+      <li><a href={link("/admissions/faq")}>Admissions FAQ</a></li>
+    </ul>
+
+    <h2>If you're in crisis</h2>
+    <p>
+      Call or text <strong>988</strong> for the Suicide &amp; Crisis Lifeline (24/7, free,
+      confidential). For any medical emergency, call <strong>911</strong>.
+    </p>
+
+    <Cta heading="Call admissions or verify your insurance" />
+  </article>
+</BaseLayout>

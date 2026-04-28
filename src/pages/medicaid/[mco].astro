@@ -1,0 +1,197 @@
+---
+import { getCollection, getEntry } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SiloHero from "../../components/SiloHero.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import Cta from "../../components/Cta.astro";
+import SiloStyles from "../../components/SiloStyles.astro";
+import InsuranceDisclaimer from "../../components/InsuranceDisclaimer.astro";
+
+export async function getStaticPaths() {
+  const mcos = await getCollection("mcos");
+  return mcos.map((entry) => ({
+    params: { mco: entry.data.slug },
+    props: { mco: entry },
+  }));
+}
+
+const { mco } = Astro.props as { mco: Awaited<ReturnType<typeof getCollection<"mcos">>>[number] };
+const m = mco.data;
+const facility = (await getEntry("facility", "golden-grove-recovery"))!.data;
+const allMcos = (await getCollection("mcos"))
+  .filter((e) => e.data.slug !== m.slug)
+  .sort((a, b) => a.data.name.localeCompare(b.data.name));
+
+const matLabels: Record<string, string> = {
+  suboxone: "Suboxone",
+  subutex: "Subutex",
+  methadone: "Methadone",
+  vivitrol: "Vivitrol",
+  naltrexone: "Oral Naltrexone",
+  acamprosate: "Acamprosate",
+  disulfiram: "Disulfiram",
+};
+
+const asamLabels: Record<string, string> = {
+  "0.5": "Recovery Housing (ASAM 0.5)",
+  "1": "Outpatient (ASAM 1)",
+  "2.1": "Intensive Outpatient (ASAM 2.1)",
+  "2.5": "Partial Hospitalization (ASAM 2.5)",
+  "3.1": "Clinically Managed Low-Intensity Residential (ASAM 3.1)",
+  "3.3": "Clinically Managed Population-Specific High-Intensity Residential (ASAM 3.3)",
+  "3.5": "Clinically Managed High-Intensity Residential (ASAM 3.5)",
+  "3.7": "Medically Monitored Inpatient Withdrawal Management (ASAM 3.7)",
+  "4": "Medically Managed Intensive Inpatient (ASAM 4)",
+};
+
+const title = `${m.name} drug & alcohol rehab coverage in ${facility.state} | Golden Grove Recovery`;
+const description = `${m.shortName} covers detox, residential, PHP, IOP, outpatient, and MAT for substance use disorder. Verify your ${m.shortName} benefits with Golden Grove Recovery in Louisville, KY.`;
+
+const faqs = [
+  { q: `Does ${m.shortName} cover residential addiction treatment?`, a: `Yes. ${m.shortName} covers residential SUD treatment (ASAM 3.1, 3.3, 3.5) based on medical-necessity determination using ASAM criteria. Prior authorization with concurrent review is typical.` },
+  { q: `Does ${m.shortName} cover Suboxone or methadone?`, a: `${m.shortName} covers ${m.matCovered.map((x) => matLabels[x] ?? x).join(", ")} as part of its MAT benefit. Methadone is delivered through licensed opioid treatment programs (OTPs).` },
+  { q: `Will ${m.shortName} cover medical detox?`, a: `Yes. ${m.shortName} covers medically supervised withdrawal management at ASAM 3.7 and 4. Authorization is typically obtained urgently at admission based on clinical presentation.` },
+  { q: `What does prior authorization look like with ${m.shortName}?`, a: m.priorAuthNotes ?? `${m.shortName} typically applies ASAM criteria for medical-necessity determinations. Our admissions team handles authorization on your behalf.` },
+  { q: `Is Golden Grove Recovery in-network with ${m.shortName}?`, a: facility.insurance.disclaimerPreOpening },
+];
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "MedicalWebPage",
+    name: title,
+    description,
+    about: { "@type": "HealthInsurancePlan", name: m.name, url: m.url, healthPlanCoverageType: "Medicaid" },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+  },
+];
+
+const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
+const link = (p: string) => `${BASE}${p}`;
+---
+
+<BaseLayout title={title} description={description} jsonLd={jsonLd}>
+  <SiloStyles />
+  <div class="silo-body">
+    <SiloHero
+      eyebrow={`Kentucky Medicaid · ${m.shortName}`}
+      title={`${m.name} addiction treatment coverage`}
+      lede={`${m.shortName} covers the full ASAM continuum for substance use disorder. Verify your benefits with Golden Grove Recovery in ${facility.city}, ${facility.state}.`}
+    />
+    <Breadcrumbs trail={[
+      { label: "Home", href: "/" },
+      { label: "Kentucky Medicaid", href: "/medicaid" },
+      { label: m.shortName },
+    ]} />
+
+    <section class="silo-section is-light">
+      <div class="silo-container silo-narrow">
+        <div class="silo-section-label">Plan overview</div>
+        <h2>What {m.shortName} is</h2>
+        <p>{m.description}</p>
+        <InsuranceDisclaimer variant="pre-opening" />
+      </div>
+    </section>
+
+    <section class="silo-section is-dust">
+      <div class="silo-container">
+        <div class="silo-section-label">Coverage detail</div>
+        <h2>What {m.shortName} covers for SUD treatment</h2>
+        <ul>
+          {m.coverageHighlights.map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
+    </section>
+
+    <section class="silo-section is-light">
+      <div class="silo-container">
+        <div class="silo-section-label">ASAM levels covered</div>
+        <h2>Levels of care {m.shortName} covers</h2>
+        <div class="silo-table-wrap">
+          <table class="silo-table">
+            <thead>
+              <tr><th>ASAM</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+              {m.levelsOfCareCovered.map((level) => (
+                <tr>
+                  <td><strong>{level}</strong></td>
+                  <td>{asamLabels[level] ?? level}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="silo-section is-dust">
+      <div class="silo-container">
+        <div class="silo-section-label">Medications covered</div>
+        <h2>MAT covered by {m.shortName}</h2>
+        <p>{m.shortName} covers the following FDA-approved medications for opioid and alcohol use disorder:</p>
+        <p>{m.matCovered.map((med) => <span class="silo-pill">{matLabels[med] ?? med}</span>)}</p>
+        <p>Read more about how Medicaid covers <a href={link("/medicaid/medicaid-mat-coverage")}>MAT</a>, including authorization and pharmacy benefits.</p>
+      </div>
+    </section>
+
+    {(m.priorAuthNotes || m.memberBenefitsNote) && (
+      <section class="silo-section is-light">
+        <div class="silo-container silo-narrow">
+          {m.priorAuthNotes && (
+            <>
+              <div class="silo-section-label">Prior authorization</div>
+              <h2>How prior auth works with {m.shortName}</h2>
+              <p>{m.priorAuthNotes}</p>
+            </>
+          )}
+          {m.memberBenefitsNote && (
+            <>
+              <h3>Member benefits that apply to SUD</h3>
+              <p>{m.memberBenefitsNote}</p>
+              {m.url && <p>More on {m.shortName} at <a href={m.url} target="_blank" rel="noopener noreferrer">{m.url}</a>.</p>}
+            </>
+          )}
+        </div>
+      </section>
+    )}
+
+    <Cta heading={`Verify your ${m.shortName} coverage`}
+         subhead={`Call admissions or send a quick verification request — we'll confirm what your ${m.shortName} plan covers.`} />
+
+    <section class="silo-section is-dust">
+      <div class="silo-container silo-narrow">
+        <div class="silo-section-label">FAQ</div>
+        <h2>Frequently asked questions</h2>
+        <div class="silo-faq">
+          {faqs.map((f) => (
+            <details>
+              <summary>{f.q}</summary>
+              <p>{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="silo-section is-light">
+      <div class="silo-container">
+        <div class="silo-section-label">Other Kentucky Medicaid plans</div>
+        <h2>Compare other MCOs</h2>
+        <div class="silo-grid">
+          {allMcos.map((other) => (
+            <a class="silo-card silo-card-link" href={link(`/medicaid/${other.data.slug}`)}>
+              <div class="silo-card-eyebrow">Kentucky Medicaid</div>
+              <h3>{other.data.shortName}</h3>
+              <span class="silo-card-arrow">View {other.data.shortName} coverage →</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  </div>
+</BaseLayout>

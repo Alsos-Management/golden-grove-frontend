@@ -1,0 +1,65 @@
+---
+import { getEntry } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import Cta from "../../components/Cta.astro";
+import SiloStyles from "../../components/SiloStyles.astro";
+
+const facility = (await getEntry("facility", "golden-grove-recovery"))!.data;
+
+const title = `Admissions FAQ | Golden Grove Recovery`;
+const description = `Common questions about admissions at Golden Grove Recovery — insurance, length of stay, what to bring, family involvement, and what to expect during treatment.`;
+
+const faqs = [
+  { q: "How fast can I be admitted?", a: "For most patients, the time from first call to admission is 1-4 days. Patients in active withdrawal or crisis can often be admitted the same day. Insurance verification and authorization are typically the fastest-moving steps for Kentucky Medicaid members." },
+  { q: "What should I bring with me?", a: "Comfortable clothing for 7+ days, basic toiletries (no items containing alcohol), prescribed medications in original bottles, your insurance card, photo ID, and a list of any allergies. We'll send a complete packing list with admission confirmation." },
+  { q: "Can my family visit during treatment?", a: "Family involvement strengthens recovery and we encourage it. We schedule structured family sessions and visitation periods. Each program has specific guidelines that we share at admission." },
+  { q: "Will my employer find out?", a: "Confidentiality is protected by federal law (42 CFR Part 2 for SUD treatment, plus HIPAA). We do not disclose your treatment to employers without your written consent. If you need FMLA or short-term disability paperwork, we can help coordinate that with your authorization." },
+  { q: "Can I bring my phone?", a: "Phone policies vary by program and stage of treatment. In residential, phone access is generally limited during the early stabilization period to reduce outside stressors, then expanded as you progress. PHP and IOP do not restrict phone use." },
+  { q: "What if I have legal or court-ordered treatment?", a: "We work routinely with court-ordered patients and probation officers. Documentation of attendance and completion can be provided to courts and referring agencies with your written consent." },
+  { q: "Can I keep working during treatment?", a: "Residential treatment is full-time and not compatible with simultaneous employment. PHP is generally not compatible with working full-time. IOP and outpatient are designed to fit around work and school commitments — IOP often offers evening tracks specifically for working patients." },
+  { q: "Do you offer Medication-Assisted Treatment (MAT)?", a: "Yes. We offer MAT including buprenorphine (Suboxone, Subutex), Vivitrol, and oral naltrexone for opioid use disorder, plus naltrexone, acamprosate, and disulfiram for alcohol use disorder. Methadone for OUD requires a federally licensed Opioid Treatment Program (OTP) — we coordinate with OTP partners when methadone is the right choice." },
+];
+
+const jsonLd = [
+  { "@context": "https://schema.org", "@type": "WebPage", name: title, description },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+  },
+];
+
+const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
+const link = (p: string) => `${BASE}${p}`;
+---
+
+<BaseLayout title={title} description={description} jsonLd={jsonLd}>
+  <SiloStyles />
+  <Breadcrumbs trail={[
+    { label: "Home", href: "/" },
+    { label: "Admissions", href: "/admissions" },
+    { label: "FAQ" },
+  ]} />
+
+  <article class="silo-page">
+    <div class="silo-eyebrow">Admissions · FAQ</div>
+    <h1>Admissions frequently asked questions</h1>
+    <p class="silo-lede">
+      The questions we hear most from patients and families starting treatment at Golden Grove
+      Recovery. Don't see your question? Call admissions — there's no question we haven't been
+      asked, and no question we won't answer honestly.
+    </p>
+
+    <div class="silo-faq">
+      {faqs.map((f) => (
+        <details>
+          <summary>{f.q}</summary>
+          <p>{f.a}</p>
+        </details>
+      ))}
+    </div>
+
+    <Cta heading={`Still have questions? Call admissions at ${facility.phone}`} />
+  </article>
+</BaseLayout>

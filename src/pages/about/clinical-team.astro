@@ -1,0 +1,83 @@
+---
+import { getEntry } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import Cta from "../../components/Cta.astro";
+import SiloStyles from "../../components/SiloStyles.astro";
+
+const facility = (await getEntry("facility", "golden-grove-recovery"))!.data;
+
+const title = `Our Clinical Team | Golden Grove Recovery`;
+const description = `Meet Golden Grove Recovery's clinical leadership — Medical Directors Dr. Daniel Sumrock and Dr. Willmore — and the multidisciplinary team treating addiction in Louisville, KY.`;
+
+const personSchemas = facility.medicalDirectors.map((md) => ({
+  "@context": "https://schema.org",
+  "@type": ["Person", "Physician"],
+  name: md.name,
+  jobTitle: md.role,
+  affiliation: { "@type": "MedicalOrganization", name: facility.name },
+  hasCredential: md.credentials.map((c) => ({ "@type": "EducationalOccupationalCredential", credentialCategory: c })),
+}));
+
+const jsonLd = [
+  { "@context": "https://schema.org", "@type": "AboutPage", name: title, description },
+  ...personSchemas,
+];
+
+const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
+const link = (p: string) => `${BASE}${p}`;
+---
+
+<BaseLayout title={title} description={description} jsonLd={jsonLd}>
+  <SiloStyles />
+  <Breadcrumbs trail={[
+    { label: "Home", href: "/" },
+    { label: "About", href: "/about" },
+    { label: "Clinical Team" },
+  ]} />
+
+  <article class="silo-page">
+    <div class="silo-eyebrow">About Golden Grove</div>
+    <h1>Our clinical team</h1>
+    <p class="silo-lede">
+      Addiction treatment outcomes are driven by clinical quality. Golden Grove Recovery's clinical
+      leadership combines decades of addiction medicine experience with the structured,
+      evidence-based protocols required for the patients Kentucky Medicaid serves.
+    </p>
+
+    <h2>Medical Directors</h2>
+    {facility.medicalDirectors.map((md) => (
+      <div class="silo-card">
+        <h3>{md.name}{md.credentials.length > 0 ? `, ${md.credentials.join(", ")}` : ""}</h3>
+        <p><strong>{md.role}</strong></p>
+        {md.bio && <p>{md.bio}</p>}
+        {!md.bio && <p style="color: #6B6B6B; font-size: 14px;">Full bio coming soon.</p>}
+      </div>
+    ))}
+
+    <h2>Treatment team disciplines</h2>
+    <p>
+      Beyond medical leadership, every patient at Golden Grove works with a multidisciplinary team
+      that typically includes:
+    </p>
+    <ul>
+      <li><strong>Addiction medicine physician</strong> — for medical detox, MAT, and ongoing medication management</li>
+      <li><strong>Psychiatric provider</strong> — for integrated dual-diagnosis psychiatric care</li>
+      <li><strong>Licensed clinical therapist (LCSW, LPCC, LMFT)</strong> — for individual therapy</li>
+      <li><strong>Case manager</strong> — for insurance coordination, discharge planning, and family support</li>
+      <li><strong>Peer recovery specialist</strong> — lived-experience support throughout treatment</li>
+      <li><strong>Nursing staff</strong> — 24/7 in residential settings</li>
+    </ul>
+
+    <h2>Clinical philosophy</h2>
+    <p>
+      Our approach is grounded in three principles: <strong>ASAM-aligned matched care</strong> (the
+      right level of intensity for the patient's clinical need), <strong>integrated dual
+      diagnosis</strong> (treating SUD and co-occurring mental health conditions in the same
+      episode), and <strong>evidence-based treatment</strong> (CBT, DBT, EMDR, motivational
+      interviewing, contingency management — paired with MAT where indicated).
+    </p>
+
+    <Cta heading="Have a clinical question for our team?" />
+  </article>
+</BaseLayout>

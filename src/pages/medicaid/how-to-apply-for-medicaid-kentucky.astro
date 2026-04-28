@@ -1,0 +1,117 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SiloHero from "../../components/SiloHero.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import Cta from "../../components/Cta.astro";
+import SiloStyles from "../../components/SiloStyles.astro";
+
+const title = "How to Apply for Kentucky Medicaid | Golden Grove Recovery";
+const description = "Step-by-step guide to applying for Kentucky Medicaid through kynect — eligibility, documents, MCO selection, and what to do if you're in active addiction.";
+
+const faqs = [
+  { q: "Where do I apply for Kentucky Medicaid?", a: "The official application portal is kynect.ky.gov. You can also apply by phone (1-855-459-6328), by mail, or in person at a Department for Community Based Services (DCBS) office." },
+  { q: "Who qualifies for Kentucky Medicaid?", a: "Kentucky expanded Medicaid under the Affordable Care Act, so most adults under 138% of the federal poverty level qualify based on income alone. Pregnant members, children, and adults with disabilities have separate eligibility pathways." },
+  { q: "How long does the Medicaid application take?", a: "Most applications are processed within 30-45 days. Pregnant members and members with urgent medical needs (including SUD) may qualify for expedited or presumptive eligibility." },
+  { q: "Can I get treatment while my Medicaid application is pending?", a: "In some cases, yes — through presumptive eligibility, sliding-scale providers, or state-funded programs. Call admissions and we'll help you understand bridge options." },
+];
+
+const jsonLd = [
+  { "@context": "https://schema.org", "@type": "WebPage", name: title, description },
+  { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })) },
+];
+
+const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
+const link = (p: string) => `${BASE}${p}`;
+---
+
+<BaseLayout title={title} description={description} jsonLd={jsonLd}>
+  <SiloStyles />
+  <div class="silo-body">
+    <SiloHero
+      eyebrow="Kentucky Medicaid · Eligibility"
+      title="How to apply for Kentucky Medicaid"
+      lede="Most Kentucky adults under 138% of the federal poverty level qualify for Medicaid based on income alone. The application is free and takes about 30 minutes."
+    />
+    <Breadcrumbs trail={[
+      { label: "Home", href: "/" },
+      { label: "Kentucky Medicaid", href: "/medicaid" },
+      { label: "How to Apply" },
+    ]} />
+
+    <section class="silo-section is-light">
+      <div class="silo-container">
+        <div class="silo-section-label">The 4-step process</div>
+        <h2>Apply at kynect.ky.gov</h2>
+        <div class="silo-grid">
+          <div class="silo-card">
+            <div class="silo-card-eyebrow">Step 1</div>
+            <h3>Check eligibility</h3>
+            <p>Most adults qualify based on income (under 138% FPL — about $20,000/year for an individual). Pregnancy, disability, and former foster youth pathways also exist.</p>
+          </div>
+          <div class="silo-card">
+            <div class="silo-card-eyebrow">Step 2</div>
+            <h3>Gather documents</h3>
+            <p>Photo ID, Social Security number, proof of income, proof of Kentucky residency, immigration documents if applicable.</p>
+          </div>
+          <div class="silo-card">
+            <div class="silo-card-eyebrow">Step 3</div>
+            <h3>Apply</h3>
+            <p>Online at <a href="https://kynect.ky.gov" target="_blank" rel="noopener noreferrer">kynect.ky.gov</a>, by phone (1-855-459-6328), by mail, in person at DCBS, or with a kynector.</p>
+          </div>
+          <div class="silo-card">
+            <div class="silo-card-eyebrow">Step 4</div>
+            <h3>Pick your MCO</h3>
+            <p>Once approved, choose one of Kentucky's six MCOs. All cover the full ASAM continuum for SUD.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="silo-section is-dust">
+      <div class="silo-container silo-narrow">
+        <div class="silo-section-label">Pick your plan</div>
+        <h2>Kentucky Medicaid MCOs</h2>
+        <ul>
+          <li><a href={link("/medicaid/passport-health-plan")}>Passport Health Plan by Molina</a></li>
+          <li><a href={link("/medicaid/anthem-medicaid-kentucky")}>Anthem BCBS Medicaid</a></li>
+          <li><a href={link("/medicaid/humana-healthy-horizons-kentucky")}>Humana Healthy Horizons</a></li>
+          <li><a href={link("/medicaid/wellcare-of-kentucky")}>WellCare of Kentucky</a></li>
+          <li><a href={link("/medicaid/aetna-better-health-of-kentucky")}>Aetna Better Health</a></li>
+          <li><a href={link("/medicaid/united-healthcare-community-plan-kentucky")}>UnitedHealthcare Community Plan</a></li>
+        </ul>
+        <p>Pick based on provider network, pharmacy benefits, and any care-management programs you may need (e.g., maternity, complex care). You can change MCOs once a year during open enrollment.</p>
+      </div>
+    </section>
+
+    <section class="silo-section is-light">
+      <div class="silo-container silo-narrow">
+        <div class="silo-section-label">If you need treatment now</div>
+        <h2>Don't wait for the application to fully process</h2>
+        <p>Call admissions directly. We can:</p>
+        <ul>
+          <li>Help you apply for Medicaid in real time</li>
+          <li>Discuss presumptive eligibility for pregnant members or members with severe SUD</li>
+          <li>Connect you with bridge resources from <a href={link("/medicaid/no-insurance-options")}>no-insurance options</a> while your application is pending</li>
+        </ul>
+      </div>
+    </section>
+
+    <Cta heading="Need help applying for Medicaid?"
+         subhead="Our admissions team can walk you through the kynect application and verify your benefits the moment you're approved." />
+
+    <section class="silo-section is-dust">
+      <div class="silo-container silo-narrow">
+        <div class="silo-section-label">FAQ</div>
+        <h2>Frequently asked questions</h2>
+        <div class="silo-faq">
+          {faqs.map((f) => (
+            <details>
+              <summary>{f.q}</summary>
+              <p>{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+  </div>
+</BaseLayout>

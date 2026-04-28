@@ -1,0 +1,151 @@
+---
+import { getCollection, getEntry } from "astro:content";
+import BaseLayout from "../../../../layouts/BaseLayout.astro";
+import SiloHero from "../../../../components/SiloHero.astro";
+import Breadcrumbs from "../../../../components/Breadcrumbs.astro";
+import Cta from "../../../../components/Cta.astro";
+import SiloStyles from "../../../../components/SiloStyles.astro";
+import InsuranceDisclaimer from "../../../../components/InsuranceDisclaimer.astro";
+
+const facility = (await getEntry("facility", "golden-grove-recovery"))!.data;
+const mcos = (await getCollection("mcos")).sort((a, b) => a.data.name.localeCompare(b.data.name));
+
+const title = `Suboxone Treatment in ${facility.city}, ${facility.stateCode} | Golden Grove Recovery`;
+const description = `Suboxone (buprenorphine/naloxone) treatment for opioid use disorder in Louisville, KY. Induction, maintenance, and Kentucky Medicaid coverage details.`;
+
+const faqs = [
+  { q: "Does Kentucky Medicaid cover Suboxone?", a: "Yes. All six Kentucky Medicaid MCOs cover Suboxone for opioid use disorder. Specific formulations (film vs. tablet, generic vs. brand) may have different prior authorization requirements depending on the MCO's preferred drug list." },
+  { q: "How is Suboxone different from methadone?", a: "Suboxone is a partial opioid agonist with a built-in ceiling effect on respiratory depression — making overdose risk much lower than methadone. Suboxone can be prescribed in office-based settings; methadone for OUD must be dispensed at federally licensed Opioid Treatment Programs (OTPs)." },
+  { q: "Will Suboxone make me feel high?", a: "No. At therapeutic doses, Suboxone relieves cravings and prevents withdrawal without producing euphoria. The partial agonist mechanism produces a 'ceiling effect' — taking more does not create stronger effects." },
+  { q: "How long should I stay on Suboxone?", a: "Suboxone is a long-term treatment for many patients. Research consistently shows that longer MAT correlates with lower overdose mortality. Tapering, when clinically appropriate, should be gradual and planned with your prescriber." },
+];
+
+const jsonLd = [
+  { "@context": "https://schema.org", "@type": "MedicalWebPage", name: title, description },
+  {
+    "@context": "https://schema.org",
+    "@type": "Drug",
+    name: "Suboxone",
+    activeIngredient: "buprenorphine + naloxone",
+    drugClass: { "@type": "DrugClass", name: "Partial Opioid Agonist" },
+    indication: { "@type": "MedicalIndication", name: "Opioid Use Disorder" },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+  },
+];
+
+const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
+const link = (p: string) => `${BASE}${p}`;
+---
+
+<BaseLayout title={title} description={description} jsonLd={jsonLd}>
+  <SiloStyles />
+  <div class="silo-body">
+    <SiloHero
+      eyebrow={`${facility.city}, ${facility.stateCode} · Suboxone`}
+      title="Suboxone treatment for opioid use disorder"
+      lede="Suboxone (buprenorphine + naloxone) is one of the most widely used and best-evidenced MAT medications for OUD. Covered by every Kentucky Medicaid plan, with both office-based and integrated treatment options."
+    />
+    <Breadcrumbs trail={[
+      { label: "Home", href: "/" },
+      { label: "Substance Use", href: "/substance-use" },
+      { label: "Opioids", href: "/substance-use/opioids" },
+      { label: "MAT", href: "/substance-use/opioids/mat" },
+      { label: "Suboxone" },
+    ]} />
+
+    <section class="silo-section is-light">
+      <div class="silo-container">
+        <div class="silo-section-label">Verify Suboxone coverage</div>
+        <h2>Every Kentucky Medicaid plan covers Suboxone</h2>
+        <p>
+          All six Kentucky Medicaid MCOs cover Suboxone for opioid use disorder. Specific
+          formulations may have different pharmacy prior authorization requirements, but the benefit
+          is universal across plans.
+        </p>
+
+        <div class="silo-grid">
+          {mcos.map((m) => (
+            <a class="silo-card silo-card-link" href={link(`/medicaid/${m.data.slug}`)}>
+              <div class="silo-card-eyebrow">Kentucky Medicaid</div>
+              <h3>{m.data.shortName}</h3>
+              <span class="silo-card-arrow">View {m.data.shortName} Suboxone coverage →</span>
+            </a>
+          ))}
+        </div>
+
+        <InsuranceDisclaimer variant="pre-opening" />
+      </div>
+    </section>
+
+    <section class="silo-section is-dust">
+      <div class="silo-container silo-narrow">
+        <div class="silo-section-label">How treatment works</div>
+        <h2>The three phases of Suboxone treatment</h2>
+
+        <h3>1. Induction</h3>
+        <p>
+          Suboxone is started after the patient is in moderate withdrawal from their last opioid
+          use. Starting too early can produce precipitated withdrawal — a sharp, sudden worsening of
+          symptoms. Induction is supervised in a clinical setting and dose-titrated based on response.
+        </p>
+
+        <h3>2. Maintenance</h3>
+        <p>
+          Once a stable dose is found (typically 8–24 mg daily), patients enter the maintenance
+          phase. Most patients remain on a steady maintenance dose for months to years, paired with
+          ongoing therapy and regular clinical check-ins. Maintenance is when MAT delivers the
+          largest mortality and quality-of-life benefits.
+        </p>
+
+        <h3>3. Taper</h3>
+        <p>
+          Tapering off Suboxone, when clinically appropriate, is gradual — typically over months —
+          and always planned with a prescriber. Many patients choose to remain on Suboxone
+          indefinitely; the clinical evidence supports long-term maintenance.
+        </p>
+      </div>
+    </section>
+
+    <section class="silo-section is-light">
+      <div class="silo-container">
+        <div class="silo-section-label">Comparison</div>
+        <h2>Suboxone vs. methadone vs. Vivitrol</h2>
+        <div class="silo-table-wrap">
+          <table class="silo-table">
+            <thead>
+              <tr><th></th><th>Suboxone</th><th>Methadone</th><th>Vivitrol</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Mechanism</td><td>Partial agonist</td><td>Full agonist</td><td>Antagonist</td></tr>
+              <tr><td>Setting</td><td>Office-based</td><td>OTP only</td><td>Office-based</td></tr>
+              <tr><td>Frequency</td><td>Daily oral</td><td>Daily on-site</td><td>Monthly injection</td></tr>
+              <tr><td>Pre-treatment opioid-free</td><td>~12-24 hrs</td><td>None required</td><td>7-14 days</td></tr>
+              <tr><td>Overdose risk profile</td><td>Low (ceiling effect)</td><td>Moderate</td><td>None</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <Cta heading="Verify your Suboxone coverage and start treatment" />
+
+    <section class="silo-section is-dust">
+      <div class="silo-container silo-narrow">
+        <div class="silo-section-label">FAQ</div>
+        <h2>Frequently asked questions</h2>
+        <div class="silo-faq">
+          {faqs.map((f) => (
+            <details>
+              <summary>{f.q}</summary>
+              <p>{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+  </div>
+</BaseLayout>

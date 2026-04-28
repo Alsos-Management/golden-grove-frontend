@@ -1,0 +1,100 @@
+---
+import { getEntry } from "astro:content";
+const facility = await getEntry("facility", "golden-grove-recovery");
+const f = facility!.data;
+
+export interface Props {
+  variant?: "default" | "compact";
+  heading?: string;
+  subhead?: string;
+}
+const {
+  variant = "default",
+  heading = "Verify your coverage and start treatment",
+  subhead = "Call our admissions team or send a quick verification request — we'll handle the rest.",
+} = Astro.props as Props;
+---
+
+<section class:list={["cta-block", `is-${variant}`]}>
+  <div class="cta-inner">
+    <h2>{heading}</h2>
+    <p>{subhead}</p>
+    <div class="cta-actions">
+      <a href={`tel:${f.phoneTel}`} class="cta-btn cta-btn-primary">
+        Call {f.phone}
+      </a>
+      <a href={`${import.meta.env.BASE_URL.replace(/\/$/, "")}/contact`} class="cta-btn cta-btn-outline">
+        Verify Insurance
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta-block {
+    background: linear-gradient(135deg, #2E1400 0%, #461F01 50%, #8C6934 100%);
+    color: #FAF7F2;
+    padding: 56px 24px;
+    border-radius: 14px;
+    margin: 48px auto;
+    max-width: 1100px;
+    text-align: center;
+  }
+  .cta-block.is-compact {
+    padding: 32px 24px;
+    margin: 32px auto;
+  }
+  .cta-inner h2 {
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin: 0 0 12px;
+    color: #FFFFFF;
+  }
+  .cta-inner p {
+    font-size: 15px;
+    color: rgba(250, 247, 242, 0.78);
+    margin: 0 auto 24px;
+    max-width: 540px;
+    line-height: 1.6;
+  }
+  .cta-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .cta-btn {
+    padding: 14px 28px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 14px;
+    text-decoration: none;
+    border: 2px solid transparent;
+    transition: all 0.2s;
+    display: inline-block;
+  }
+  .cta-btn-primary {
+    background: #F2D17D;
+    color: #461F01;
+    border-color: #F2D17D;
+  }
+  .cta-btn-primary:hover {
+    background: #FFFFFF;
+    border-color: #FFFFFF;
+  }
+  .cta-btn-outline {
+    background: transparent;
+    color: #FFFFFF;
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+  .cta-btn-outline:hover {
+    background: #FFFFFF;
+    color: #461F01;
+    border-color: #FFFFFF;
+  }
+  @media (max-width: 600px) {
+    .cta-actions { flex-direction: column; align-items: stretch; }
+    .cta-btn { width: 100%; }
+  }
+</style>

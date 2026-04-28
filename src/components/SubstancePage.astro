@@ -1,0 +1,166 @@
+---
+import { getCollection, getEntry } from "astro:content";
+import SiloHero from "./SiloHero.astro";
+import Breadcrumbs, { type Crumb } from "./Breadcrumbs.astro";
+import Cta from "./Cta.astro";
+import InsuranceDisclaimer from "./InsuranceDisclaimer.astro";
+
+export interface Props {
+  substanceSlug: string;
+  trail: Crumb[];
+  heroEyebrowOverride?: string;
+  heroTitleOverride?: string;
+  heroLedeOverride?: string;
+}
+
+const { substanceSlug, trail, heroEyebrowOverride, heroTitleOverride, heroLedeOverride } = Astro.props as Props;
+const entry = await getEntry("substances", substanceSlug);
+if (!entry) throw new Error(`Substance entry not found: ${substanceSlug}`);
+const s = entry.data;
+const facility = (await getEntry("facility", "golden-grove-recovery"))!.data;
+const mcos = (await getCollection("mcos")).sort((a, b) => a.data.name.localeCompare(b.data.name));
+
+const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
+const link = (p: string) => `${BASE}${p}`;
+
+const heroEyebrow = heroEyebrowOverride ?? `${facility.city}, ${facility.stateCode} · Substance Use Treatment`;
+const heroTitle = heroTitleOverride ?? `${s.name} treatment in ${facility.city}, ${facility.stateCode}`;
+const heroLede = heroLedeOverride ?? (s.localContext ?? `${s.name} addiction is treatable. Golden Grove Recovery delivers Kentucky Medicaid-covered detox, residential, MAT, and dual-diagnosis care.`);
+
+const isOpioid = s.category === "opioids";
+const isAlcohol = s.category === "alcohol";
+
+const treatmentOfferings = [
+  {
+    eyebrow: "ASAM 3.7 / 4",
+    title: "Medical Detox",
+    detail: "Medically supervised withdrawal management with 24/7 clinical monitoring and symptom-based medication. Authorization handled urgently with your Medicaid plan.",
+    href: "/levels-of-care/medical-detox",
+  },
+  {
+    eyebrow: "ASAM 3.5",
+    title: "Residential Treatment",
+    detail: `21-28 days of structured 24/7 care${isOpioid ? ", with MAT continuing throughout" : ""}. Kentucky's 1115 waiver lets Medicaid pay for residential at full-size facilities.`,
+    href: "/levels-of-care/residential-inpatient",
+  },
+  {
+    eyebrow: "ASAM 2.5 / 2.1",
+    title: "PHP & IOP Step-Down",
+    detail: "Daytime or evening intensive programming after residential. Lets you return to family and work while staying clinically connected.",
+    href: "/levels-of-care/partial-hospitalization-php",
+  },
+  ...(isOpioid
+    ? [
+        {
+          eyebrow: "Standard of Care",
+          title: "MAT — Suboxone, Vivitrol, Methadone",
+          detail: "Medication-Assisted Treatment cuts overdose mortality by more than half. We start MAT in detox and continue through outpatient.",
+          href: "/substance-use/opioids/mat",
+        },
+      ]
+    : []),
+  ...(isAlcohol
+    ? [
+        {
+          eyebrow: "Standard of Care",
+          title: "MAT — Naltrexone, Vivitrol, Acamprosate",
+          detail: "FDA-approved medications for alcohol use disorder are covered by Kentucky Medicaid and reduce relapse risk meaningfully when paired with therapy.",
+          href: "/medicaid/medicaid-mat-coverage",
+        },
+      ]
+    : []),
+  {
+    eyebrow: "Continuing Care",
+    title: "Outpatient & Aftercare",
+    detail: "Ongoing therapy, MAT management, and relapse-prevention support — covered by Kentucky Medicaid with no arbitrary visit caps.",
+    href: "/levels-of-care/outpatient",
+  },
+];
+---
+
+<div class="silo-body">
+  <SiloHero eyebrow={heroEyebrow} title={heroTitle} lede={heroLede} />
+  <Breadcrumbs trail={trail} />
+
+  <section class="silo-section is-light">
+    <div class="silo-container">
+      <div class="silo-section-label">Verify your coverage in minutes</div>
+      <h2>Kentucky Medicaid covers {s.name.toLowerCase()} treatment at every level</h2>
+      <p>
+        All six Kentucky Medicaid managed care organizations cover the full ASAM continuum for
+        {s.name.toLowerCase()} — from medical detox through long-term outpatient. Pick your plan to
+        see authorization details, MAT coverage, and how to verify your benefits with our admissions team.
+      </p>
+
+      <div class="silo-grid">
+        {mcos.map((m) => (
+          <a class="silo-card silo-card-link" href={link(`/medicaid/${m.data.slug}`)}>
+            <div class="silo-card-eyebrow">Kentucky Medicaid</div>
+            <h3>{m.data.shortName}</h3>
+            <p>{m.data.shortName} covers detox, residential, PHP, IOP, outpatient, and MAT for {s.name.toLowerCase()}.</p>
+            <span class="silo-card-arrow">View {m.data.shortName} coverage →</span>
+          </a>
+        ))}
+      </div>
+
+      <InsuranceDisclaimer variant="pre-opening" />
+    </div>
+  </section>
+
+  <section class="silo-section is-dust">
+    <div class="silo-container">
+      <div class="silo-section-label">What treatment looks like</div>
+      <h2>Our {s.name.toLowerCase()} treatment program in {facility.city}</h2>
+      <p>
+        Treatment is matched to clinical need using ASAM criteria — most patients move through
+        multiple levels of care, starting with the highest intensity needed for safe stabilization
+        and stepping down as recovery stabilizes. Every level is covered by Kentucky Medicaid.
+      </p>
+
+      <div class="silo-grid">
+        {treatmentOfferings.map((o) => (
+          <a class="silo-card silo-card-link" href={link(o.href)}>
+            <div class="silo-card-eyebrow">{o.eyebrow}</div>
+            <h3>{o.title}</h3>
+            <p>{o.detail}</p>
+            <span class="silo-card-arrow">Read more →</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {s.medicaidCoverageSummary && (
+    <section class="silo-section is-light">
+      <div class="silo-container silo-narrow">
+        <div class="silo-section-label">Medicaid coverage detail</div>
+        <h2>How Kentucky Medicaid covers {s.name.toLowerCase()}</h2>
+        <p>{s.medicaidCoverageSummary}</p>
+        <div class="silo-cta-row">
+          <a class="gg-btn gg-btn-outline" href={link("/medicaid")}>Kentucky Medicaid hub</a>
+          <a class="gg-btn gg-btn-outline" href={link("/medicaid/medicaid-mat-coverage")}>MAT coverage</a>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <Cta heading={`Verify your coverage and start ${s.name.toLowerCase()} treatment`}
+       subhead="Our admissions team confirms your Medicaid or commercial benefits and walks you through the next step." />
+
+  {s.faqs.length > 0 && (
+    <section class="silo-section is-dust">
+      <div class="silo-container silo-narrow">
+        <div class="silo-section-label">FAQ</div>
+        <h2>Frequently asked questions</h2>
+        <div class="silo-faq">
+          {s.faqs.map((f) => (
+            <details>
+              <summary>{f.q}</summary>
+              <p>{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+</div>
