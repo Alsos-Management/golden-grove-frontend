@@ -1,6 +1,7 @@
 ---
 import { getCollection, getEntry } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import SiloHero from "../../components/SiloHero.astro";
 import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import Cta from "../../components/Cta.astro";
 import SiloStyles from "../../components/SiloStyles.astro";
@@ -11,22 +12,18 @@ const iop = (await getEntry("levelsOfCare", "intensive-outpatient-iop"))!.data;
 const mcos = (await getCollection("mcos")).sort((a, b) => a.data.name.localeCompare(b.data.name));
 
 const title = "Does Kentucky Medicaid Cover PHP & IOP? | Golden Grove Recovery";
-const description = "Kentucky Medicaid covers Partial Hospitalization (ASAM 2.5) and Intensive Outpatient (ASAM 2.1) for SUD. Coverage details and how to verify by MCO.";
+const description = "Kentucky Medicaid covers Partial Hospitalization (ASAM 2.5) and Intensive Outpatient (ASAM 2.1) for SUD. Coverage details, comparison, and how to verify by MCO.";
 
 const faqs = [
   { q: "Does Kentucky Medicaid cover PHP and IOP?", a: "Yes. All six Kentucky Medicaid MCOs cover Partial Hospitalization (ASAM 2.5) and Intensive Outpatient (ASAM 2.1) when medically necessary. Authorization is typically handled through notification and concurrent review." },
-  { q: "What's the difference between PHP and IOP?", a: "PHP is more intensive — typically 5–6 days per week with 6–8 hour daily sessions (20–30+ hours/week). IOP is 3–5 days per week with shorter sessions (9–19 hours/week), allowing patients to maintain work or school commitments." },
-  { q: "Can I get PHP or IOP without going through residential first?", a: "Yes. Many patients start at PHP or IOP directly when residential isn't clinically necessary, or step up to PHP/IOP from outpatient when symptoms intensify. ASAM criteria determine the right starting level." },
+  { q: "What's the difference between PHP and IOP?", a: "PHP is more intensive — typically 5-6 days per week with 6-8 hour daily sessions (20-30+ hours/week). IOP is 3-5 days per week with shorter sessions (9-19 hours/week), allowing patients to maintain work or school." },
+  { q: "Can I start at PHP or IOP without going through residential?", a: "Yes. Many patients start at PHP or IOP directly when residential isn't clinically necessary. ASAM criteria determine the right starting level." },
   { q: "Does Medicaid cover MAT during PHP and IOP?", a: "Yes. MAT is integrated into PHP and IOP when clinically indicated and is a covered Medicaid pharmacy benefit." },
 ];
 
 const jsonLd = [
   { "@context": "https://schema.org", "@type": "MedicalWebPage", name: title, description },
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
-  },
+  { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })) },
 ];
 
 const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
@@ -35,83 +32,83 @@ const link = (p: string) => `${BASE}${p}`;
 
 <BaseLayout title={title} description={description} jsonLd={jsonLd}>
   <SiloStyles />
-  <Breadcrumbs trail={[
-    { label: "Home", href: "/" },
-    { label: "Medicaid", href: "/medicaid" },
-    { label: "PHP & IOP Coverage" },
-  ]} />
+  <div class="silo-body">
+    <SiloHero
+      eyebrow="Kentucky Medicaid · PHP & IOP Coverage"
+      title="Does Kentucky Medicaid cover PHP and IOP?"
+      lede="Yes. Every Kentucky Medicaid plan covers Partial Hospitalization (PHP, ASAM 2.5) and Intensive Outpatient (IOP, ASAM 2.1) when medically necessary. Use as step-down from residential or step-up from outpatient."
+    />
+    <Breadcrumbs trail={[
+      { label: "Home", href: "/" },
+      { label: "Kentucky Medicaid", href: "/medicaid" },
+      { label: "PHP & IOP Coverage" },
+    ]} />
 
-  <article class="silo-page">
-    <div class="silo-eyebrow">Kentucky Medicaid · Coverage Detail</div>
-    <h1>Does Kentucky Medicaid cover PHP and IOP?</h1>
-    <p class="silo-lede">
-      <strong>Yes.</strong> All six Kentucky Medicaid MCOs cover Partial Hospitalization (PHP, ASAM
-      2.5) and Intensive Outpatient (IOP, ASAM 2.1) for substance use disorder when medically
-      necessary. PHP and IOP are commonly used as step-down care after residential treatment, or as
-      step-up care when standard outpatient isn't enough.
-    </p>
+    <section class="silo-section is-light">
+      <div class="silo-container">
+        <div class="silo-section-label">Verify with your MCO</div>
+        <h2>PHP and IOP coverage by Kentucky Medicaid plan</h2>
+        <div class="silo-grid">
+          {mcos.map((m) => (
+            <a class="silo-card silo-card-link" href={link(`/medicaid/${m.data.slug}`)}>
+              <div class="silo-card-eyebrow">Kentucky Medicaid</div>
+              <h3>{m.data.shortName}</h3>
+              <span class="silo-card-arrow">View {m.data.shortName} coverage →</span>
+            </a>
+          ))}
+        </div>
+        <InsuranceDisclaimer variant="medicaid" />
+      </div>
+    </section>
 
-    <InsuranceDisclaimer variant="medicaid" />
+    <section class="silo-section is-dust">
+      <div class="silo-container">
+        <div class="silo-section-label">PHP vs IOP at a glance</h2>
+        <h2>How they compare</h2>
+        <div class="silo-table-wrap">
+          <table class="silo-table">
+            <thead><tr><th></th><th>PHP (ASAM 2.5)</th><th>IOP (ASAM 2.1)</th></tr></thead>
+            <tbody>
+              <tr><td>Hours/week</td><td>20-30+</td><td>9-19</td></tr>
+              <tr><td>Days/week</td><td>5-6</td><td>3-5</td></tr>
+              <tr><td>Typical duration</td><td>2-6 weeks</td><td>8-12 weeks</td></tr>
+              <tr><td>Work or school</td><td>Generally not</td><td>Yes (evening tracks)</td></tr>
+              <tr><td>Best as step-down from</td><td>Residential</td><td>PHP or residential</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
 
-    <h2>Partial Hospitalization (PHP) — ASAM 2.5</h2>
-    <p>{php.description}</p>
-    <p><strong>Hours:</strong> {php.hoursPerWeek} · <strong>Typical duration:</strong> {php.typicalDuration}</p>
-    <h3>Who benefits from PHP</h3>
-    <ul>
-      {php.whoBenefits.map((b) => <li>{b}</li>)}
-    </ul>
+    <section class="silo-section is-light">
+      <div class="silo-container silo-narrow">
+        <div class="silo-section-label">Partial Hospitalization (PHP)</div>
+        <h2>{php.name}</h2>
+        <p>{php.description}</p>
+        <p><strong>Hours:</strong> {php.hoursPerWeek} · <strong>Duration:</strong> {php.typicalDuration}</p>
 
-    <h2>Intensive Outpatient (IOP) — ASAM 2.1</h2>
-    <p>{iop.description}</p>
-    <p><strong>Hours:</strong> {iop.hoursPerWeek} · <strong>Typical duration:</strong> {iop.typicalDuration}</p>
-    <h3>Who benefits from IOP</h3>
-    <ul>
-      {iop.whoBenefits.map((b) => <li>{b}</li>)}
-    </ul>
-
-    <h2>PHP vs. IOP at a glance</h2>
-    <div class="silo-table-wrap">
-      <table class="silo-table">
-        <thead>
-          <tr><th></th><th>PHP (ASAM 2.5)</th><th>IOP (ASAM 2.1)</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>Hours/week</td><td>20–30+</td><td>9–19</td></tr>
-          <tr><td>Days/week</td><td>5–6</td><td>3–5</td></tr>
-          <tr><td>Typical duration</td><td>2–6 weeks</td><td>8–12 weeks</td></tr>
-          <tr><td>Work or school</td><td>Generally not</td><td>Yes (evening tracks available)</td></tr>
-          <tr><td>Best as step-down from</td><td>Residential</td><td>PHP or residential</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <h2>PHP &amp; IOP coverage by MCO</h2>
-    <ul>
-      {mcos.map((m) => (
-        <li><a href={link(`/medicaid/${m.data.slug}`)}>{m.data.name}</a></li>
-      ))}
-    </ul>
-
-    <h2>How PHP / IOP fit in the treatment continuum</h2>
-    <p>
-      The typical sequence is <a href={link("/medicaid/medicaid-detox-coverage")}>detox</a> →
-      <a href={link("/medicaid/medicaid-residential-coverage")}>residential</a> → PHP → IOP →
-      <a href={link("/medicaid/medicaid-outpatient-coverage")}>outpatient</a>, but PHP or IOP can be
-      a starting point if residential isn't clinically necessary. Throughout, MAT
-      (<a href={link("/medicaid/medicaid-mat-coverage")}>covered by Medicaid</a>) continues for
-      patients with opioid or alcohol use disorder.
-    </p>
+        <h3 style="margin-top: 32px;">Intensive Outpatient (IOP)</h3>
+        <h2 style="margin-top: 4px;">{iop.name}</h2>
+        <p>{iop.description}</p>
+        <p><strong>Hours:</strong> {iop.hoursPerWeek} · <strong>Duration:</strong> {iop.typicalDuration}</p>
+      </div>
+    </section>
 
     <Cta heading="Verify your Kentucky Medicaid PHP / IOP coverage" />
 
-    <h2>Frequently asked questions</h2>
-    <div class="silo-faq">
-      {faqs.map((f) => (
-        <details>
-          <summary>{f.q}</summary>
-          <p>{f.a}</p>
-        </details>
-      ))}
-    </div>
-  </article>
+    <section class="silo-section is-dust">
+      <div class="silo-container silo-narrow">
+        <div class="silo-section-label">FAQ</div>
+        <h2>Frequently asked questions</h2>
+        <div class="silo-faq">
+          {faqs.map((f) => (
+            <details>
+              <summary>{f.q}</summary>
+              <p>{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+  </div>
 </BaseLayout>

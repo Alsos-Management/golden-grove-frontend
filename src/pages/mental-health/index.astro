@@ -1,9 +1,11 @@
 ---
 import { getCollection, getEntry } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import SiloHero from "../../components/SiloHero.astro";
 import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import Cta from "../../components/Cta.astro";
 import SiloStyles from "../../components/SiloStyles.astro";
+import InsuranceDisclaimer from "../../components/InsuranceDisclaimer.astro";
 
 const facility = (await getEntry("facility", "golden-grove-recovery"))!.data;
 const conditions = (await getCollection("mentalHealth")).sort((a, b) => a.data.name.localeCompare(b.data.name));
@@ -19,46 +21,46 @@ const link = (p: string) => `${BASE}${p}`;
 
 <BaseLayout title={title} description={description} jsonLd={jsonLd}>
   <SiloStyles />
-  <Breadcrumbs trail={[
-    { label: "Home", href: "/" },
-    { label: "Co-Occurring Mental Health" },
-  ]} />
+  <div class="silo-body">
+    <SiloHero
+      eyebrow={`${facility.city}, ${facility.stateCode} · Dual Diagnosis`}
+      title="Dual-diagnosis treatment for addiction and mental health"
+      lede="Treating addiction without addressing co-occurring depression, anxiety, PTSD, or bipolar produces worse outcomes for both. Integrated dual-diagnosis treatment is covered by every Kentucky Medicaid MCO."
+    />
+    <Breadcrumbs trail={[
+      { label: "Home", href: "/" },
+      { label: "Co-Occurring Mental Health" },
+    ]} />
 
-  <article class="silo-page">
-    <div class="silo-eyebrow">Co-Occurring Mental Health</div>
-    <h1>Dual-diagnosis treatment for addiction and mental health</h1>
-    <p class="silo-lede">
-      Substance use disorder and mental health conditions co-occur at high rates. Treating one
-      without the other produces worse outcomes for both. Golden Grove Recovery delivers integrated
-      dual-diagnosis treatment that addresses addiction and mental health conditions in the same
-      episode of care — the clinical standard supported by decades of research.
-    </p>
+    <section class="silo-section is-light">
+      <div class="silo-container">
+        <div class="silo-section-label">Verify Medicaid coverage</div>
+        <h2>Integrated treatment is a unified Kentucky Medicaid benefit</h2>
+        <p>
+          Kentucky Medicaid administers behavioral health and SUD as one benefit. Psychiatric
+          medication management, evidence-based therapy, and SUD care can all be billed and
+          coordinated within the same episode at Golden Grove Recovery.
+        </p>
+        <InsuranceDisclaimer variant="pre-opening" />
+      </div>
+    </section>
 
-    <h2>Conditions we treat alongside SUD</h2>
-    <ul>
-      {conditions.map((c) => (
-        <li><a href={link(`/mental-health/${c.data.slug}`)}>{c.data.name}</a></li>
-      ))}
-    </ul>
-
-    <h2>Why integrated treatment matters</h2>
-    <p>
-      For decades, the standard practice was to treat addiction first and defer mental health
-      treatment until the patient was "stable in recovery." That approach is now widely understood
-      to fail patients — untreated mental health conditions are one of the strongest predictors of
-      relapse, and untreated substance use prevents the brain from responding properly to
-      psychiatric treatment. Integrated care addresses both conditions at the same time, in the
-      same setting, with the same care team.
-    </p>
-
-    <h2>Insurance coverage for dual-diagnosis</h2>
-    <p>
-      Kentucky Medicaid administers behavioral health and SUD as a unified benefit. All six
-      Kentucky Medicaid MCOs cover integrated dual-diagnosis care, including psychiatric medication
-      management, evidence-based therapy, and SUD services in the same episode. See
-      <a href={link("/medicaid")}>Kentucky Medicaid coverage</a> for details by plan.
-    </p>
+    <section class="silo-section is-dust">
+      <div class="silo-container">
+        <div class="silo-section-label">Conditions we treat alongside SUD</div>
+        <h2>Co-occurring conditions</h2>
+        <div class="silo-grid">
+          {conditions.map((c) => (
+            <a class="silo-card silo-card-link" href={link(`/mental-health/${c.data.slug}`)}>
+              <div class="silo-card-eyebrow">Dual Diagnosis</div>
+              <h3>{c.data.name}</h3>
+              <span class="silo-card-arrow">Treatment overview →</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
 
     <Cta heading="Verify your coverage and start integrated treatment" />
-  </article>
+  </div>
 </BaseLayout>

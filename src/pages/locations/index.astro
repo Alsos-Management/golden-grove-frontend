@@ -1,9 +1,11 @@
 ---
 import { getCollection, getEntry } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import SiloHero from "../../components/SiloHero.astro";
 import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import Cta from "../../components/Cta.astro";
 import SiloStyles from "../../components/SiloStyles.astro";
+import InsuranceDisclaimer from "../../components/InsuranceDisclaimer.astro";
 
 const facility = (await getEntry("facility", "golden-grove-recovery"))!.data;
 const locations = (await getCollection("locations")).sort((a, b) => a.data.name.localeCompare(b.data.name));
@@ -19,36 +21,48 @@ const link = (p: string) => `${BASE}${p}`;
 
 <BaseLayout title={title} description={description} jsonLd={jsonLd}>
   <SiloStyles />
-  <Breadcrumbs trail={[
-    { label: "Home", href: "/" },
-    { label: "Service Areas" },
-  ]} />
+  <div class="silo-body">
+    <SiloHero
+      eyebrow={`${facility.city}, ${facility.stateCode} · Service Areas`}
+      title={`Drug & alcohol rehab serving Greater ${facility.city}`}
+      lede={`Golden Grove Recovery is located at ${facility.address.street}, ${facility.address.city}, ${facility.address.state} — serving Jefferson County and surrounding Kentucky communities with Medicaid-covered addiction treatment.`}
+    />
+    <Breadcrumbs trail={[
+      { label: "Home", href: "/" },
+      { label: "Service Areas" },
+    ]} />
 
-  <article class="silo-page">
-    <div class="silo-eyebrow">Service Areas</div>
-    <h1>Areas we serve</h1>
-    <p class="silo-lede">
-      Golden Grove Recovery serves Greater {facility.city} and Jefferson County, {facility.stateCode}.
-      Our facility is located at {facility.address.street}, {facility.address.city}, {facility.address.state} {facility.address.postalCode}.
-    </p>
+    <section class="silo-section is-light">
+      <div class="silo-container">
+        <div class="silo-section-label">Areas we serve</div>
+        <h2>Communities in Greater {facility.city}</h2>
+        <div class="silo-grid">
+          {locations.map((l) => (
+            <a class="silo-card silo-card-link" href={link(`/locations/${l.data.slug}`)}>
+              <div class="silo-card-eyebrow">{l.data.type === "city" ? "City" : l.data.type === "neighborhood" ? "Neighborhood" : "Region"}</div>
+              <h3>{l.data.name}, {l.data.stateCode}</h3>
+              {l.data.distanceFromFacility && <p>{l.data.distanceFromFacility}</p>}
+              <span class="silo-card-arrow">Coverage from {l.data.name} →</span>
+            </a>
+          ))}
+        </div>
 
-    <h2>Locations we serve</h2>
-    <ul>
-      {locations.map((l) => (
-        <li>
-          <a href={link(`/locations/${l.data.slug}`)}>{l.data.name}, {l.data.stateCode}</a>
-          {l.data.distanceFromFacility && <span style="color: #6B6B6B; font-size: 13px;"> — {l.data.distanceFromFacility}</span>}
-        </li>
-      ))}
-    </ul>
+        <InsuranceDisclaimer variant="pre-opening" />
+      </div>
+    </section>
 
-    <h2>Indiana residents</h2>
-    <p>
-      Indiana Medicaid does not cover treatment at Kentucky facilities. If you're an Indiana resident
-      seeking treatment, our sister facility — <strong>Jasper Grove Recovery</strong> in Indiana —
-      may be a better fit. Our admissions team can help route you appropriately.
-    </p>
+    <section class="silo-section is-dust">
+      <div class="silo-container silo-narrow">
+        <div class="silo-section-label">Kentucky residents only</div>
+        <h2>Indiana residents</h2>
+        <p>
+          Indiana Medicaid does not cover treatment at Kentucky facilities. If you're an Indiana
+          resident seeking treatment, our sister facility — <strong>Jasper Grove Recovery</strong>
+          in Indiana — is the right fit. Our admissions team can help route you appropriately.
+        </p>
+      </div>
+    </section>
 
     <Cta heading="Verify your coverage and start treatment" />
-  </article>
+  </div>
 </BaseLayout>

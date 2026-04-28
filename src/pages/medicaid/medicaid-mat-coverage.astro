@@ -1,6 +1,7 @@
 ---
-import { getCollection } from "astro:content";
+import { getCollection, getEntry } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import SiloHero from "../../components/SiloHero.astro";
 import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import Cta from "../../components/Cta.astro";
 import SiloStyles from "../../components/SiloStyles.astro";
@@ -9,23 +10,19 @@ import InsuranceDisclaimer from "../../components/InsuranceDisclaimer.astro";
 const mcos = (await getCollection("mcos")).sort((a, b) => a.data.name.localeCompare(b.data.name));
 
 const title = "Does Kentucky Medicaid Cover Suboxone, Methadone, & MAT? | Golden Grove Recovery";
-const description = "Kentucky Medicaid covers Suboxone, Subutex, methadone, Vivitrol, and naltrexone for opioid and alcohol use disorder. Pharmacy benefits and authorization details.";
+const description = "Kentucky Medicaid covers Suboxone, Subutex, methadone, Vivitrol, and naltrexone for opioid and alcohol use disorder. Pharmacy benefits and authorization details by MCO.";
 
 const faqs = [
-  { q: "Does Kentucky Medicaid cover Suboxone?", a: "Yes. All six Kentucky Medicaid MCOs cover Suboxone (buprenorphine + naloxone) for opioid use disorder. Specific formulations may require pharmacy prior authorization depending on the MCO's preferred drug list." },
-  { q: "Does Kentucky Medicaid cover methadone?", a: "Yes. Methadone for opioid use disorder is a covered Kentucky Medicaid benefit, but it can only be dispensed at federally licensed opioid treatment programs (OTPs). Office-based prescribing is not allowed for methadone OUD treatment." },
-  { q: "Does Kentucky Medicaid cover Vivitrol?", a: "Yes. Vivitrol (extended-release naltrexone injection) is covered by all six Kentucky Medicaid MCOs for opioid use disorder and alcohol use disorder. Vivitrol requires patients to be opioid-free for 7–14 days before the first injection." },
-  { q: "Can I get MAT during pregnancy on Kentucky Medicaid?", a: "Yes. Subutex (buprenorphine alone, without naloxone) is the standard MAT for pregnant members with opioid use disorder, and is covered by all six Kentucky Medicaid MCOs. Methadone in an OTP is also a coverage option during pregnancy." },
-  { q: "Are MAT prescriptions limited or capped on Medicaid?", a: "No. MAT is a long-term treatment for OUD and AUD, and Medicaid does not impose arbitrary duration caps. Continued coverage requires ongoing clinical engagement with prescribing providers." },
+  { q: "Does Kentucky Medicaid cover Suboxone?", a: "Yes. All six Kentucky Medicaid MCOs cover Suboxone for opioid use disorder. Specific formulations may require pharmacy prior authorization depending on the MCO's preferred drug list." },
+  { q: "Does Kentucky Medicaid cover methadone?", a: "Yes. Methadone for OUD is a covered Kentucky Medicaid benefit, but it can only be dispensed at federally licensed opioid treatment programs (OTPs)." },
+  { q: "Does Kentucky Medicaid cover Vivitrol?", a: "Yes. Vivitrol (extended-release naltrexone) is covered by all six Kentucky Medicaid MCOs for OUD and alcohol use disorder. Vivitrol requires patients to be opioid-free for 7-14 days before the first injection." },
+  { q: "Can I get MAT during pregnancy on Kentucky Medicaid?", a: "Yes. Subutex (buprenorphine alone, without naloxone) is the standard MAT for pregnant members with OUD, and is covered by all six Kentucky Medicaid MCOs." },
+  { q: "Are MAT prescriptions limited or capped on Medicaid?", a: "No. MAT is a long-term treatment for OUD and AUD, and Medicaid does not impose arbitrary duration caps." },
 ];
 
 const jsonLd = [
   { "@context": "https://schema.org", "@type": "MedicalWebPage", name: title, description },
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
-  },
+  { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })) },
 ];
 
 const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
@@ -34,94 +31,91 @@ const link = (p: string) => `${BASE}${p}`;
 
 <BaseLayout title={title} description={description} jsonLd={jsonLd}>
   <SiloStyles />
-  <Breadcrumbs trail={[
-    { label: "Home", href: "/" },
-    { label: "Medicaid", href: "/medicaid" },
-    { label: "MAT Coverage" },
-  ]} />
+  <div class="silo-body">
+    <SiloHero
+      eyebrow="Kentucky Medicaid · MAT Coverage"
+      title="Does Kentucky Medicaid cover Suboxone, methadone, and MAT?"
+      lede="Yes. Every Kentucky Medicaid plan covers Medication-Assisted Treatment for opioid use disorder and alcohol use disorder. Suboxone, Subutex, methadone, Vivitrol, and naltrexone are all on the formulary."
+    />
+    <Breadcrumbs trail={[
+      { label: "Home", href: "/" },
+      { label: "Kentucky Medicaid", href: "/medicaid" },
+      { label: "MAT Coverage" },
+    ]} />
 
-  <article class="silo-page">
-    <div class="silo-eyebrow">Kentucky Medicaid · Coverage Detail</div>
-    <h1>Does Kentucky Medicaid cover Suboxone, methadone, and MAT?</h1>
-    <p class="silo-lede">
-      <strong>Yes.</strong> All six Kentucky Medicaid MCOs cover Medication-Assisted Treatment (MAT)
-      for opioid use disorder and alcohol use disorder. The standard formulary includes Suboxone,
-      Subutex, methadone, Vivitrol, and naltrexone — paired with behavioral therapy as the clinical
-      standard of care.
-    </p>
+    <section class="silo-section is-light">
+      <div class="silo-container">
+        <div class="silo-section-label">Verify with your MCO</div>
+        <h2>Every Kentucky Medicaid plan covers MAT</h2>
+        <div class="silo-grid">
+          {mcos.map((m) => (
+            <a class="silo-card silo-card-link" href={link(`/medicaid/${m.data.slug}`)}>
+              <div class="silo-card-eyebrow">Kentucky Medicaid</div>
+              <h3>{m.data.shortName}</h3>
+              <span class="silo-card-arrow">View {m.data.shortName} MAT coverage →</span>
+            </a>
+          ))}
+        </div>
+        <InsuranceDisclaimer variant="medicaid" />
+      </div>
+    </section>
 
-    <InsuranceDisclaimer variant="medicaid" />
+    <section class="silo-section is-dust">
+      <div class="silo-container">
+        <div class="silo-section-label">Medications on Kentucky Medicaid formulary</div>
+        <h2>MAT medications covered</h2>
+        <div class="silo-table-wrap">
+          <table class="silo-table">
+            <thead><tr><th>Medication</th><th>Used For</th><th>Setting</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Suboxone</strong> (buprenorphine + naloxone)</td><td>OUD</td><td>Office-based</td></tr>
+              <tr><td><strong>Subutex</strong> (buprenorphine alone)</td><td>OUD — pregnancy standard</td><td>Office-based</td></tr>
+              <tr><td><strong>Methadone</strong></td><td>OUD</td><td>Licensed OTP only</td></tr>
+              <tr><td><strong>Vivitrol</strong> (extended-release naltrexone)</td><td>OUD and AUD</td><td>Office-based monthly injection</td></tr>
+              <tr><td><strong>Oral naltrexone</strong></td><td>OUD and AUD</td><td>Pharmacy</td></tr>
+              <tr><td><strong>Acamprosate</strong></td><td>AUD</td><td>Pharmacy</td></tr>
+              <tr><td><strong>Disulfiram</strong></td><td>AUD</td><td>Pharmacy</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
 
-    <h2>MAT medications covered by Kentucky Medicaid</h2>
-    <div class="silo-table-wrap">
-      <table class="silo-table">
-        <thead>
-          <tr><th>Medication</th><th>Used For</th><th>Setting</th></tr>
-        </thead>
-        <tbody>
-          <tr><td><strong>Suboxone</strong> (buprenorphine + naloxone)</td><td>Opioid Use Disorder</td><td>Office-based or specialty clinic</td></tr>
-          <tr><td><strong>Subutex</strong> (buprenorphine alone)</td><td>OUD — pregnancy standard</td><td>Office-based or specialty clinic</td></tr>
-          <tr><td><strong>Methadone</strong></td><td>Opioid Use Disorder</td><td>Licensed Opioid Treatment Program (OTP) only</td></tr>
-          <tr><td><strong>Vivitrol</strong> (extended-release naltrexone)</td><td>OUD and Alcohol Use Disorder</td><td>Office-based monthly injection</td></tr>
-          <tr><td><strong>Oral naltrexone</strong></td><td>OUD and Alcohol Use Disorder</td><td>Office-based or pharmacy</td></tr>
-          <tr><td><strong>Acamprosate</strong></td><td>Alcohol Use Disorder</td><td>Office-based or pharmacy</td></tr>
-          <tr><td><strong>Disulfiram</strong></td><td>Alcohol Use Disorder</td><td>Office-based or pharmacy</td></tr>
-        </tbody>
-      </table>
-    </div>
+    <section class="silo-section is-light">
+      <div class="silo-container silo-narrow">
+        <div class="silo-section-label">MAT in pregnancy</div>
+        <h2>Subutex for pregnant Medicaid members</h2>
+        <p>
+          Pregnant members with opioid use disorder benefit from Subutex (buprenorphine alone,
+          without naloxone) or methadone delivered through an OTP. Both are covered by all six
+          Kentucky Medicaid MCOs and are the clinical standard of care during pregnancy.
+        </p>
 
-    <h2>Why MAT matters</h2>
-    <p>
-      Decades of clinical research show MAT — particularly for opioid use disorder — is the single
-      most effective treatment available, reducing overdose mortality by more than half when
-      continued long-term. MAT is not "trading one addiction for another." MAT medications stabilize
-      brain chemistry, reduce cravings and withdrawal, and let patients engage in the behavioral
-      work that supports lasting recovery.
-    </p>
-
-    <h2>Pharmacy benefits and prior authorization</h2>
-    <p>
-      Each Kentucky Medicaid MCO maintains its own preferred drug list (PDL) and pharmacy network.
-      Most MAT medications are covered without lengthy prior authorization, but specific formulations
-      (e.g., name-brand Suboxone film vs. generic, Brixadi monthly injection vs. daily Suboxone) may
-      require pharmacy PA. Our admissions team handles authorization on your behalf and works
-      directly with your MCO's pharmacy benefit manager.
-    </p>
-
-    <h2>MAT coverage by MCO</h2>
-    <ul>
-      {mcos.map((m) => (
-        <li><a href={link(`/medicaid/${m.data.slug}`)}>{m.data.name}</a></li>
-      ))}
-    </ul>
-
-    <h2>MAT in pregnancy</h2>
-    <p>
-      Pregnant members with opioid use disorder benefit from Subutex (buprenorphine alone, without
-      naloxone) or methadone delivered through an OTP. Both are covered by all six Kentucky Medicaid
-      MCOs and are the clinical standard of care during pregnancy. Untreated OUD during pregnancy
-      carries significantly higher risks than MAT.
-    </p>
-
-    <h2>MAT across the treatment continuum</h2>
-    <p>
-      MAT typically starts during <a href={link("/medicaid/medicaid-detox-coverage")}>detox</a> and
-      continues through <a href={link("/medicaid/medicaid-residential-coverage")}>residential</a>,
-      <a href={link("/medicaid/medicaid-php-iop-coverage")}>PHP / IOP</a>, and indefinitely at the
-      <a href={link("/medicaid/medicaid-outpatient-coverage")}>outpatient</a> level. MAT continued
-      long-term produces the largest reductions in overdose risk.
-    </p>
+        <h3>MAT across the treatment continuum</h3>
+        <p>
+          MAT typically starts during <a href={link("/medicaid/medicaid-detox-coverage")}>detox</a>
+          and continues through <a href={link("/medicaid/medicaid-residential-coverage")}>residential</a>,
+          <a href={link("/medicaid/medicaid-php-iop-coverage")}>PHP / IOP</a>, and indefinitely at
+          the <a href={link("/medicaid/medicaid-outpatient-coverage")}>outpatient</a> level.
+        </p>
+      </div>
+    </section>
 
     <Cta heading="Verify your Kentucky Medicaid MAT coverage" />
 
-    <h2>Frequently asked questions</h2>
-    <div class="silo-faq">
-      {faqs.map((f) => (
-        <details>
-          <summary>{f.q}</summary>
-          <p>{f.a}</p>
-        </details>
-      ))}
-    </div>
-  </article>
+    <section class="silo-section is-dust">
+      <div class="silo-container silo-narrow">
+        <div class="silo-section-label">FAQ</div>
+        <h2>Frequently asked questions</h2>
+        <div class="silo-faq">
+          {faqs.map((f) => (
+            <details>
+              <summary>{f.q}</summary>
+              <p>{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+  </div>
 </BaseLayout>
