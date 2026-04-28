@@ -1,0 +1,74 @@
+---
+import { getEntry } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import Cta from "../../components/Cta.astro";
+import SiloStyles from "../../components/SiloStyles.astro";
+import InsuranceDisclaimer from "../../components/InsuranceDisclaimer.astro";
+
+const facility = (await getEntry("facility", "golden-grove-recovery"))!.data;
+
+const title = `Verify Your Insurance Coverage | Golden Grove Recovery`;
+const description = `Quickly verify your Kentucky Medicaid or commercial insurance coverage for addiction treatment. Free, confidential, no obligation.`;
+
+const jsonLd = { "@context": "https://schema.org", "@type": "WebPage", name: title, description };
+
+const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
+const link = (p: string) => `${BASE}${p}`;
+---
+
+<BaseLayout title={title} description={description} jsonLd={jsonLd}>
+  <SiloStyles />
+  <Breadcrumbs trail={[
+    { label: "Home", href: "/" },
+    { label: "Admissions", href: "/admissions" },
+    { label: "Verify Insurance" },
+  ]} />
+
+  <article class="silo-page">
+    <div class="silo-eyebrow">Admissions · Verify Insurance</div>
+    <h1>Verify your insurance coverage</h1>
+    <p class="silo-lede">
+      Most patients are surprised by how much of their treatment is covered. Whether you have
+      Kentucky Medicaid or commercial insurance, our admissions team verifies benefits in real time
+      so you know exactly what's covered before you start.
+    </p>
+
+    <InsuranceDisclaimer variant="both" />
+
+    <h2>Insurance plans we accept</h2>
+    <p><strong>Kentucky Medicaid (all six MCOs):</strong></p>
+    <ul>
+      <li><a href={link("/medicaid/passport-health-plan")}>Passport Health Plan by Molina</a></li>
+      <li><a href={link("/medicaid/anthem-medicaid-kentucky")}>Anthem BCBS Medicaid</a></li>
+      <li><a href={link("/medicaid/humana-healthy-horizons-kentucky")}>Humana Healthy Horizons</a></li>
+      <li><a href={link("/medicaid/wellcare-of-kentucky")}>WellCare of Kentucky</a></li>
+      <li><a href={link("/medicaid/aetna-better-health-of-kentucky")}>Aetna Better Health</a></li>
+      <li><a href={link("/medicaid/united-healthcare-community-plan-kentucky")}>UnitedHealthcare Community Plan</a></li>
+    </ul>
+    <p><strong>Commercial insurance (most major carriers):</strong></p>
+    <ul>
+      {facility.insurance.commercialCarriers.map((c) => <li>{c}</li>)}
+    </ul>
+
+    <h2>How to verify</h2>
+    <p>The fastest way is to call admissions at <a href={`tel:${facility.phoneTel}`}>{facility.phone}</a>.
+    Have ready:</p>
+    <ul>
+      <li>Your insurance card (front and back) — or just your member ID and plan name</li>
+      <li>The patient's date of birth and legal name</li>
+      <li>What type of treatment you're seeking (detox, residential, PHP, IOP, outpatient, MAT)</li>
+    </ul>
+    <p>We typically have a coverage answer the same day, often within a few hours.</p>
+
+    <h2>What if I don't have insurance?</h2>
+    <p>
+      You still have options. See <a href={link("/medicaid/no-insurance-options")}>no-insurance
+      options</a> — including how to apply for Kentucky Medicaid (most adults qualify based on
+      income alone), presumptive eligibility, sliding-scale providers, and state-funded programs.
+    </p>
+
+    <Cta heading="Call now to verify your benefits"
+         subhead={`Or email ${facility.email} with your member ID and we'll get back to you fast.`} />
+  </article>
+</BaseLayout>

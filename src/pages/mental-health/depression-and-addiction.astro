@@ -1,0 +1,31 @@
+---
+import { getEntry } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SiloStyles from "../../components/SiloStyles.astro";
+import MentalHealthPage from "../../components/MentalHealthPage.astro";
+
+const m = (await getEntry("mentalHealth", "depression-and-addiction"))!.data;
+const facility = (await getEntry("facility", "golden-grove-recovery"))!.data;
+
+const title = `Depression and Addiction Treatment in ${facility.city}, ${facility.stateCode} | Golden Grove Recovery`;
+const description = `Integrated treatment for co-occurring depression and substance use disorder. Psychiatric medication management plus evidence-based therapy. Kentucky Medicaid covered.`;
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "MedicalWebPage",
+    name: title,
+    description,
+    about: { "@type": "MedicalCondition", name: "Major Depressive Disorder", code: { "@type": "MedicalCode", codeValue: "F32", codingSystem: "ICD-10" } },
+  },
+];
+---
+
+<BaseLayout title={title} description={description} jsonLd={jsonLd}>
+  <SiloStyles />
+  <MentalHealthPage slug="depression-and-addiction" trail={[
+    { label: "Home", href: "/" },
+    { label: "Mental Health", href: "/mental-health" },
+    { label: m.name },
+  ]} />
+</BaseLayout>

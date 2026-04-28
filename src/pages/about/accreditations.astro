@@ -1,0 +1,84 @@
+---
+import { getEntry } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import Cta from "../../components/Cta.astro";
+import SiloStyles from "../../components/SiloStyles.astro";
+
+const facility = (await getEntry("facility", "golden-grove-recovery"))!.data;
+
+const title = `Accreditations & Licensing | Golden Grove Recovery`;
+const description = `Golden Grove Recovery's clinical accreditations, state licensing, and quality assurance — pursued ahead of opening to ensure patients receive treatment at industry-standard quality.`;
+
+const jsonLd = { "@context": "https://schema.org", "@type": "AboutPage", name: title, description };
+
+const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
+const link = (p: string) => `${BASE}${p}`;
+---
+
+<BaseLayout title={title} description={description} jsonLd={jsonLd}>
+  <SiloStyles />
+  <Breadcrumbs trail={[
+    { label: "Home", href: "/" },
+    { label: "About", href: "/about" },
+    { label: "Accreditations" },
+  ]} />
+
+  <article class="silo-page">
+    <div class="silo-eyebrow">About Golden Grove</div>
+    <h1>Accreditations &amp; licensing</h1>
+    <p class="silo-lede">
+      Quality in addiction treatment is measurable — through state licensing, third-party
+      accreditation, and outcomes reporting. Golden Grove Recovery is preparing to open with the
+      accreditations that Kentucky Medicaid and commercial insurers require, plus voluntary
+      accreditations that reflect industry-leading clinical standards.
+    </p>
+
+    {facility.accreditations.length === 0 ? (
+      <>
+        <h2>Status</h2>
+        <p>
+          Golden Grove Recovery is in pre-opening setup. Accreditations and state licensing are
+          being pursued in parallel with facility readiness. We will publish each accreditation here
+          as it is awarded.
+        </p>
+
+        <h2>Accreditations we are pursuing</h2>
+        <ul>
+          <li><strong>Kentucky Department for Behavioral Health, Developmental and Intellectual Disabilities (DBHDID)</strong> — state SUD treatment facility license</li>
+          <li><strong>The Joint Commission</strong> — Behavioral Health Care accreditation</li>
+          <li><strong>CARF International</strong> — Commission on Accreditation of Rehabilitation Facilities accreditation</li>
+          <li><strong>LegitScript Certified Treatment</strong> — third-party verification for ethical advertising and operations</li>
+          <li><strong>Kentucky Recovery Network</strong> — participation in Kentucky's recovery support infrastructure</li>
+        </ul>
+
+        <h2>Why accreditation matters</h2>
+        <p>
+          Accreditation isn't just paperwork — it's a third-party validation that a treatment
+          facility meets industry standards for clinical quality, patient safety, ethical
+          marketing, and outcomes reporting. Kentucky Medicaid MCOs and commercial insurance
+          carriers require state licensing and typically also require Joint Commission or CARF
+          accreditation for in-network status. Patients should expect any treatment facility they
+          consider to be accredited and licensed.
+        </p>
+      </>
+    ) : (
+      <>
+        <h2>Current accreditations</h2>
+        <ul>
+          {facility.accreditations.map((a) => (
+            <li>
+              <strong>{a.name}</strong>
+              {a.abbreviation && ` (${a.abbreviation})`}
+              {a.licenseNumber && ` — License ${a.licenseNumber}`}
+              {a.url && <> — <a href={a.url} target="_blank" rel="noopener noreferrer">verify</a></>}
+            </li>
+          ))}
+        </ul>
+      </>
+    )}
+
+    <Cta heading="Questions about our accreditations?"
+         subhead="Call admissions for current status on any specific accreditation or licensing question." />
+  </article>
+</BaseLayout>

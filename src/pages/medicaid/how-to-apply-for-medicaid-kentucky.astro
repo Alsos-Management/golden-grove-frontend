@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import SiloHero from "../../components/SiloHero.astro";
 import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import Cta from "../../components/Cta.astro";
 import SiloStyles from "../../components/SiloStyles.astro";
@@ -8,19 +9,15 @@ const title = "How to Apply for Kentucky Medicaid | Golden Grove Recovery";
 const description = "Step-by-step guide to applying for Kentucky Medicaid through kynect — eligibility, documents, MCO selection, and what to do if you're in active addiction.";
 
 const faqs = [
-  { q: "Where do I apply for Kentucky Medicaid?", a: "The official application portal is kynect.ky.gov. You can also apply by phone, by mail, or in person at a Department for Community Based Services (DCBS) office." },
+  { q: "Where do I apply for Kentucky Medicaid?", a: "The official application portal is kynect.ky.gov. You can also apply by phone (1-855-459-6328), by mail, or in person at a Department for Community Based Services (DCBS) office." },
   { q: "Who qualifies for Kentucky Medicaid?", a: "Kentucky expanded Medicaid under the Affordable Care Act, so most adults under 138% of the federal poverty level qualify based on income alone. Pregnant members, children, and adults with disabilities have separate eligibility pathways." },
-  { q: "How long does the Medicaid application take?", a: "Most applications are processed within 30–45 days. Pregnant members and members with urgent medical needs (including SUD) may qualify for expedited or presumptive eligibility." },
-  { q: "Can I get treatment while my Medicaid application is pending?", a: "In some cases, yes — through presumptive eligibility, sliding-scale providers, or state-funded programs. See no-insurance options for bridge pathways while you apply." },
+  { q: "How long does the Medicaid application take?", a: "Most applications are processed within 30-45 days. Pregnant members and members with urgent medical needs (including SUD) may qualify for expedited or presumptive eligibility." },
+  { q: "Can I get treatment while my Medicaid application is pending?", a: "In some cases, yes — through presumptive eligibility, sliding-scale providers, or state-funded programs. Call admissions and we'll help you understand bridge options." },
 ];
 
 const jsonLd = [
   { "@context": "https://schema.org", "@type": "WebPage", name: title, description },
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
-  },
+  { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })) },
 ];
 
 const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
@@ -29,93 +26,92 @@ const link = (p: string) => `${BASE}${p}`;
 
 <BaseLayout title={title} description={description} jsonLd={jsonLd}>
   <SiloStyles />
-  <Breadcrumbs trail={[
-    { label: "Home", href: "/" },
-    { label: "Medicaid", href: "/medicaid" },
-    { label: "How to Apply" },
-  ]} />
+  <div class="silo-body">
+    <SiloHero
+      eyebrow="Kentucky Medicaid · Eligibility"
+      title="How to apply for Kentucky Medicaid"
+      lede="Most Kentucky adults under 138% of the federal poverty level qualify for Medicaid based on income alone. The application is free and takes about 30 minutes."
+    />
+    <Breadcrumbs trail={[
+      { label: "Home", href: "/" },
+      { label: "Kentucky Medicaid", href: "/medicaid" },
+      { label: "How to Apply" },
+    ]} />
 
-  <article class="silo-page">
-    <div class="silo-eyebrow">Kentucky Medicaid · Eligibility</div>
-    <h1>How to apply for Kentucky Medicaid</h1>
-    <p class="silo-lede">
-      Kentucky Medicaid is one of the most accessible Medicaid programs in the country thanks to
-      ACA expansion. Most adults under 138% of the federal poverty level qualify based on income
-      alone. The application is free and takes most people about 30 minutes.
-    </p>
+    <section class="silo-section is-light">
+      <div class="silo-container">
+        <div class="silo-section-label">The 4-step process</div>
+        <h2>Apply at kynect.ky.gov</h2>
+        <div class="silo-grid">
+          <div class="silo-card">
+            <div class="silo-card-eyebrow">Step 1</div>
+            <h3>Check eligibility</h3>
+            <p>Most adults qualify based on income (under 138% FPL — about $20,000/year for an individual). Pregnancy, disability, and former foster youth pathways also exist.</p>
+          </div>
+          <div class="silo-card">
+            <div class="silo-card-eyebrow">Step 2</div>
+            <h3>Gather documents</h3>
+            <p>Photo ID, Social Security number, proof of income, proof of Kentucky residency, immigration documents if applicable.</p>
+          </div>
+          <div class="silo-card">
+            <div class="silo-card-eyebrow">Step 3</div>
+            <h3>Apply</h3>
+            <p>Online at <a href="https://kynect.ky.gov" target="_blank" rel="noopener noreferrer">kynect.ky.gov</a>, by phone (1-855-459-6328), by mail, in person at DCBS, or with a kynector.</p>
+          </div>
+          <div class="silo-card">
+            <div class="silo-card-eyebrow">Step 4</div>
+            <h3>Pick your MCO</h3>
+            <p>Once approved, choose one of Kentucky's six MCOs. All cover the full ASAM continuum for SUD.</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
-    <h2>Step 1 — Check eligibility</h2>
-    <p>Most applicants qualify if any of the following are true:</p>
-    <ul>
-      <li>You're an adult earning under 138% of the federal poverty level (about $20,000/year for an individual in 2026)</li>
-      <li>You're pregnant — Kentucky Medicaid covers pregnancy and 12 months postpartum</li>
-      <li>You're a child or parent of a minor child in a low-income household</li>
-      <li>You have a disability that meets Social Security criteria</li>
-      <li>You're a former foster youth under 26</li>
-    </ul>
+    <section class="silo-section is-dust">
+      <div class="silo-container silo-narrow">
+        <div class="silo-section-label">Pick your plan</div>
+        <h2>Kentucky Medicaid MCOs</h2>
+        <ul>
+          <li><a href={link("/medicaid/passport-health-plan")}>Passport Health Plan by Molina</a></li>
+          <li><a href={link("/medicaid/anthem-medicaid-kentucky")}>Anthem BCBS Medicaid</a></li>
+          <li><a href={link("/medicaid/humana-healthy-horizons-kentucky")}>Humana Healthy Horizons</a></li>
+          <li><a href={link("/medicaid/wellcare-of-kentucky")}>WellCare of Kentucky</a></li>
+          <li><a href={link("/medicaid/aetna-better-health-of-kentucky")}>Aetna Better Health</a></li>
+          <li><a href={link("/medicaid/united-healthcare-community-plan-kentucky")}>UnitedHealthcare Community Plan</a></li>
+        </ul>
+        <p>Pick based on provider network, pharmacy benefits, and any care-management programs you may need (e.g., maternity, complex care). You can change MCOs once a year during open enrollment.</p>
+      </div>
+    </section>
 
-    <h2>Step 2 — Gather documents</h2>
-    <p>You'll typically need:</p>
-    <ul>
-      <li>Photo ID (driver's license, state ID, passport)</li>
-      <li>Social Security number (for everyone in your household)</li>
-      <li>Proof of income (pay stubs, tax return, or employer statement)</li>
-      <li>Proof of Kentucky residency (utility bill, lease, mortgage)</li>
-      <li>Immigration documents if applicable</li>
-    </ul>
-
-    <h2>Step 3 — Apply at kynect.ky.gov</h2>
-    <p>
-      The official Kentucky Medicaid application portal is <a href="https://kynect.ky.gov" target="_blank" rel="noopener noreferrer">kynect.ky.gov</a>.
-      You can also apply by:
-    </p>
-    <ul>
-      <li>Phone: 1-855-459-6328 (kynect contact center)</li>
-      <li>Mail: paper application available on kynect.ky.gov</li>
-      <li>In person: visit your local Department for Community Based Services (DCBS) office</li>
-      <li>Through a kynector — free trained navigators who help you apply</li>
-    </ul>
-
-    <h2>Step 4 — Pick your MCO</h2>
-    <p>
-      Once approved, you'll choose one of Kentucky's six Medicaid managed care organizations:
-    </p>
-    <ul>
-      <li><a href={link("/medicaid/passport-health-plan")}>Passport Health Plan by Molina Healthcare</a></li>
-      <li><a href={link("/medicaid/anthem-medicaid-kentucky")}>Anthem Blue Cross Blue Shield Medicaid</a></li>
-      <li><a href={link("/medicaid/humana-healthy-horizons-kentucky")}>Humana Healthy Horizons in Kentucky</a></li>
-      <li><a href={link("/medicaid/wellcare-of-kentucky")}>WellCare of Kentucky</a></li>
-      <li><a href={link("/medicaid/aetna-better-health-of-kentucky")}>Aetna Better Health of Kentucky</a></li>
-      <li><a href={link("/medicaid/united-healthcare-community-plan-kentucky")}>UnitedHealthcare Community Plan of Kentucky</a></li>
-    </ul>
-    <p>
-      All six MCOs cover the full ASAM continuum for substance use disorder treatment. Pick based on
-      provider network, pharmacy benefits, and any care-management programs you may need (e.g.,
-      maternity programs, complex care). You can change MCOs once a year during open enrollment.
-    </p>
-
-    <h2>If you're in active addiction and need treatment now</h2>
-    <p>
-      Don't wait for the application to fully process before reaching out. Call our admissions team
-      directly — we can:
-    </p>
-    <ul>
-      <li>Help you apply for Medicaid in real time</li>
-      <li>Discuss presumptive eligibility for pregnant members or members with severe SUD</li>
-      <li>Connect you with bridge resources from <a href={link("/medicaid/no-insurance-options")}>no-insurance options</a> while your application is pending</li>
-    </ul>
+    <section class="silo-section is-light">
+      <div class="silo-container silo-narrow">
+        <div class="silo-section-label">If you need treatment now</div>
+        <h2>Don't wait for the application to fully process</h2>
+        <p>Call admissions directly. We can:</p>
+        <ul>
+          <li>Help you apply for Medicaid in real time</li>
+          <li>Discuss presumptive eligibility for pregnant members or members with severe SUD</li>
+          <li>Connect you with bridge resources from <a href={link("/medicaid/no-insurance-options")}>no-insurance options</a> while your application is pending</li>
+        </ul>
+      </div>
+    </section>
 
     <Cta heading="Need help applying for Medicaid?"
          subhead="Our admissions team can walk you through the kynect application and verify your benefits the moment you're approved." />
 
-    <h2>Frequently asked questions</h2>
-    <div class="silo-faq">
-      {faqs.map((f) => (
-        <details>
-          <summary>{f.q}</summary>
-          <p>{f.a}</p>
-        </details>
-      ))}
-    </div>
-  </article>
+    <section class="silo-section is-dust">
+      <div class="silo-container silo-narrow">
+        <div class="silo-section-label">FAQ</div>
+        <h2>Frequently asked questions</h2>
+        <div class="silo-faq">
+          {faqs.map((f) => (
+            <details>
+              <summary>{f.q}</summary>
+              <p>{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+  </div>
 </BaseLayout>

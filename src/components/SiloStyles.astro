@@ -1,97 +1,169 @@
 ---
-// Shared typography + section styles for content silos (Medicaid, substances, etc.)
+// Brand-aligned silo styles. Matches Golden Grove marketing site design language:
+// coffee/gold gradient, gg-card aesthetic, Montserrat type, branded section labels.
 ---
 
 <style is:global>
-  .silo-page {
-    max-width: 760px;
-    margin: 0 auto;
-    padding: 32px 24px 0;
+  .silo-body {
+    background: #FAF7F2;
     color: #1A1A1A;
     font-family: 'Montserrat', sans-serif;
-    line-height: 1.7;
   }
-  .silo-eyebrow {
+
+  .silo-section {
+    padding: 64px 24px;
+  }
+  .silo-section.is-tight { padding: 40px 24px; }
+  .silo-section.is-light { background: #FFFFFF; }
+  .silo-section.is-dust { background: #FAF7F2; }
+  .silo-section.is-coffee {
+    background: linear-gradient(135deg, #2E1400 0%, #461F01 60%, #8C6934 100%);
+    color: #FAF7F2;
+  }
+
+  .silo-container { max-width: 1100px; margin: 0 auto; }
+  .silo-narrow { max-width: 760px; margin: 0 auto; }
+
+  .silo-section-label {
     font-size: 11px;
     font-weight: 700;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: #8C6934;
     margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
   }
-  .silo-page h1 {
-    font-size: clamp(1.75rem, 4vw, 2.5rem);
+  .silo-section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, #EFE2C8, transparent);
+  }
+  .is-coffee .silo-section-label { color: #F2D17D; }
+  .is-coffee .silo-section-label::after {
+    background: linear-gradient(to right, rgba(242, 209, 125, 0.4), transparent);
+  }
+
+  .silo-section h2 {
+    font-size: clamp(22px, 2.4vw, 28px);
     font-weight: 800;
+    color: #461F01;
     letter-spacing: -0.02em;
-    color: #461F01;
-    line-height: 1.15;
-    margin: 0 0 16px;
+    margin: 0 0 14px;
+    line-height: 1.2;
   }
-  .silo-lede {
-    font-size: 17px;
-    color: #444;
-    line-height: 1.7;
-    margin-bottom: 32px;
-  }
-  .silo-page h2 {
-    font-size: 22px;
+  .silo-section.is-coffee h2 { color: #FFFFFF; }
+
+  .silo-section h3 {
+    font-size: 18px;
     font-weight: 700;
     color: #461F01;
-    letter-spacing: -0.01em;
-    margin: 40px 0 14px;
+    margin: 24px 0 8px;
   }
-  .silo-page h3 {
-    font-size: 17px;
-    font-weight: 700;
-    color: #461F01;
-    margin: 28px 0 10px;
-  }
-  .silo-page p { margin-bottom: 14px; color: #333; font-size: 15px; }
-  .silo-page ul, .silo-page ol {
-    padding-left: 24px;
-    margin-bottom: 16px;
-  }
-  .silo-page li {
-    margin-bottom: 6px;
-    color: #333;
+  .silo-section.is-coffee h3 { color: #F2D17D; }
+
+  .silo-section p {
     font-size: 15px;
+    line-height: 1.75;
+    color: #333;
+    margin: 0 0 14px;
   }
-  .silo-page a {
+  .silo-section.is-coffee p { color: rgba(250, 247, 242, 0.85); }
+
+  .silo-intro {
+    font-size: 17px;
+    line-height: 1.75;
+    color: #444;
+    margin: 0 0 28px;
+    max-width: 720px;
+  }
+
+  .silo-section ul, .silo-section ol {
+    padding-left: 22px;
+    margin: 8px 0 18px;
+  }
+  .silo-section li {
+    margin-bottom: 8px;
+    font-size: 15px;
+    line-height: 1.7;
+    color: #333;
+  }
+  .silo-section.is-coffee li { color: rgba(250, 247, 242, 0.85); }
+
+  .silo-section a {
     color: #8C6934;
     text-decoration: underline;
     text-underline-offset: 2px;
     text-decoration-thickness: 1px;
+    transition: color 0.2s;
   }
-  .silo-page a:hover { color: #461F01; }
-
-  .silo-card {
-    background: #FFFFFF;
-    border: 1px solid #EFE2C8;
-    border-radius: 12px;
-    padding: 24px;
-    margin: 16px 0;
-  }
-  .silo-card h3 { margin-top: 0; }
+  .silo-section a:hover { color: #461F01; }
+  .silo-section.is-coffee a { color: #F2D17D; }
+  .silo-section.is-coffee a:hover { color: #FFFFFF; }
 
   .silo-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
-    gap: 16px;
+    gap: 18px;
+    margin: 24px 0;
+  }
+  .silo-grid-2 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(360px, 100%), 1fr));
+    gap: 18px;
     margin: 24px 0;
   }
 
-  .silo-table-wrap {
-    overflow-x: auto;
-    margin: 16px 0 24px;
+  .silo-card {
+    background: #FFFFFF;
+    border: 1px solid #EFE2C8;
+    border-radius: 14px;
+    padding: 26px 24px;
+    transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
   }
+  .silo-card:hover {
+    border-color: rgba(140, 105, 52, 0.4);
+    box-shadow: 0 8px 28px rgba(70, 31, 1, 0.06);
+    transform: translateY(-2px);
+  }
+  .silo-card h3 { margin-top: 0; }
+  .silo-card-eyebrow {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #8C6934;
+    margin-bottom: 10px;
+  }
+  .silo-card-link {
+    display: block;
+    text-decoration: none !important;
+    color: inherit;
+  }
+  .silo-card-link:hover { color: inherit; }
+  .silo-card-arrow {
+    display: inline-block;
+    color: #8C6934;
+    font-weight: 700;
+    font-size: 13px;
+    margin-top: 14px;
+  }
+
+  .silo-table-wrap { overflow-x: auto; margin: 16px 0 24px; }
   .silo-table {
     width: 100%;
     border-collapse: collapse;
     font-size: 14px;
+    background: #FFFFFF;
+    border: 1px solid #EFE2C8;
+    border-radius: 10px;
+    overflow: hidden;
   }
   .silo-table th, .silo-table td {
     text-align: left;
-    padding: 10px 12px;
+    padding: 12px 14px;
     border-bottom: 1px solid #EFE2C8;
     vertical-align: top;
   }
@@ -99,22 +171,23 @@
     background: #FAF7F2;
     color: #461F01;
     font-weight: 700;
-    font-size: 12px;
-    letter-spacing: 0.05em;
+    font-size: 11px;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
   }
+  .silo-table tr:last-child td { border-bottom: none; }
 
   .silo-pill {
     display: inline-flex;
     align-items: center;
-    padding: 4px 10px;
+    padding: 5px 12px;
     border-radius: 999px;
     font-size: 11px;
     font-weight: 600;
     letter-spacing: 0.04em;
-    background: #F2D17D22;
+    background: rgba(140, 105, 52, 0.13);
     color: #8C6934;
-    border: 1px solid #F2D17D55;
+    border: 1px solid rgba(140, 105, 52, 0.25);
     margin: 0 6px 6px 0;
   }
 
@@ -124,8 +197,9 @@
     padding: 14px 18px;
     margin: 8px 0;
     background: #FFFFFF;
+    transition: border-color 0.2s, background 0.2s;
   }
-  .silo-faq details[open] { background: #FAF7F2; }
+  .silo-faq details[open] { background: #FAF7F2; border-color: rgba(140, 105, 52, 0.3); }
   .silo-faq summary {
     cursor: pointer;
     font-weight: 600;
@@ -135,6 +209,42 @@
   .silo-faq details > *:not(summary) {
     margin-top: 10px;
     color: #333;
-    font-size: 14px;
+    font-size: 14.5px;
+    line-height: 1.7;
   }
+
+  .silo-cta-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+  }
+  @media (max-width: 600px) {
+    .silo-cta-row { flex-direction: column; align-items: stretch; }
+    .silo-cta-row .gg-btn { width: 100%; }
+    .silo-section { padding: 44px 16px; }
+  }
+
+  .gg-btn {
+    padding: 14px 32px;
+    border-radius: 8px;
+    border: 2px solid transparent;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.25s;
+    display: inline-block;
+    text-decoration: none !important;
+    text-align: center;
+    letter-spacing: 0.02em;
+  }
+  .gg-btn-primary { background: #461F01; color: #FFFFFF; border-color: #461F01; }
+  .gg-btn-primary:hover { background: #8C6934; border-color: #8C6934; color: #FFFFFF; }
+  .gg-btn-secondary { background: transparent; color: #FFFFFF; border-color: rgba(255, 255, 255, 0.5); }
+  .gg-btn-secondary:hover { background: #FFFFFF; color: #461F01; border-color: #FFFFFF; }
+  .gg-btn-light { background: #F2D17D; color: #461F01; border-color: #F2D17D; }
+  .gg-btn-light:hover { background: #FFFFFF; border-color: #FFFFFF; }
+  .gg-btn-outline { background: transparent; color: #461F01; border-color: #461F01; }
+  .gg-btn-outline:hover { background: #461F01; color: #FFFFFF; }
 </style>
