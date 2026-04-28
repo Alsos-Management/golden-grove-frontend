@@ -1,7 +1,6 @@
 ---
 import { getEntry } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import SiloStyles from "../../components/SiloStyles.astro";
 import LevelOfCarePage from "../../components/LevelOfCarePage.astro";
 
@@ -16,10 +15,9 @@ const jsonLd = { "@context": "https://schema.org", "@type": "MedicalWebPage", na
 
 <BaseLayout title={title} description={description} jsonLd={jsonLd}>
   <SiloStyles />
-  <Breadcrumbs trail={[
+  <LevelOfCarePage slug="medical-detox" trail={[
     { label: "Home", href: "/" },
     { label: "Levels of Care", href: "/levels-of-care" },
     { label: l.shortName },
   ]} />
-  <LevelOfCarePage slug="medical-detox" />
 </BaseLayout>
