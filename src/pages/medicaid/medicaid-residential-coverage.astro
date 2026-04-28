@@ -1,6 +1,7 @@
 ---
 import { getCollection, getEntry } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import SiloHero from "../../components/SiloHero.astro";
 import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import Cta from "../../components/Cta.astro";
 import SiloStyles from "../../components/SiloStyles.astro";
@@ -10,22 +11,18 @@ const residential = (await getEntry("levelsOfCare", "residential-inpatient"))!.d
 const mcos = (await getCollection("mcos")).sort((a, b) => a.data.name.localeCompare(b.data.name));
 
 const title = "Does Kentucky Medicaid Cover Residential Rehab? | Golden Grove Recovery";
-const description = "Kentucky Medicaid covers residential SUD treatment (ASAM 3.1, 3.3, 3.5) under the state's 1115 waiver. Coverage details, IMD exclusion, and MCO-by-MCO breakdown.";
+const description = "Kentucky Medicaid covers residential SUD treatment (ASAM 3.1, 3.3, 3.5) under the state's 1115 waiver. Coverage details, IMD exclusion explanation, and MCO-by-MCO breakdown.";
 
 const faqs = [
   { q: "Does Kentucky Medicaid cover residential rehab?", a: "Yes. All six Kentucky Medicaid MCOs cover residential SUD treatment at ASAM 3.1, 3.3, and 3.5 based on medical-necessity determination using ASAM criteria." },
-  { q: "What is the IMD exclusion and does it affect me?", a: "The Institution for Mental Disease (IMD) exclusion historically blocked Medicaid from paying for residential SUD treatment in facilities larger than 16 beds. Kentucky's 1115 demonstration waiver lifts this restriction for SUD, so Medicaid members can access residential treatment at full-size licensed facilities." },
-  { q: "How long will Medicaid pay for residential treatment?", a: "Coverage continues as long as residential level of care remains medically necessary, determined by ASAM criteria and concurrent clinical review. Typical residential stays run 21–28 days; longer stays are authorized when clinical need supports it." },
-  { q: "Does residential coverage include MAT?", a: "Yes. MAT (Suboxone, Subutex, methadone, Vivitrol, naltrexone) is integrated into residential treatment when clinically indicated, and is a covered Medicaid pharmacy benefit during and after the stay." },
+  { q: "What is the IMD exclusion and does it affect me?", a: "The Institution for Mental Disease (IMD) exclusion historically blocked Medicaid from paying for residential SUD treatment in facilities larger than 16 beds. Kentucky's 1115 demonstration waiver lifts this restriction." },
+  { q: "How long will Medicaid pay for residential treatment?", a: "Coverage continues as long as residential level of care remains medically necessary, determined by ASAM criteria and concurrent clinical review. Typical residential stays run 21-28 days." },
+  { q: "Does residential coverage include MAT?", a: "Yes. MAT (Suboxone, Subutex, methadone, Vivitrol, naltrexone) is integrated into residential treatment when clinically indicated, and is covered." },
 ];
 
 const jsonLd = [
   { "@context": "https://schema.org", "@type": "MedicalWebPage", name: title, description },
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
-  },
+  { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })) },
 ];
 
 const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
@@ -34,74 +31,87 @@ const link = (p: string) => `${BASE}${p}`;
 
 <BaseLayout title={title} description={description} jsonLd={jsonLd}>
   <SiloStyles />
-  <Breadcrumbs trail={[
-    { label: "Home", href: "/" },
-    { label: "Medicaid", href: "/medicaid" },
-    { label: "Residential Coverage" },
-  ]} />
+  <div class="silo-body">
+    <SiloHero
+      eyebrow="Kentucky Medicaid · Residential Coverage"
+      title="Does Kentucky Medicaid cover residential rehab?"
+      lede="Yes. Kentucky's 1115 demonstration waiver lifts the historic IMD exclusion for SUD — meaning Medicaid pays for residential rehab at full-size licensed facilities, not only at small (≤16 bed) programs."
+    />
+    <Breadcrumbs trail={[
+      { label: "Home", href: "/" },
+      { label: "Kentucky Medicaid", href: "/medicaid" },
+      { label: "Residential Coverage" },
+    ]} />
 
-  <article class="silo-page">
-    <div class="silo-eyebrow">Kentucky Medicaid · Coverage Detail</div>
-    <h1>Does Kentucky Medicaid cover residential rehab?</h1>
-    <p class="silo-lede">
-      <strong>Yes.</strong> All six Kentucky Medicaid MCOs cover residential substance use disorder
-      treatment at ASAM levels 3.1, 3.3, and 3.5 when medically necessary. Kentucky's 1115
-      demonstration waiver removes the historic IMD exclusion for SUD treatment — meaning Medicaid
-      pays for residential rehab at full-size licensed facilities, not only at small (≤16 bed)
-      programs.
-    </p>
+    <section class="silo-section is-light">
+      <div class="silo-container">
+        <div class="silo-section-label">Verify with your MCO</div>
+        <h2>All six Kentucky Medicaid plans cover residential treatment</h2>
+        <div class="silo-grid">
+          {mcos.map((m) => (
+            <a class="silo-card silo-card-link" href={link(`/medicaid/${m.data.slug}`)}>
+              <div class="silo-card-eyebrow">Kentucky Medicaid</div>
+              <h3>{m.data.shortName}</h3>
+              <span class="silo-card-arrow">View {m.data.shortName} residential coverage →</span>
+            </a>
+          ))}
+        </div>
+        <InsuranceDisclaimer variant="medicaid" />
+      </div>
+    </section>
 
-    <InsuranceDisclaimer variant="medicaid" />
+    <section class="silo-section is-dust">
+      <div class="silo-container silo-narrow">
+        <div class="silo-section-label">What residential covers</div>
+        <h2>The standard of care for severe SUD</h2>
+        <p>{residential.description}</p>
+        <p><strong>Typical duration:</strong> {residential.typicalDuration} · <strong>Setting:</strong> {residential.hoursPerWeek}</p>
 
-    <h2>What residential treatment covers</h2>
-    <p>{residential.description}</p>
+        <h3>The IMD exclusion and Kentucky's 1115 waiver</h3>
+        <p>{residential.imdExclusionNote}</p>
+        <p>In practical terms: a Kentucky Medicaid member with severe SUD can be admitted to Golden Grove Recovery (or any other licensed Kentucky residential SUD facility) and have their stay paid for by Medicaid — something that is not possible in many states.</p>
+      </div>
+    </section>
 
-    <h2>Who benefits from residential treatment</h2>
-    <ul>
-      {residential.whoBenefits.map((b) => <li>{b}</li>)}
-    </ul>
-
-    <h2>What a typical residential stay looks like</h2>
-    <p>{residential.typicalDay}</p>
-    <p><strong>Typical duration:</strong> {residential.typicalDuration}.</p>
-
-    <h2>The IMD exclusion and Kentucky's 1115 waiver</h2>
-    <p>{residential.imdExclusionNote}</p>
-    <p>
-      In practical terms, this means a Kentucky Medicaid member with severe SUD can be admitted to
-      Golden Grove Recovery (or any other licensed Kentucky residential SUD facility) and have their
-      stay paid for by Medicaid — something that is not possible in many states without an active
-      1115 waiver.
-    </p>
-
-    <h2>Residential coverage by MCO</h2>
-    <ul>
-      {mcos.map((m) => (
-        <li><a href={link(`/medicaid/${m.data.slug}`)}>{m.data.name}</a></li>
-      ))}
-    </ul>
-
-    <h2>What comes before and after residential</h2>
-    <p>
-      Most patients enter residential treatment directly from
-      <a href={link("/medicaid/medicaid-detox-coverage")}>medical detox</a> when withdrawal
-      management is needed first. After residential, the typical step-down is to
-      <a href={link("/medicaid/medicaid-php-iop-coverage")}>PHP and then IOP</a>, with eventual
-      transition to <a href={link("/medicaid/medicaid-outpatient-coverage")}>outpatient</a>
-      continuing care. <a href={link("/medicaid/medicaid-mat-coverage")}>MAT</a> typically continues
-      across all levels of care.
-    </p>
+    <section class="silo-section is-light">
+      <div class="silo-container">
+        <div class="silo-section-label">Treatment continuum</div>
+        <h2>What comes before and after residential</h2>
+        <div class="silo-grid">
+          <a class="silo-card silo-card-link" href={link("/medicaid/medicaid-detox-coverage")}>
+            <div class="silo-card-eyebrow">Step in</div>
+            <h3>Detox first if needed</h3>
+            <span class="silo-card-arrow">Detox coverage →</span>
+          </a>
+          <a class="silo-card silo-card-link" href={link("/medicaid/medicaid-php-iop-coverage")}>
+            <div class="silo-card-eyebrow">Step down</div>
+            <h3>PHP and IOP</h3>
+            <span class="silo-card-arrow">PHP / IOP coverage →</span>
+          </a>
+          <a class="silo-card silo-card-link" href={link("/medicaid/medicaid-mat-coverage")}>
+            <div class="silo-card-eyebrow">Throughout</div>
+            <h3>MAT continues</h3>
+            <span class="silo-card-arrow">MAT coverage →</span>
+          </a>
+        </div>
+      </div>
+    </section>
 
     <Cta heading="Verify your Kentucky Medicaid residential coverage" />
 
-    <h2>Frequently asked questions</h2>
-    <div class="silo-faq">
-      {faqs.map((f) => (
-        <details>
-          <summary>{f.q}</summary>
-          <p>{f.a}</p>
-        </details>
-      ))}
-    </div>
-  </article>
+    <section class="silo-section is-dust">
+      <div class="silo-container silo-narrow">
+        <div class="silo-section-label">FAQ</div>
+        <h2>Frequently asked questions</h2>
+        <div class="silo-faq">
+          {faqs.map((f) => (
+            <details>
+              <summary>{f.q}</summary>
+              <p>{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+  </div>
 </BaseLayout>

@@ -1,0 +1,127 @@
+---
+import { getCollection, getEntry } from "astro:content";
+import BaseLayout from "../../../../layouts/BaseLayout.astro";
+import SiloHero from "../../../../components/SiloHero.astro";
+import Breadcrumbs from "../../../../components/Breadcrumbs.astro";
+import Cta from "../../../../components/Cta.astro";
+import SiloStyles from "../../../../components/SiloStyles.astro";
+import InsuranceDisclaimer from "../../../../components/InsuranceDisclaimer.astro";
+
+const facility = (await getEntry("facility", "golden-grove-recovery"))!.data;
+const mcos = (await getCollection("mcos")).sort((a, b) => a.data.name.localeCompare(b.data.name));
+
+const title = `Medication-Assisted Treatment (MAT) for Opioid Use Disorder in ${facility.city}, ${facility.stateCode} | Golden Grove Recovery`;
+const description = `MAT — Suboxone, Subutex, methadone, Vivitrol, naltrexone — is the standard of care for OUD. Coverage and access in Louisville, KY through Kentucky Medicaid.`;
+
+const faqs = [
+  { q: "Will my Kentucky Medicaid plan cover MAT?", a: "Yes. All six Kentucky Medicaid MCOs (Passport, Anthem, Humana Healthy Horizons, WellCare, Aetna Better Health, UnitedHealthcare Community Plan) cover MAT for opioid use disorder. Pharmacy prior authorization may apply to specific formulations." },
+  { q: "Which MAT is right for me?", a: "It depends on overdose risk, prior treatment history, pregnancy status, ability to attend daily dosing (for methadone), and personal preference. A Golden Grove clinician will help you choose during the assessment." },
+  { q: "Can I do MAT during pregnancy?", a: "Yes. Subutex (buprenorphine alone, without naloxone) is the standard MAT for pregnant members with OUD, and is covered by all six Kentucky Medicaid MCOs. Methadone in an OTP is also a coverage option." },
+  { q: "How long should I stay on MAT?", a: "MAT is meant to be a long-term treatment for many patients. There is no clinical evidence that shorter MAT duration improves outcomes. Tapering, when appropriate, should be gradual and clinically guided." },
+];
+
+const jsonLd = [
+  { "@context": "https://schema.org", "@type": "MedicalWebPage", name: title, description },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+  },
+];
+
+const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
+const link = (p: string) => `${BASE}${p}`;
+---
+
+<BaseLayout title={title} description={description} jsonLd={jsonLd}>
+  <SiloStyles />
+  <div class="silo-body">
+    <SiloHero
+      eyebrow={`${facility.city}, ${facility.stateCode} · Opioid MAT`}
+      title="Medication-Assisted Treatment for opioid use disorder"
+      lede="MAT is the clinical standard of care for opioid use disorder. Suboxone, methadone, Vivitrol, and naltrexone are all covered by every Kentucky Medicaid plan and reduce overdose mortality by more than half when continued long-term."
+    />
+    <Breadcrumbs trail={[
+      { label: "Home", href: "/" },
+      { label: "Substance Use", href: "/substance-use" },
+      { label: "Opioids", href: "/substance-use/opioids" },
+      { label: "MAT" },
+    ]} />
+
+    <section class="silo-section is-light">
+      <div class="silo-container">
+        <div class="silo-section-label">Verify Medicaid MAT coverage</div>
+        <h2>Every Kentucky Medicaid plan covers MAT</h2>
+        <p>
+          All six Kentucky Medicaid MCOs cover Suboxone, Subutex, methadone, Vivitrol, and oral
+          naltrexone for opioid use disorder. Pick your plan to see specific formulations,
+          authorization, and pharmacy benefit details.
+        </p>
+
+        <div class="silo-grid">
+          {mcos.map((m) => (
+            <a class="silo-card silo-card-link" href={link(`/medicaid/${m.data.slug}`)}>
+              <div class="silo-card-eyebrow">Kentucky Medicaid</div>
+              <h3>{m.data.shortName}</h3>
+              <span class="silo-card-arrow">View {m.data.shortName} MAT coverage →</span>
+            </a>
+          ))}
+        </div>
+
+        <InsuranceDisclaimer variant="pre-opening" />
+      </div>
+    </section>
+
+    <section class="silo-section is-dust">
+      <div class="silo-container">
+        <div class="silo-section-label">MAT medications</div>
+        <h2>Medications we offer</h2>
+        <div class="silo-grid">
+          <a class="silo-card silo-card-link" href={link("/substance-use/opioids/mat/suboxone")}>
+            <div class="silo-card-eyebrow">Buprenorphine + naloxone</div>
+            <h3>Suboxone</h3>
+            <p>Office-based daily sublingual dosing. Partial agonist with built-in misuse deterrent.</p>
+            <span class="silo-card-arrow">Suboxone treatment →</span>
+          </a>
+          <div class="silo-card">
+            <div class="silo-card-eyebrow">Buprenorphine alone</div>
+            <h3>Subutex</h3>
+            <p>Used during pregnancy when the naloxone in Suboxone isn't appropriate.</p>
+          </div>
+          <div class="silo-card">
+            <div class="silo-card-eyebrow">Full opioid agonist</div>
+            <h3>Methadone</h3>
+            <p>Daily on-site dosing at a federally licensed Opioid Treatment Program (OTP).</p>
+          </div>
+          <div class="silo-card">
+            <div class="silo-card-eyebrow">Extended-release naltrexone</div>
+            <h3>Vivitrol</h3>
+            <p>Monthly injection. Requires 7-14 days opioid-free before the first dose.</p>
+          </div>
+          <div class="silo-card">
+            <div class="silo-card-eyebrow">Daily oral antagonist</div>
+            <h3>Oral naltrexone</h3>
+            <p>Pill form of the same medication as Vivitrol. Lower adherence than injection.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <Cta heading="Verify your MAT coverage and start treatment" />
+
+    <section class="silo-section is-dust">
+      <div class="silo-container silo-narrow">
+        <div class="silo-section-label">FAQ</div>
+        <h2>Frequently asked questions</h2>
+        <div class="silo-faq">
+          {faqs.map((f) => (
+            <details>
+              <summary>{f.q}</summary>
+              <p>{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+  </div>
+</BaseLayout>

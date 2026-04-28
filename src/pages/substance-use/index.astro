@@ -1,0 +1,99 @@
+---
+import { getCollection, getEntry } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SiloHero from "../../components/SiloHero.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import Cta from "../../components/Cta.astro";
+import SiloStyles from "../../components/SiloStyles.astro";
+import InsuranceDisclaimer from "../../components/InsuranceDisclaimer.astro";
+
+const facility = (await getEntry("facility", "golden-grove-recovery"))!.data;
+const substances = (await getCollection("substances")).sort((a, b) => a.data.name.localeCompare(b.data.name));
+
+const grouped = substances.reduce((acc, e) => {
+  (acc[e.data.category] ||= []).push(e);
+  return acc;
+}, {} as Record<string, typeof substances>);
+
+const categoryLabels: Record<string, string> = {
+  alcohol: "Alcohol",
+  opioids: "Opioids",
+  stimulants: "Stimulants",
+  benzodiazepines: "Benzodiazepines",
+  cannabis: "Cannabis",
+  polysubstance: "Polysubstance",
+  "kratom-synthetics": "Kratom & Synthetics",
+};
+
+const categoryHrefs: Record<string, string | null> = {
+  alcohol: "/substance-use/alcohol",
+  opioids: "/substance-use/opioids",
+  stimulants: null,
+  benzodiazepines: "/substance-use/benzodiazepines",
+};
+
+const title = `Substance Use Disorders We Treat in ${facility.city}, ${facility.stateCode} | Golden Grove Recovery`;
+const description = `Kentucky Medicaid-covered treatment for alcohol, opioid (fentanyl, heroin), stimulant (meth), and benzodiazepine use disorders in Louisville, KY.`;
+
+const jsonLd = { "@context": "https://schema.org", "@type": "MedicalWebPage", name: title, description };
+
+const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
+const link = (p: string) => `${BASE}${p}`;
+---
+
+<BaseLayout title={title} description={description} jsonLd={jsonLd}>
+  <SiloStyles />
+  <div class="silo-body">
+    <SiloHero
+      eyebrow={`${facility.city}, ${facility.stateCode} · Substance Use Treatment`}
+      title="Substance use disorders we treat"
+      lede={`Kentucky Medicaid-covered treatment for alcohol, opioid, stimulant, and benzodiazepine use disorders. ASAM-aligned care delivered in ${facility.city}, ${facility.stateCode}.`}
+    />
+    <Breadcrumbs trail={[
+      { label: "Home", href: "/" },
+      { label: "Substance Use" },
+    ]} />
+
+    <section class="silo-section is-light">
+      <div class="silo-container">
+        <div class="silo-section-label">Verify Medicaid coverage</div>
+        <h2>Coverage starts here</h2>
+        <p>
+          Every substance use disorder we treat is a covered Kentucky Medicaid benefit at every
+          level of care. Pick a substance to see the treatment continuum, MCO-specific coverage
+          notes, and how to verify benefits with our admissions team.
+        </p>
+        <InsuranceDisclaimer variant="pre-opening" />
+      </div>
+    </section>
+
+    {Object.entries(grouped).map(([cat, items]) => (
+      <section class="silo-section is-dust">
+        <div class="silo-container">
+          <div class="silo-section-label">{categoryLabels[cat] ?? cat}</div>
+          <h2>
+            {categoryHrefs[cat] ? (
+              <a href={link(categoryHrefs[cat]!)}>{categoryLabels[cat] ?? cat} use disorders</a>
+            ) : (
+              `${categoryLabels[cat] ?? cat} use disorders`
+            )}
+          </h2>
+          <div class="silo-grid">
+            {items.map((s) => (
+              <a class="silo-card silo-card-link" href={link(`/substance-use/${s.data.category}/${s.data.slug}`)}>
+                <div class="silo-card-eyebrow">Treatment available</div>
+                <h3>{s.data.name}</h3>
+                {s.data.synonyms.length > 0 && (
+                  <p>Also: {s.data.synonyms.slice(0, 3).join(", ")}</p>
+                )}
+                <span class="silo-card-arrow">{s.data.name} treatment →</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    ))}
+
+    <Cta heading="Verify your insurance and start treatment" />
+  </div>
+</BaseLayout>

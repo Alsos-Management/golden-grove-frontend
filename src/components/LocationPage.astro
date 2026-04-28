@@ -1,0 +1,132 @@
+---
+import { getCollection, getEntry } from "astro:content";
+import SiloHero from "./SiloHero.astro";
+import Breadcrumbs, { type Crumb } from "./Breadcrumbs.astro";
+import Cta from "./Cta.astro";
+import InsuranceDisclaimer from "./InsuranceDisclaimer.astro";
+
+export interface Props {
+  slug: string;
+  trail: Crumb[];
+}
+
+const { slug, trail } = Astro.props as Props;
+const entry = await getEntry("locations", slug);
+if (!entry) throw new Error(`Location entry not found: ${slug}`);
+const loc = entry.data;
+const facility = (await getEntry("facility", "golden-grove-recovery"))!.data;
+const mcos = (await getCollection("mcos")).sort((a, b) => a.data.name.localeCompare(b.data.name));
+
+const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
+const link = (p: string) => `${BASE}${p}`;
+---
+
+<div class="silo-body">
+  <SiloHero
+    eyebrow={`${loc.name}, ${loc.stateCode} · Service Area`}
+    title={`Drug & alcohol rehab serving ${loc.name}, ${loc.stateCode}`}
+    lede={`Golden Grove Recovery is located in ${facility.city} and serves ${loc.name} residents with addiction treatment that's covered by Kentucky Medicaid and most major insurance.`}
+  />
+  <Breadcrumbs trail={trail} />
+
+  <section class="silo-section is-light">
+    <div class="silo-container">
+      <div class="silo-section-label">Kentucky Medicaid coverage</div>
+      <h2>{loc.name} residents have access to all six Kentucky Medicaid MCOs</h2>
+      <p>
+        Every Kentucky Medicaid MCO covers the full ASAM continuum of substance use disorder
+        treatment for {loc.name} residents — detox, residential, PHP, IOP, outpatient, and MAT.
+        Pick your plan to verify benefits.
+      </p>
+
+      <div class="silo-grid">
+        {mcos.map((m) => (
+          <a class="silo-card silo-card-link" href={link(`/medicaid/${m.data.slug}`)}>
+            <div class="silo-card-eyebrow">Kentucky Medicaid</div>
+            <h3>{m.data.shortName}</h3>
+            <span class="silo-card-arrow">View {m.data.shortName} coverage →</span>
+          </a>
+        ))}
+      </div>
+
+      <InsuranceDisclaimer variant="pre-opening" />
+    </div>
+  </section>
+
+  <section class="silo-section is-dust">
+    <div class="silo-container">
+      <div class="silo-section-label">Treatment offerings</div>
+      <h2>What we treat for {loc.name} residents</h2>
+      <div class="silo-grid">
+        <a class="silo-card silo-card-link" href={link("/substance-use/alcohol")}>
+          <div class="silo-card-eyebrow">Substance Use Treatment</div>
+          <h3>Alcohol Use Disorder</h3>
+          <span class="silo-card-arrow">Read more →</span>
+        </a>
+        <a class="silo-card silo-card-link" href={link("/substance-use/opioids")}>
+          <div class="silo-card-eyebrow">Substance Use Treatment</div>
+          <h3>Opioid Use Disorder</h3>
+          <p>Including <a href={link("/substance-use/opioids/fentanyl")}>fentanyl</a> and <a href={link("/substance-use/opioids/heroin")}>heroin</a>.</p>
+          <span class="silo-card-arrow">Read more →</span>
+        </a>
+        <a class="silo-card silo-card-link" href={link("/substance-use/stimulants/meth-methamphetamine")}>
+          <div class="silo-card-eyebrow">Substance Use Treatment</div>
+          <h3>Methamphetamine</h3>
+          <span class="silo-card-arrow">Read more →</span>
+        </a>
+        <a class="silo-card silo-card-link" href={link("/substance-use/benzodiazepines")}>
+          <div class="silo-card-eyebrow">Substance Use Treatment</div>
+          <h3>Benzodiazepines</h3>
+          <span class="silo-card-arrow">Read more →</span>
+        </a>
+        <a class="silo-card silo-card-link" href={link("/mental-health")}>
+          <div class="silo-card-eyebrow">Dual Diagnosis</div>
+          <h3>Co-occurring mental health</h3>
+          <p>Depression, anxiety, PTSD, bipolar, and more — treated alongside SUD.</p>
+          <span class="silo-card-arrow">Read more →</span>
+        </a>
+        <a class="silo-card silo-card-link" href={link("/substance-use/opioids/mat")}>
+          <div class="silo-card-eyebrow">MAT</div>
+          <h3>Medication-Assisted Treatment</h3>
+          <p>Suboxone, methadone, Vivitrol, and naltrexone for OUD and AUD.</p>
+          <span class="silo-card-arrow">Read more →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  {(loc.transitNote || loc.distanceFromFacility || loc.localContext) && (
+    <section class="silo-section is-light">
+      <div class="silo-container silo-narrow">
+        <div class="silo-section-label">Getting to Golden Grove</div>
+        <h2>{facility.name} from {loc.name}</h2>
+        {loc.transitNote && <p>{loc.transitNote}</p>}
+        {loc.distanceFromFacility && <p><strong>Distance:</strong> {loc.distanceFromFacility}.</p>}
+        {loc.localContext && <p>{loc.localContext}</p>}
+
+        <h3>Address &amp; contact</h3>
+        <p>
+          <strong>{facility.name}</strong><br />
+          {facility.address.street}<br />
+          {facility.address.city}, {facility.address.state} {facility.address.postalCode}<br />
+          <a href={`tel:${facility.phoneTel}`}>{facility.phone}</a> · <a href={`mailto:${facility.email}`}>{facility.email}</a>
+        </p>
+
+        {facility.mapEmbedUrl && (
+          <iframe
+            src={facility.mapEmbedUrl}
+            width="100%"
+            height="320"
+            style="border:0; border-radius: 12px; margin: 16px 0;"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title={`Map showing ${facility.name} location`}
+          />
+        )}
+      </div>
+    </section>
+  )}
+
+  <Cta heading={`Verify your coverage from ${loc.name}`}
+       subhead="Our admissions team confirms benefits and coordinates the next step." />
+</div>

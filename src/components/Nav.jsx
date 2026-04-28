@@ -7,9 +7,10 @@ const NAV_ITEMS = [
   { label: "Home", to: "/" },
   { label: "About", to: "/about" },
   { label: "Programs", to: "/programs" },
+  { label: "Substances", to: "/substance-use" },
   { label: "Medicaid", to: "/medicaid" },
-  { label: "Therapy", to: "/therapy" },
-  { label: "Insurance", to: "/insurance" },
+  { label: "Locations", to: "/locations" },
+  { label: "Admissions", to: "/admissions" },
   { label: "FAQ", to: "/faq" },
   { label: "Contact", to: "/contact" },
 ];
