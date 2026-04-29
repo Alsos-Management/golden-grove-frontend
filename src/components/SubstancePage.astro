@@ -32,9 +32,9 @@ const isAlcohol = s.category === "alcohol";
 
 const treatmentOfferings = [
   {
-    eyebrow: "ASAM 3.7 / 4",
+    eyebrow: "ASAM 3.7",
     title: "Medical Detox",
-    detail: "Medically supervised withdrawal management with 24/7 clinical monitoring and symptom-based medication. Medical necessity authorization is typically obtained urgently for detox.",
+    detail: "Medically monitored withdrawal management with 24/7 clinical monitoring and symptom-based medication. Talk to our admissions team about how detox fits your situation.",
     href: "/levels-of-care/medical-detox",
   },
   {
@@ -98,7 +98,7 @@ const treatmentOfferings = [
           <a class="silo-card silo-card-link" href={link(`/medicaid/${m.data.slug}`)}>
             <div class="silo-card-eyebrow">Kentucky Medicaid plan</div>
             <h3>{m.data.shortName}</h3>
-            <p>{m.data.shortName} covers detox, residential, PHP, IOP, outpatient, and medication-assisted treatment for {s.name.toLowerCase()}.</p>
+            <p>{m.data.shortName} covers residential, PHP, IOP, outpatient, and medication-assisted treatment for {s.name.toLowerCase()}.</p>
             <span class="silo-card-arrow">View {m.data.shortName} coverage →</span>
           </a>
         ))}
