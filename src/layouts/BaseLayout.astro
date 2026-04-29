@@ -77,6 +77,67 @@ const jsonLdArray = Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [];
       ::-webkit-scrollbar { width: 6px; }
       ::-webkit-scrollbar-track { background: #EFE2C8; }
       ::-webkit-scrollbar-thumb { background: #8C6934; border-radius: 3px; }
+
+      /* Site-wide nav, footer, button styles. Previously these lived only inside the
+         React <GlobalStyles> component (src/components/shared.jsx), which is rendered
+         only on the original 12 React pages. On Astro silo pages, the Nav React island
+         mounted but its CSS classes were never injected — so the hamburger and desktop
+         nav were both visible at the same time, the mobile breakpoint never fired, and
+         nav links rendered as default <a> tags. Lifting them here so every page —
+         React-island or pure Astro — renders the nav consistently. */
+      .gg-btn {
+        padding: 14px 36px; border-radius: 8px; border: 2px solid transparent;
+        font-family: inherit; font-weight: 600; font-size: 14px;
+        cursor: pointer; transition: all 0.25s; display: inline-block;
+        text-decoration: none; text-align: center;
+      }
+      .gg-btn-primary { background: #461F01; color: #FFFFFF; border-color: #461F01; }
+      .gg-btn-primary:hover { background: #8C6934; border-color: #8C6934; color: #FFFFFF; }
+      .gg-btn-secondary { background: transparent; color: #FFFFFF; border-color: rgba(255,255,255,0.5); }
+      .gg-btn-secondary:hover { background: #FFFFFF; color: #461F01; border-color: #FFFFFF; }
+      .gg-btn-light { background: #FFFFFF; color: #461F01; border-color: #FFFFFF; }
+      .gg-btn-light:hover { background: #EFE2C8; border-color: #EFE2C8; }
+      .gg-btn-outline { background: transparent; color: #461F01; border-color: #461F01; }
+      .gg-btn-outline:hover { background: #461F01; color: #FFFFFF; }
+
+      .nav-link {
+        padding: 8px 16px; color: #461F01; font-size: 13px; font-weight: 500;
+        text-decoration: none; border-radius: 6px; transition: all 0.2s;
+        letter-spacing: 0.01em;
+      }
+      .nav-link:hover { background: #EFE2C8; color: #8C6934; }
+
+      .site-nav { height: 64px; padding: 0 24px; }
+      .nav-wordmark svg { height: 44px; transition: height 0.2s; }
+      .hamburger { display: none; }
+
+      @media (max-width: 768px) {
+        .desktop-only { display: none !important; }
+        .hamburger { display: flex !important; }
+        .site-nav { height: 56px !important; padding: 0 12px !important; }
+        .nav-wordmark svg { height: 28px !important; }
+        .mobile-menu { top: 56px !important; }
+
+        .site-footer { padding: 32px 16px 0 !important; }
+        .footer-wordmark svg { height: 28px !important; }
+        .footer-wordmark { margin-bottom: 20px !important; }
+        .footer-grid { grid-template-columns: 1fr 1fr !important; gap: 20px !important; }
+        .footer-grid .footer-col-title { font-size: 11px !important; margin-bottom: 10px !important; }
+        .footer-grid a, .footer-grid span, .footer-grid p { font-size: 12px !important; }
+        .footer-grid .footer-contact-block p { font-size: 12px !important; line-height: 1.5 !important; margin-bottom: 8px !important; }
+        .footer-bottom-bar { padding: 12px 16px !important; }
+        .footer-bottom-inner { flex-direction: column !important; text-align: center !important; gap: 8px !important; }
+        .footer-bottom-inner div { font-size: 11px !important; }
+        .footer-bottom-inner span { font-size: 11px !important; }
+      }
+      @media (max-width: 480px) {
+        .nav-wordmark svg { height: 22px !important; }
+        .footer-wordmark svg { height: 22px !important; }
+        .footer-grid { grid-template-columns: 1fr !important; }
+      }
+      @media (min-width: 769px) {
+        .hamburger { display: none !important; }
+      }
     </style>
   </head>
 
