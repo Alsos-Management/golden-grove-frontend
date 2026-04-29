@@ -92,8 +92,14 @@ export default function Footer() {
             </div>
           </div>
           <div style={{ display: "flex", gap: 20 }}>
-            <span style={{ fontSize: 12, color: B.dust, cursor: "pointer" }}>Privacy Policy</span>
-            <span style={{ fontSize: 12, color: B.dust, cursor: "pointer" }}>Terms of Service</span>
+            <a
+              href="https://alsosbehavioralhealth.com/privacy-policy/"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ fontSize: 12, color: B.dust, textDecoration: "none" }}
+            >
+              Privacy Policy
+            </a>
           </div>
         </div>
       </div>
