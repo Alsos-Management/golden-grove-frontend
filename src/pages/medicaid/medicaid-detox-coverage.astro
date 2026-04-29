@@ -11,10 +11,10 @@ const detox = (await getEntry("levelsOfCare", "medical-detox"))!.data;
 const mcos = (await getCollection("mcos")).sort((a, b) => a.data.name.localeCompare(b.data.name));
 
 const title = "Does Kentucky Medicaid Cover Detox? | Golden Grove Recovery";
-const description = "Kentucky Medicaid covers medically supervised detox (ASAM 3.7 and 4) for alcohol, opioids, benzodiazepines. Coverage details by MCO and how to verify benefits urgently.";
+const description = "Kentucky Medicaid covers medically supervised detox (ASAM 3.7 and 4) for alcohol, opioids, benzodiazepines. Coverage details by Medicaid plan and what to expect with urgent admissions.";
 
 const faqs = [
-  { q: "Does Kentucky Medicaid cover medical detox?", a: "Yes. All six Kentucky Medicaid MCOs cover medical detox at ASAM 3.7 and 4 based on medical-necessity determination. Authorization is typically obtained urgently at admission." },
+  { q: "Does Kentucky Medicaid cover medical detox?", a: "Yes. Kentucky Medicaid plans typically cover medical detox at ASAM 3.7 and 4 based on medical-necessity determination. Authorization is typically obtained urgently at admission." },
   { q: "Will I need prior authorization for detox?", a: "Detox is usually authorized urgently based on clinical presentation, not pre-authorized days in advance. Our admissions team handles authorization at admission." },
   { q: "How long does Medicaid cover detox?", a: "Coverage continues as long as the level of care is medically necessary. Medical detox typically runs 3-7 days; benzodiazepine taper may extend longer based on the taper schedule." },
   { q: "Does Kentucky Medicaid cover MAT during detox?", a: "Yes. Buprenorphine (Suboxone or Subutex) induction is commonly started during detox for opioid use disorder, and is a covered Medicaid pharmacy benefit." },
@@ -35,7 +35,7 @@ const link = (p: string) => `${BASE}${p}`;
     <SiloHero
       eyebrow="Kentucky Medicaid · Detox Coverage"
       title="Does Kentucky Medicaid cover medical detox?"
-      lede="Yes. Every Kentucky Medicaid plan covers medically supervised withdrawal management (ASAM 3.7 and 4). For alcohol and benzodiazepine withdrawal — which can be life-threatening — authorization is typically obtained urgently at admission."
+      lede="Yes. Kentucky Medicaid plans typically cover medically supervised withdrawal management (ASAM 3.7 and 4). For alcohol and benzodiazepine withdrawal — which can be life-threatening — authorization is typically obtained urgently at admission."
     />
     <Breadcrumbs trail={[
       { label: "Home", href: "/" },
@@ -45,8 +45,8 @@ const link = (p: string) => `${BASE}${p}`;
 
     <section class="silo-section is-light">
       <div class="silo-container">
-        <div class="silo-section-label">Verify with your MCO</div>
-        <h2>All six Kentucky Medicaid plans cover detox</h2>
+        <div class="silo-section-label">Pick your plan</div>
+        <h2>Kentucky Medicaid plans typically cover detox</h2>
         <div class="silo-grid">
           {mcos.map((m) => (
             <a class="silo-card silo-card-link" href={link(`/medicaid/${m.data.slug}`)}>

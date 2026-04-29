@@ -30,10 +30,10 @@
     { "title": "Integrated dual-diagnosis care", "detail": "OUD co-occurs with depression, anxiety, PTSD, and ADHD at very high rates — integrated treatment improves outcomes.", "linksTo": ["/mental-health/"] }
   ],
   "localContext": "Kentucky continues to have one of the highest opioid overdose rates in the United States, driven primarily by illicit fentanyl. Louisville (Jefferson County) consistently ranks among the highest-impact counties. Kentucky Medicaid covers MAT for OUD across all six MCOs, and Kentucky law supports access to buprenorphine, methadone, and naloxone.",
-  "medicaidCoverageSummary": "All six Kentucky Medicaid MCOs cover MAT (Suboxone, Subutex, methadone, Vivitrol) and the full ASAM continuum for OUD. Pharmacy prior authorization may apply to specific MAT formulations; methadone treatment is delivered only through licensed opioid treatment programs (OTPs).",
+  "medicaidCoverageSummary": "Kentucky Medicaid plans typically cover MAT (Suboxone, Subutex, methadone, Vivitrol) and the clinical continuum of substance use treatment for OUD. Pharmacy prior authorization may apply to specific MAT formulations; methadone treatment is delivered only through licensed opioid treatment programs (OTPs).",
   "faqs": [
     { "q": "Is MAT (Suboxone, methadone) just trading one addiction for another?", "a": "No. Decades of clinical research show MAT is the most effective OUD treatment, reducing overdose deaths by more than half. MAT medications stabilize brain chemistry without producing the euphoria of misuse when taken as prescribed." },
     { "q": "How long does MAT last?", "a": "MAT is individualized. Some people use it short-term during stabilization; most benefit from months or years of maintenance. There is no clinical evidence that shorter MAT duration improves long-term outcomes — the opposite is true." },
-    { "q": "Does Kentucky Medicaid cover opioid addiction treatment?", "a": "Yes. All six Kentucky Medicaid MCOs (Passport, Anthem, Humana Healthy Horizons, WellCare, Aetna Better Health, UnitedHealthcare Community Plan) cover OUD treatment across the full ASAM continuum, including MAT." }
+    { "q": "Does Kentucky Medicaid cover opioid addiction treatment?", "a": "Yes. Kentucky Medicaid plans typically cover OUD treatment across the clinical continuum of substance use treatment, including MAT." }
   ]
 }

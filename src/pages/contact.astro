@@ -1,13 +1,254 @@
 ---
+import { getEntry } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import Contact from "../react-pages/Contact.jsx";
-import { GlobalStyles } from "../components/shared.jsx";
+import SiloHero from "../components/SiloHero.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
+import SiloStyles from "../components/SiloStyles.astro";
 
-const title = "Contact Us | Golden Grove Recovery";
-const description = "Reach Golden Grove Recovery in Louisville, KY. Call (502) 610-4829, email admissions@goldengroverecovery.com, or start your assessment online.";
+const facility = (await getEntry("facility", "golden-grove-recovery"))!.data;
+
+const title = `Contact Admissions | Golden Grove Recovery`;
+const description = `Confidential phone assessments and same-day insurance verification. Talk to our admissions team 24/7 to start the conversation about treatment.`;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  name: title,
+  description,
+  about: {
+    "@type": "Organization",
+    name: facility.name,
+    telephone: facility.phone,
+    email: facility.email,
+    contactPoint: {
+      "@type": "ContactPoint",
+      telephone: facility.phone,
+      contactType: "admissions",
+      availableLanguage: ["en"],
+      hoursAvailable: { "@type": "OpeningHoursSpecification", dayOfWeek: ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"], opens: "00:00", closes: "23:59" },
+    },
+  },
+};
 ---
 
-<BaseLayout title={title} description={description}>
-  <GlobalStyles client:load />
-  <Contact client:load />
+<BaseLayout title={title} description={description} jsonLd={jsonLd}>
+  <SiloStyles />
+  <div class="silo-body">
+    <SiloHero
+      eyebrow="Admissions · Contact"
+      title="Talk to Golden Grove Admissions"
+      lede="Our admissions team is available 24/7. Confidential phone assessments, fast insurance verification, and quick admission scheduling — start the conversation now."
+    />
+    <Breadcrumbs trail={[
+      { label: "Home", href: "/" },
+      { label: "Contact" },
+    ]} />
+
+    <section class="silo-section is-light">
+      <div class="silo-container">
+        <div class="silo-section-label">Three ways to start</div>
+        <h2>How admissions works at Golden Grove</h2>
+
+        <div class="contact-bubbles">
+          <div class="contact-bubble">
+            <div class="contact-bubble-eyebrow">Step 1 · Call</div>
+            <h3>Confidential phone assessment with admissions</h3>
+            <p>
+              Speak with a real person on our admissions team. We'll listen, ask the
+              questions that matter, and figure out the right next step together. No
+              judgment, no pressure, no obligation.
+            </p>
+            <a href={`tel:${facility.phoneTel}`} class="contact-bubble-cta">
+              Call {facility.phone}
+            </a>
+            <p class="contact-bubble-note">Available 24/7 · Free · Confidential</p>
+          </div>
+
+          <div class="contact-bubble">
+            <div class="contact-bubble-eyebrow">Step 2 · Coverage</div>
+            <h3>Insurance verification</h3>
+            <p>
+              We work quickly to verify your coverage so you know what's covered before
+              you start. If you don't have coverage — or aren't sure — our team will help
+              you understand what options may be available given your situation.
+            </p>
+            <a href={`tel:${facility.phoneTel}`} class="contact-bubble-cta is-secondary">
+              Verify with admissions
+            </a>
+            <p class="contact-bubble-note">Most carriers verified same day</p>
+          </div>
+
+          <div class="contact-bubble">
+            <div class="contact-bubble-eyebrow">Step 3 · Admission</div>
+            <h3>Scheduled admission</h3>
+            <p>
+              We move fast. For non-critical, non-complex cases, the path from initial
+              call to scheduled admission is often <strong>10 minutes or less</strong>.
+              More complex situations may take longer — we'll be transparent about
+              timing on the call.
+            </p>
+            <a href={`tel:${facility.phoneTel}`} class="contact-bubble-cta is-secondary">
+              Start the conversation
+            </a>
+            <p class="contact-bubble-note">Same-day admission possible</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="silo-section is-dust">
+      <div class="silo-container">
+        <div class="silo-section-label">Reaching the facility</div>
+        <h2>Where we are</h2>
+        <p>
+          Golden Grove Recovery is located in west Louisville, Kentucky. Initial
+          admissions calls and assessments are done by phone — patients only need to
+          come in person at the time of admission. The address below is for reference and
+          for scheduled visits.
+        </p>
+
+        <div class="contact-location-grid">
+          <div class="silo-card">
+            <div class="silo-card-eyebrow">Address</div>
+            <h3>{facility.name}</h3>
+            <p>
+              {facility.address.street}<br />
+              {facility.address.city}, {facility.address.state} {facility.address.postalCode}
+            </p>
+            <p style="margin-top: 12px;">
+              <strong>Phone:</strong> <a href={`tel:${facility.phoneTel}`}>{facility.phone}</a><br />
+              <strong>Email:</strong> <a href={`mailto:${facility.email}`}>{facility.email}</a><br />
+              <strong>Hours:</strong> 24/7 admissions
+            </p>
+          </div>
+
+          {facility.mapEmbedUrl && (
+            <div class="contact-map">
+              <iframe
+                src={facility.mapEmbedUrl}
+                width="100%"
+                height="100%"
+                style="border:0; display:block; min-height: 360px;"
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                title={`Map showing ${facility.name} location`}
+              />
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+
+    <section class="silo-section is-light">
+      <div class="silo-container silo-narrow">
+        <div class="silo-section-label">In crisis right now?</div>
+        <h2>Immediate help</h2>
+        <ul>
+          <li><strong>988</strong> — Suicide &amp; Crisis Lifeline (call or text, 24/7, free, confidential)</li>
+          <li><strong>911</strong> — for any medical emergency, including overdose</li>
+          <li><strong>1-833-859-4357</strong> — Kentucky's KY Help Call Center for SUD treatment navigation</li>
+          <li><strong>1-800-662-4357</strong> — SAMHSA National Helpline (free, confidential, 24/7)</li>
+        </ul>
+      </div>
+    </section>
+  </div>
 </BaseLayout>
+
+<style>
+  .contact-bubbles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+    gap: 20px;
+    margin: 24px 0;
+  }
+  .contact-bubble {
+    position: relative;
+    background: linear-gradient(155deg, #FFFFFF 0%, #FAF7F2 100%);
+    border: 1px solid #EFE2C8;
+    border-radius: 18px;
+    padding: 32px 28px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 20px rgba(70, 31, 1, 0.04);
+    transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+  }
+  .contact-bubble:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(70, 31, 1, 0.08);
+    border-color: rgba(140, 105, 52, 0.4);
+  }
+  .contact-bubble-eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #8C6934;
+    margin-bottom: 10px;
+  }
+  .contact-bubble h3 {
+    font-size: 19px;
+    font-weight: 800;
+    color: #461F01;
+    margin: 0 0 12px;
+    line-height: 1.25;
+  }
+  .contact-bubble p {
+    font-size: 14.5px;
+    line-height: 1.65;
+    color: #333;
+    margin: 0 0 16px;
+    flex-grow: 1;
+  }
+  .contact-bubble-cta {
+    display: block;
+    text-align: center;
+    background: #F2D17D;
+    color: #461F01;
+    padding: 14px 20px;
+    border-radius: 10px;
+    font-weight: 800;
+    font-size: 15px;
+    text-decoration: none;
+    border: 2px solid #F2D17D;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+    margin-top: auto;
+  }
+  .contact-bubble-cta:hover {
+    background: #461F01;
+    border-color: #461F01;
+    color: #FFFFFF;
+  }
+  .contact-bubble-cta.is-secondary {
+    background: transparent;
+    color: #461F01;
+    border-color: #461F01;
+  }
+  .contact-bubble-cta.is-secondary:hover {
+    background: #461F01;
+    color: #FFFFFF;
+  }
+  .contact-bubble-note {
+    font-size: 12px !important;
+    color: #6B6B6B !important;
+    margin: 10px 0 0 !important;
+    text-align: center;
+    flex-grow: 0 !important;
+  }
+
+  .contact-location-grid {
+    display: grid;
+    grid-template-columns: minmax(280px, 380px) 1fr;
+    gap: 20px;
+    margin: 24px 0;
+  }
+  .contact-map {
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid #EFE2C8;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    min-height: 360px;
+  }
+  @media (max-width: 768px) {
+    .contact-location-grid { grid-template-columns: 1fr; }
+  }
+</style>

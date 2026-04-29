@@ -14,8 +14,8 @@ const title = "How Kentucky Medicaid Covers Drug & Alcohol Rehab | Golden Grove 
 const description = "Pillar overview of how Kentucky Medicaid managed care covers SUD treatment — ASAM continuum, MAT, dual diagnosis, and the 1115 waiver that funds residential rehab.";
 
 const faqs = [
-  { q: "Does Kentucky Medicaid cover drug rehab?", a: "Yes. Kentucky Medicaid covers the full ASAM continuum for substance use disorder treatment — medical detox, residential, PHP, IOP, outpatient, and MAT — when medically necessary." },
-  { q: "Does Kentucky Medicaid cover Suboxone or methadone?", a: "Yes. All six Kentucky Medicaid MCOs cover Suboxone, Subutex, methadone, Vivitrol, and oral naltrexone for opioid use disorder. Methadone is delivered through licensed opioid treatment programs (OTPs)." },
+  { q: "Does Kentucky Medicaid cover drug rehab?", a: "Yes. Kentucky Medicaid covers the clinical continuum of substance use treatment for substance use disorder treatment — medical detox, residential, PHP, IOP, outpatient, and MAT — when medically necessary." },
+  { q: "Does Kentucky Medicaid cover Suboxone or methadone?", a: "Yes. Kentucky Medicaid plans typically cover Suboxone, Subutex, methadone, Vivitrol, and oral naltrexone for opioid use disorder. Methadone is delivered through licensed opioid treatment programs (OTPs)." },
   { q: "How does Kentucky's 1115 waiver affect Medicaid coverage of residential rehab?", a: "Kentucky's 1115 demonstration waiver allows Medicaid to pay for residential SUD treatment in IMD-sized facilities (institutions for mental disease larger than 16 beds), making residential treatment broadly accessible to Kentucky Medicaid members." },
   { q: "Can I get treatment for both addiction and depression on Kentucky Medicaid?", a: "Yes. Kentucky Medicaid administers behavioral health and SUD services as a unified benefit. Integrated dual-diagnosis treatment for SUD plus depression, anxiety, PTSD, bipolar, or other mental health conditions is covered." },
 ];
@@ -47,7 +47,7 @@ const link = (p: string) => `${BASE}${p}`;
       <div class="silo-container">
         <div class="silo-section-label">Six managed care organizations</div>
         <h2>Kentucky's MCOs</h2>
-        <p>If you have Kentucky Medicaid, your benefits are administered by one of six MCOs. All six cover the full ASAM continuum for SUD; pick yours for plan-specific authorization detail.</p>
+        <p>If you have Kentucky Medicaid, your benefits are administered by one of six MCOs. All six cover the clinical continuum of substance use treatment for SUD; pick yours for plan-specific authorization detail.</p>
 
         <div class="silo-grid">
           {mcos.map((m) => (
@@ -107,7 +107,7 @@ const link = (p: string) => `${BASE}${p}`;
       </div>
     </section>
 
-    <Cta heading="Verify your Kentucky Medicaid coverage" />
+    <Cta heading="Talk to our admissions team" />
 
     <section class="silo-section is-light">
       <div class="silo-container silo-narrow">

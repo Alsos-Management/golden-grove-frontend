@@ -10,8 +10,8 @@ export interface Props {
 }
 const {
   variant = "default",
-  heading = "Verify your coverage and start treatment",
-  subhead = "Call our admissions team or send a quick verification request — we'll handle the rest.",
+  heading = "Talk to our admissions team",
+  subhead = "Call us or send a message — we'll discuss your situation and help you understand your treatment options.",
 } = Astro.props as Props;
 ---
 
@@ -24,7 +24,7 @@ const {
         Call {f.phone}
       </a>
       <a href={`${import.meta.env.BASE_URL.replace(/\/$/, "")}/contact`} class="cta-btn cta-btn-outline">
-        Verify Insurance
+        Contact Admissions
       </a>
     </div>
   </div>

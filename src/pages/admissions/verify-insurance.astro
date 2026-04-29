@@ -36,7 +36,7 @@ const link = (p: string) => `${BASE}${p}`;
     <section class="silo-section is-light">
       <div class="silo-container">
         <div class="silo-section-label">Kentucky Medicaid</div>
-        <h2>All six Kentucky Medicaid plans accepted</h2>
+        <h2>Insurance plans we work with</h2>
         <div class="silo-grid">
           {mcos.map((m) => (
             <a class="silo-card silo-card-link" href={link(`/medicaid/${m.data.slug}`)}>
@@ -73,7 +73,7 @@ const link = (p: string) => `${BASE}${p}`;
       </div>
     </section>
 
-    <Cta heading="Call now to verify your benefits"
+    <Cta heading="Call now to discuss your coverage"
          subhead={`Or email ${facility.email} with your member ID and we'll get back to you fast.`} />
   </div>
 </BaseLayout>

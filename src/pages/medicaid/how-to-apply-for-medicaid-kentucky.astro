@@ -6,7 +6,7 @@ import Cta from "../../components/Cta.astro";
 import SiloStyles from "../../components/SiloStyles.astro";
 
 const title = "How to Apply for Kentucky Medicaid | Golden Grove Recovery";
-const description = "Step-by-step guide to applying for Kentucky Medicaid through kynect — eligibility, documents, MCO selection, and what to do if you're in active addiction.";
+const description = "Step-by-step guide to applying for Kentucky Medicaid through kynect — eligibility, documents, Medicaid plan selection, and what to do if you're in active addiction.";
 
 const faqs = [
   { q: "Where do I apply for Kentucky Medicaid?", a: "The official application portal is kynect.ky.gov. You can also apply by phone (1-855-459-6328), by mail, or in person at a Department for Community Based Services (DCBS) office." },
@@ -60,8 +60,8 @@ const link = (p: string) => `${BASE}${p}`;
           </div>
           <div class="silo-card">
             <div class="silo-card-eyebrow">Step 4</div>
-            <h3>Pick your MCO</h3>
-            <p>Once approved, choose one of Kentucky's six MCOs. All cover the full ASAM continuum for SUD.</p>
+            <h3>Pick your Medicaid plan</h3>
+            <p>Once approved, choose one of Kentucky's six MCOs. All cover the clinical continuum of substance use treatment for SUD.</p>
           </div>
         </div>
       </div>
@@ -70,7 +70,7 @@ const link = (p: string) => `${BASE}${p}`;
     <section class="silo-section is-dust">
       <div class="silo-container silo-narrow">
         <div class="silo-section-label">Pick your plan</div>
-        <h2>Kentucky Medicaid MCOs</h2>
+        <h2>Kentucky Medicaid plans</h2>
         <ul>
           <li><a href={link("/medicaid/passport-health-plan")}>Passport Health Plan by Molina</a></li>
           <li><a href={link("/medicaid/anthem-medicaid-kentucky")}>Anthem BCBS Medicaid</a></li>
@@ -97,7 +97,7 @@ const link = (p: string) => `${BASE}${p}`;
     </section>
 
     <Cta heading="Need help applying for Medicaid?"
-         subhead="Our admissions team can walk you through the kynect application and verify your benefits the moment you're approved." />
+         subhead="Our admissions team can walk you through the kynect application and discuss your coverage the moment you're approved." />
 
     <section class="silo-section is-dust">
       <div class="silo-container silo-narrow">

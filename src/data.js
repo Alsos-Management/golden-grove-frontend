@@ -42,7 +42,6 @@ export const PROGRAMS = [
     features: [
       "Daily individual therapy (1-2 hrs/week)",
       "30+ hours weekly group therapy",
-      "Family sessions (1-2 hrs/week)",
       "Medication-assisted treatment available",
       "Meals and accommodation included",
       "Trauma-informed care",
@@ -51,13 +50,12 @@ export const PROGRAMS = [
   {
     title: "Partial Hospitalization (PHP)",
     duration: "5-6 Days/Week · Daytime",
-    desc: "A bridge between residential and outpatient care. Structured treatment during the day while living at home, maintaining employment, and strengthening family connections.",
+    desc: "A bridge between residential and outpatient care. Structured treatment during the day while living at home and maintaining employment.",
     features: [
       "6-8 hour daily sessions",
       "30+ hours weekly programming",
       "Individual and group therapy",
       "Evening and weekend flexibility",
-      "Family involvement sessions",
       "Relapse prevention focus",
     ],
   },
@@ -73,7 +71,7 @@ export const EXPECT = [
 ];
 
 export const THERAPIES = [
-  { cat: "Psychotherapy", items: ["Individual Therapy", "Group Therapy (30+ hrs/wk)", "Family Therapy", "CBT", "DBT"] },
+  { cat: "Psychotherapy", items: ["Individual Therapy", "Group Therapy (30+ hrs/wk)", "CBT", "DBT", "Motivational Interviewing"] },
   { cat: "Somatic & Trauma", items: ["EMDR", "Trauma-Informed Care", "Life Skills Training", "Relapse Prevention", "Mindfulness Practices"] },
   { cat: "Holistic Wellness", items: ["Yoga Therapy", "Art Therapy", "Music Therapy", "Breathwork & Meditation", "Fitness & Nutrition"] },
   { cat: "Recovery Models", items: ["12-Step Facilitation", "SMART Recovery", "Refuge Recovery", "MAT", "Recovery Support Services"] },
@@ -86,9 +84,9 @@ export const CONDITIONS = [
 ];
 
 export const INSURANCE = [
-  "Aetna", "Aetna Better Health of Kentucky", "Anthem BCBS", "Behavioral Health Systems",
-  "CareSource", "Cigna / Evernorth", "Humana Medicaid", "Kentucky Medicaid",
-  "Magellan", "Passport by Molina", "TRICARE East", "Optum / UHC", "United Behavioral Health",
+  "Aetna", "Anthem BCBS", "Behavioral Health Systems",
+  "Cigna / Evernorth",
+  "Magellan", "TRICARE East", "Optum / UHC", "United Behavioral Health",
 ];
 
 export const RESOURCES = [
@@ -103,8 +101,8 @@ export const FAQS = [
   { q: "How long does treatment take?", a: "Residential typically lasts 21-28 days. PHP can range 4-8 weeks. We emphasize quality recovery over arbitrary timelines — your treatment plan is customized and adjusted based on progress." },
   { q: "Can I use medication-assisted treatment?", a: "Yes. We offer MAT with buprenorphine, naltrexone, Suboxone, and Brixadi. MAT reduces withdrawal and cravings so you can engage fully in therapy." },
   { q: "What happens after treatment ends?", a: "Before discharge, we connect you with outpatient providers, recovery groups, and community resources. Your success doesn't end when treatment does." },
-  { q: "Do you accept visitors?", a: "Family involvement strengthens recovery. We offer scheduled family sessions and visitation to help repair relationships and build support systems." },
-  { q: "What about affordability?", a: "We accept most major insurance plans and Kentucky Medicaid. Our financial team helps maximize your benefits. Don't let cost prevent you from seeking help." },
+  { q: "Do you accept visitors?", a: "Visitation is part of recovery. We schedule visitation periods so you can stay connected with the people who matter to you. Specific guidelines are shared at admission." },
+  { q: "What about affordability?", a: "Cost should not prevent you from getting help. Our admissions team works with most major insurance plans and discusses options based on your individual situation. Call us to discuss your specific circumstances." },
 ];
 
 export const REVIEWS = [

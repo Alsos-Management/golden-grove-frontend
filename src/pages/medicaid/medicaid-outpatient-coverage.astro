@@ -14,7 +14,7 @@ const title = "Does Kentucky Medicaid Cover Outpatient Addiction Treatment? | Go
 const description = "Kentucky Medicaid covers outpatient SUD therapy, group counseling, MAT management, and continuing care (ASAM 1) with no arbitrary visit caps when medically necessary.";
 
 const faqs = [
-  { q: "Does Kentucky Medicaid cover outpatient addiction therapy?", a: "Yes. All six Kentucky Medicaid MCOs cover outpatient SUD services — including individual therapy, group counseling, family therapy, and MAT management — when medically necessary." },
+  { q: "Does Kentucky Medicaid cover outpatient addiction therapy?", a: "Yes. Kentucky Medicaid plans typically cover outpatient SUD services — including individual therapy, group counseling, and MAT management — when medically necessary." },
   { q: "Is there a visit cap on outpatient SUD coverage?", a: "No. Kentucky Medicaid does not impose arbitrary visit caps on medically necessary outpatient SUD services. Coverage continues as long as the level of care is appropriate." },
   { q: "Can I do MAT at the outpatient level long-term?", a: "Yes. MAT is the clinical standard for OUD and AUD and is intended to be a long-term treatment. Outpatient MAT management is fully covered." },
 ];
@@ -34,7 +34,7 @@ const link = (p: string) => `${BASE}${p}`;
     <SiloHero
       eyebrow="Kentucky Medicaid · Outpatient Coverage"
       title="Does Kentucky Medicaid cover outpatient addiction treatment?"
-      lede="Yes. Every Kentucky Medicaid plan covers outpatient SUD services — individual therapy, group counseling, family therapy, and MAT management — with no arbitrary visit caps when medically necessary."
+      lede="Yes. Kentucky Medicaid plans typically cover outpatient SUD services — individual therapy, group counseling, and MAT management — with no arbitrary visit caps when medically necessary."
     />
     <Breadcrumbs trail={[
       { label: "Home", href: "/" },
@@ -44,7 +44,7 @@ const link = (p: string) => `${BASE}${p}`;
 
     <section class="silo-section is-light">
       <div class="silo-container">
-        <div class="silo-section-label">Verify with your MCO</div>
+        <div class="silo-section-label">Pick your plan</div>
         <h2>Outpatient coverage by Kentucky Medicaid plan</h2>
         <div class="silo-grid">
           {mcos.map((m) => (
@@ -77,7 +77,7 @@ const link = (p: string) => `${BASE}${p}`;
       </div>
     </section>
 
-    <Cta heading="Verify your Kentucky Medicaid outpatient coverage" />
+    <Cta heading="Talk to our admissions team about outpatient" />
 
     <section class="silo-section is-light">
       <div class="silo-container silo-narrow">

@@ -46,7 +46,7 @@ const link = (p: string) => `${BASE}${p}`;
             <div class="silo-card-eyebrow">Email</div>
             <h3>Send us a note</h3>
             <p><a href={`mailto:${facility.email}`}>{facility.email}</a></p>
-            <p>Include member ID if you'd like us to verify benefits before we connect.</p>
+            <p>Include member ID if you'd like us to know your plan info before we connect.</p>
           </div>
           <a class="silo-card silo-card-link" href={link("/admissions/verify-insurance")}>
             <div class="silo-card-eyebrow">Online</div>
@@ -101,6 +101,6 @@ const link = (p: string) => `${BASE}${p}`;
       </div>
     </section>
 
-    <Cta heading="Call admissions or verify your insurance" />
+    <Cta heading="Call admissions or discuss your coverage" />
   </div>
 </BaseLayout>

@@ -68,10 +68,10 @@ export default function InsurancePage() {
         <div style={{ position: "absolute", inset: 0, opacity: 0.03, backgroundImage: "radial-gradient(circle, white 1px, transparent 1px)", backgroundSize: "30px 30px" }} />
         <FadeIn style={{ position: "relative", zIndex: 1 }}>
           <h2 style={{ fontSize: "clamp(1.5rem, 4vw, 2.5rem)", fontWeight: 800, letterSpacing: "-0.02em", marginBottom: 16, color: B.white }}>
-            Verify Your Insurance Today
+            Talk to Our Admissions Team
           </h2>
           <p style={{ fontSize: 16, color: "rgba(255,255,255,0.7)", maxWidth: 500, margin: "0 auto 36px" }}>
-            Our team can verify your benefits and explain your coverage in minutes.
+            Our admissions team will discuss your coverage and treatment options.
           </p>
           <div className="cta-banner-ctas" style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
             <a href={`tel:${SITE.phoneTel}`} className="gg-btn gg-btn-light">Call {SITE.phone}</a>

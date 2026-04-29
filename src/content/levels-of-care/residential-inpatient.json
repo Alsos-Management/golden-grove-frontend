@@ -14,7 +14,7 @@
     "Patients with opioid use disorder requiring MAT stabilization",
     "Patients with high overdose risk from lost tolerance"
   ],
-  "typicalDay": "A typical day combines individual therapy, group therapy (CBT, DBT, relapse prevention, process groups), psychoeducation, family sessions, medication management, recreational/wellness activities (yoga, art, fitness), and structured meals and rest. Patients also meet with medical and psychiatric providers throughout the stay.",
-  "medicaidCoverageSummary": "All six Kentucky Medicaid MCOs cover residential SUD treatment (ASAM 3.1, 3.3, 3.5) based on ASAM medical-necessity determination. Prior authorization with concurrent review is typical.",
+  "typicalDay": "A typical day combines individual therapy, group therapy (CBT, DBT, relapse prevention, process groups), psychoeducation, medication management, recreational/wellness activities (yoga, art, fitness), and structured meals and rest. Patients also meet with medical and psychiatric providers throughout the stay.",
+  "medicaidCoverageSummary": "Kentucky Medicaid plans typically cover residential SUD treatment (ASAM 3.1, 3.3, 3.5) based on ASAM medical-necessity determination. Prior authorization with concurrent review is typical.",
   "imdExclusionNote": "Kentucky's Medicaid 1115 demonstration waiver allows Medicaid to pay for residential SUD treatment in IMD-sized facilities, making residential care accessible to Medicaid members statewide."
 }
