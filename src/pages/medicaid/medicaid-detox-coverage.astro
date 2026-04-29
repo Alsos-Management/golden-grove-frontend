@@ -1,5 +1,5 @@
 ---
-import { getCollection, getEntry } from "astro:content";
+import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import SiloHero from "../../components/SiloHero.astro";
 import Breadcrumbs from "../../components/Breadcrumbs.astro";
@@ -7,17 +7,16 @@ import Cta from "../../components/Cta.astro";
 import SiloStyles from "../../components/SiloStyles.astro";
 import InsuranceDisclaimer from "../../components/InsuranceDisclaimer.astro";
 
-const detox = (await getEntry("levelsOfCare", "medical-detox"))!.data;
 const mcos = (await getCollection("mcos")).sort((a, b) => a.data.name.localeCompare(b.data.name));
 
 const title = "Does Kentucky Medicaid Cover Detox? | Golden Grove Recovery";
-const description = "Kentucky Medicaid covers medically supervised detox (ASAM 3.7 and 4) for alcohol, opioids, benzodiazepines. Coverage details by Medicaid plan and what to expect with urgent admissions.";
+const description = "Kentucky Medicaid covers medical withdrawal management when medically necessary. Coverage details vary by level of care and setting. Talk to admissions about your situation.";
 
 const faqs = [
-  { q: "Does Kentucky Medicaid cover medical detox?", a: "Yes. Kentucky Medicaid plans typically cover medical detox at ASAM 3.7 and 4 based on medical-necessity determination. Authorization is typically obtained urgently at admission." },
-  { q: "Will I need prior authorization for detox?", a: "Detox is usually authorized urgently based on clinical presentation, not pre-authorized days in advance. Our admissions team handles authorization at admission." },
-  { q: "How long does Medicaid cover detox?", a: "Coverage continues as long as the level of care is medically necessary. Medical detox typically runs 3-7 days; benzodiazepine taper may extend longer based on the taper schedule." },
-  { q: "Does Kentucky Medicaid cover MAT during detox?", a: "Yes. Buprenorphine (Suboxone or Subutex) induction is commonly started during detox for opioid use disorder, and is a covered Medicaid pharmacy benefit." },
+  { q: "Does Kentucky Medicaid cover medical detox?", a: "Kentucky Medicaid covers medical withdrawal management when it is medically necessary. The level of coverage and the setting where detox is delivered vary by plan and by clinical need." },
+  { q: "What's the difference between ASAM 3.7 and ASAM 4 detox?", a: "Both are inpatient withdrawal management. ASAM 4 is medically managed — delivered in a hospital with continuous physician management — and used when withdrawal needs hospital-level intensity. ASAM 3.7 is medically monitored — 24/7 nursing with physician oversight — at a freestanding SUD facility." },
+  { q: "Is detox the same as treatment?", a: "No. Detox is the first step — it manages the medical risk of withdrawal. Real recovery work happens at the levels of care that follow: residential, PHP, IOP, and outpatient — paired with medication when indicated." },
+  { q: "How do I figure out the right path for me?", a: "Call our admissions team. We'll listen to your situation, explain the levels of care, and help you understand what may be available given your insurance and your clinical needs. No pressure, no obligation." },
 ];
 
 const jsonLd = [
@@ -33,9 +32,9 @@ const link = (p: string) => `${BASE}${p}`;
   <SiloStyles />
   <div class="silo-body">
     <SiloHero
-      eyebrow="Kentucky Medicaid · Detox Coverage"
+      eyebrow="Kentucky Medicaid · Detox"
       title="Does Kentucky Medicaid cover medical detox?"
-      lede="Yes. Kentucky Medicaid plans typically cover medically supervised withdrawal management (ASAM 3.7 and 4). For alcohol and benzodiazepine withdrawal — which can be life-threatening — authorization is typically obtained urgently at admission."
+      lede="Kentucky Medicaid covers medical withdrawal management when it is medically necessary. The setting and level of coverage depend on your plan and clinical needs — talk to our admissions team about the right path for you."
     />
     <Breadcrumbs trail={[
       { label: "Home", href: "/" },
@@ -44,61 +43,64 @@ const link = (p: string) => `${BASE}${p}`;
     ]} />
 
     <section class="silo-section is-light">
-      <div class="silo-container">
-        <div class="silo-section-label">Pick your plan</div>
-        <h2>Kentucky Medicaid plans typically cover detox</h2>
-        <div class="silo-grid">
-          {mcos.map((m) => (
-            <a class="silo-card silo-card-link" href={link(`/medicaid/${m.data.slug}`)}>
-              <div class="silo-card-eyebrow">Kentucky Medicaid</div>
-              <h3>{m.data.shortName}</h3>
-              <span class="silo-card-arrow">View {m.data.shortName} detox coverage →</span>
-            </a>
-          ))}
-        </div>
+      <div class="silo-container silo-narrow">
+        <div class="silo-section-label">What detox is</div>
+        <h2>Medical withdrawal management</h2>
+        <p>
+          Detox — clinically called withdrawal management — is the supervised medical
+          process of safely clearing a substance from the body while managing
+          symptoms that range from uncomfortable to life-threatening. Alcohol and
+          benzodiazepine withdrawal can be fatal without medical supervision; opioid
+          withdrawal is severe and increases relapse and overdose risk if unmanaged.
+        </p>
+        <p>
+          Detox is the first step in treatment, not the full treatment. Real recovery
+          work happens at the levels of care that follow.
+        </p>
         <InsuranceDisclaimer variant="medicaid" />
       </div>
     </section>
 
     <section class="silo-section is-dust">
       <div class="silo-container silo-narrow">
-        <div class="silo-section-label">Why detox needs to be supervised</div>
-        <h2>What medical detox covers</h2>
-        <p>{detox.description}</p>
-        <p><strong>Typical duration:</strong> {detox.typicalDuration} · <strong>Setting:</strong> {detox.hoursPerWeek}</p>
-
-        <h3>Kentucky's 1115 waiver and detox</h3>
-        <p>{detox.imdExclusionNote}</p>
+        <div class="silo-section-label">Levels of detox</div>
+        <h2>ASAM 3.7 and ASAM 4</h2>
+        <p>
+          The two inpatient detox levels in the ASAM continuum are 3.7 and 4. Both are
+          24/7 supervised — the difference is intensity and setting:
+        </p>
+        <ul>
+          <li><strong>ASAM 4 — Medically Managed Inpatient Withdrawal Management.</strong> Delivered in a hospital with continuous physician management. Used when withdrawal requires hospital-level resources.</li>
+          <li><strong>ASAM 3.7 — Medically Monitored Inpatient Withdrawal Management.</strong> Delivered in a freestanding SUD facility with 24/7 nursing and physician oversight. Used when a patient needs structured medical detox but not full hospital intensity.</li>
+        </ul>
+        <p>
+          The right level for any individual patient is a clinical determination made
+          at intake.
+        </p>
       </div>
     </section>
 
     <section class="silo-section is-light">
       <div class="silo-container">
-        <div class="silo-section-label">What comes next</div>
-        <h2>After detox</h2>
-        <p>Detox is the first step, not the full treatment. Most patients step down to:</p>
+        <div class="silo-section-label">By plan</div>
+        <h2>Coverage detail by Kentucky Medicaid plan</h2>
+        <p>
+          Pick your plan to see what's covered for the SUD treatment continuum.
+        </p>
         <div class="silo-grid">
-          <a class="silo-card silo-card-link" href={link("/medicaid/medicaid-residential-coverage")}>
-            <div class="silo-card-eyebrow">ASAM 3.5</div>
-            <h3>Residential treatment</h3>
-            <span class="silo-card-arrow">Residential coverage →</span>
-          </a>
-          <a class="silo-card silo-card-link" href={link("/medicaid/medicaid-php-iop-coverage")}>
-            <div class="silo-card-eyebrow">ASAM 2.5 / 2.1</div>
-            <h3>PHP &amp; IOP</h3>
-            <span class="silo-card-arrow">PHP / IOP coverage →</span>
-          </a>
-          <a class="silo-card silo-card-link" href={link("/medicaid/medicaid-mat-coverage")}>
-            <div class="silo-card-eyebrow">Standard of Care</div>
-            <h3>MAT continues from detox</h3>
-            <span class="silo-card-arrow">MAT coverage →</span>
-          </a>
+          {mcos.map((m) => (
+            <a class="silo-card silo-card-link" href={link(`/medicaid/${m.data.slug}`)}>
+              <div class="silo-card-eyebrow">Kentucky Medicaid plan</div>
+              <h3>{m.data.shortName}</h3>
+              <span class="silo-card-arrow">View {m.data.shortName} coverage →</span>
+            </a>
+          ))}
         </div>
       </div>
     </section>
 
-    <Cta heading="Need detox? Call admissions now"
-         subhead="If you're in withdrawal or about to be, we handle urgent verification and authorization." />
+    <Cta heading="Need detox? Talk to admissions"
+         subhead="If you're in withdrawal or about to be, call us. We'll listen to your situation and help you understand the right next step." />
 
     <section class="silo-section is-dust">
       <div class="silo-container silo-narrow">

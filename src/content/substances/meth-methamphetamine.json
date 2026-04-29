@@ -31,10 +31,10 @@
     { "title": "Integrated mental health care", "detail": "Meth use frequently produces or worsens anxiety, depression, and psychotic symptoms; integrated psychiatric and SUD care is essential.", "linksTo": ["/mental-health/"] }
   ],
   "localContext": "Kentucky continues to see rising methamphetamine-related deaths, with meth increasingly involved in polysubstance overdoses alongside fentanyl. Louisville's demand for stimulant-focused treatment has grown meaningfully over the past five years.",
-  "medicaidCoverageSummary": "Kentucky Medicaid plans typically cover detox, residential, PHP, IOP, and outpatient SUD services for stimulant use disorder. There are no FDA-approved medications specifically for meth addiction, but behavioral treatment and integrated psychiatric care for co-occurring conditions are covered.",
+  "medicaidCoverageSummary": "Kentucky Medicaid plans typically cover residential, PHP, IOP, and outpatient SUD services for stimulant use disorder. There are no FDA-approved medications specifically for meth addiction, but behavioral treatment and integrated psychiatric care for co-occurring conditions are covered.",
   "faqs": [
     { "q": "Is meth withdrawal dangerous?", "a": "Meth withdrawal is usually not life-threatening in the way alcohol or benzodiazepine withdrawal can be, but it produces severe depression and suicidal ideation in some patients. Medical and psychiatric monitoring is strongly recommended." },
     { "q": "Is there a medication for meth addiction?", "a": "No medication is FDA-approved for stimulant use disorder. Evidence-based behavioral treatments — particularly contingency management and CBT — are the standard of care, along with treatment of any co-occurring psychiatric conditions." },
-    { "q": "Does Kentucky Medicaid cover meth rehab?", "a": "Yes. All Kentucky Medicaid plans cover detox, residential, PHP, IOP, and outpatient services for stimulant use disorder based on medical-necessity determinations." }
+    { "q": "Does Kentucky Medicaid cover meth rehab?", "a": "Yes. All Kentucky Medicaid plans cover residential, PHP, IOP, and outpatient services for stimulant use disorder based on medical-necessity determinations." }
   ]
 }

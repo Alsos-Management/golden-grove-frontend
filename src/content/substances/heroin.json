@@ -30,10 +30,10 @@
     { "title": "Integrated dual-diagnosis care", "detail": "Heroin OUD co-occurs with trauma and mood disorders at high rates; integrated treatment addresses both together.", "linksTo": ["/mental-health/"] }
   ],
   "localContext": "Most heroin sold in Kentucky today is contaminated with fentanyl, which is why overdose risk for heroin users has grown dramatically. Louisville and surrounding Jefferson County continue to report high demand for OUD treatment, and Kentucky Medicaid covers the full treatment continuum.",
-  "medicaidCoverageSummary": "Kentucky Medicaid plans typically cover detox, residential, PHP, IOP, outpatient, and MAT for heroin-related OUD. Naloxone is a covered pharmacy benefit for members at risk.",
+  "medicaidCoverageSummary": "Kentucky Medicaid plans typically cover residential, PHP, IOP, outpatient, and MAT for heroin-related OUD. Naloxone is a covered pharmacy benefit for members at risk.",
   "faqs": [
     { "q": "Is heroin addiction treatment different from other opioids?", "a": "Clinically, treatment for heroin OUD uses the same evidence-based approach — MAT plus structured behavioral care — as other opioid use disorders. The practical difference today is that most street heroin is contaminated with fentanyl, raising overdose risk substantially." },
     { "q": "How long does heroin withdrawal last?", "a": "Acute withdrawal typically peaks at 1–3 days and subsides over about a week. Post-acute withdrawal symptoms (sleep, mood, cravings) can continue for weeks and are a key relapse-risk window." },
-    { "q": "Does Kentucky Medicaid cover heroin addiction treatment?", "a": "Yes. Kentucky Medicaid plans typically cover detox, residential, PHP, IOP, outpatient, and MAT for heroin OUD." }
+    { "q": "Does Kentucky Medicaid cover heroin addiction treatment?", "a": "Yes. Kentucky Medicaid plans typically cover residential, PHP, IOP, outpatient, and MAT for heroin OUD." }
   ]
 }
