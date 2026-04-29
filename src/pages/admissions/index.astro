@@ -1,6 +1,7 @@
 ---
 import { getEntry } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import SiloHero from "../../components/SiloHero.astro";
 import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import Cta from "../../components/Cta.astro";
 import SiloStyles from "../../components/SiloStyles.astro";
@@ -11,13 +12,7 @@ const facility = (await getEntry("facility", "golden-grove-recovery"))!.data;
 const title = `Admissions | Golden Grove Recovery`;
 const description = `Start treatment at Golden Grove Recovery in Louisville, KY. Verify insurance, learn what to expect on your first call, and walk through the admissions process step by step.`;
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebPage",
-  name: title,
-  description,
-  speakable: { "@type": "SpeakableSpecification", cssSelector: ["h1", ".silo-lede"] },
-};
+const jsonLd = { "@context": "https://schema.org", "@type": "WebPage", name: title, description };
 
 const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
 const link = (p: string) => `${BASE}${p}`;
@@ -25,43 +20,87 @@ const link = (p: string) => `${BASE}${p}`;
 
 <BaseLayout title={title} description={description} jsonLd={jsonLd}>
   <SiloStyles />
-  <Breadcrumbs trail={[
-    { label: "Home", href: "/" },
-    { label: "Admissions" },
-  ]} />
+  <div class="silo-body">
+    <SiloHero
+      eyebrow={`${facility.city}, ${facility.stateCode} · Admissions`}
+      title="Start treatment at Golden Grove Recovery"
+      lede="Reaching out is the hardest step. Call our admissions team and we handle the rest — insurance verification, assessment, and admission scheduling. No judgment, no pressure, no obligation."
+    />
+    <Breadcrumbs trail={[
+      { label: "Home", href: "/" },
+      { label: "Admissions" },
+    ]} />
 
-  <article class="silo-page">
-    <div class="silo-eyebrow">Admissions</div>
-    <h1>How to start treatment at Golden Grove Recovery</h1>
-    <p class="silo-lede">
-      Reaching out for help is the hardest step. We try to make every step that follows as simple as
-      possible — call our admissions team, send a quick insurance verification, and we handle the
-      rest. No judgment, no pressure, no obligation.
-    </p>
+    <section class="silo-section is-light">
+      <div class="silo-container">
+        <div class="silo-section-label">Three ways to reach us</div>
+        <h2>How to start the conversation</h2>
+        <div class="silo-grid">
+          <div class="silo-card">
+            <div class="silo-card-eyebrow">24/7</div>
+            <h3>Call admissions</h3>
+            <p><a href={`tel:${facility.phoneTel}`}>{facility.phone}</a></p>
+            <p>Real person, no call center. Average call: 15-30 minutes.</p>
+          </div>
+          <div class="silo-card">
+            <div class="silo-card-eyebrow">Email</div>
+            <h3>Send us a note</h3>
+            <p><a href={`mailto:${facility.email}`}>{facility.email}</a></p>
+            <p>Include member ID if you'd like us to verify benefits before we connect.</p>
+          </div>
+          <a class="silo-card silo-card-link" href={link("/admissions/verify-insurance")}>
+            <div class="silo-card-eyebrow">Online</div>
+            <h3>Verify insurance</h3>
+            <p>Send your plan info and we'll confirm coverage same day.</p>
+            <span class="silo-card-arrow">Verify insurance →</span>
+          </a>
+        </div>
+        <InsuranceDisclaimer variant="pre-opening" />
+      </div>
+    </section>
 
-    <InsuranceDisclaimer variant="pre-opening" />
+    <section class="silo-section is-dust">
+      <div class="silo-container">
+        <div class="silo-section-label">Read first</div>
+        <h2>Walking into the unknown</h2>
+        <div class="silo-grid">
+          <a class="silo-card silo-card-link" href={link("/admissions/what-to-expect-first-call")}>
+            <div class="silo-card-eyebrow">Step 1</div>
+            <h3>What to expect on your first call</h3>
+            <span class="silo-card-arrow">Read more →</span>
+          </a>
+          <a class="silo-card silo-card-link" href={link("/admissions/admissions-process")}>
+            <div class="silo-card-eyebrow">Step by step</div>
+            <h3>The admissions process</h3>
+            <span class="silo-card-arrow">Read more →</span>
+          </a>
+          <a class="silo-card silo-card-link" href={link("/admissions/verify-insurance")}>
+            <div class="silo-card-eyebrow">Coverage</div>
+            <h3>Verify your insurance</h3>
+            <span class="silo-card-arrow">Read more →</span>
+          </a>
+          <a class="silo-card silo-card-link" href={link("/admissions/faq")}>
+            <div class="silo-card-eyebrow">Common questions</div>
+            <h3>Admissions FAQ</h3>
+            <span class="silo-card-arrow">Read more →</span>
+          </a>
+        </div>
+      </div>
+    </section>
 
-    <h2>How to reach us</h2>
-    <ul>
-      <li><strong>Call admissions:</strong> <a href={`tel:${facility.phoneTel}`}>{facility.phone}</a> — 24/7</li>
-      <li><strong>Email:</strong> <a href={`mailto:${facility.email}`}>{facility.email}</a></li>
-      <li><strong>Verify insurance online:</strong> <a href={link("/admissions/verify-insurance")}>start a verification request</a></li>
-    </ul>
-
-    <h2>What to read first</h2>
-    <ul>
-      <li><a href={link("/admissions/what-to-expect-first-call")}>What to expect on your first call</a></li>
-      <li><a href={link("/admissions/admissions-process")}>The admissions process — step by step</a></li>
-      <li><a href={link("/admissions/verify-insurance")}>Verify your insurance coverage</a></li>
-      <li><a href={link("/admissions/faq")}>Admissions FAQ</a></li>
-    </ul>
-
-    <h2>If you're in crisis</h2>
-    <p>
-      Call or text <strong>988</strong> for the Suicide &amp; Crisis Lifeline (24/7, free,
-      confidential). For any medical emergency, call <strong>911</strong>.
-    </p>
+    <section class="silo-section is-light">
+      <div class="silo-container silo-narrow">
+        <div class="silo-section-label">In crisis right now?</div>
+        <h2>Immediate help</h2>
+        <ul>
+          <li><strong>988</strong> — Suicide &amp; Crisis Lifeline (call or text, 24/7, free, confidential)</li>
+          <li><strong>911</strong> — for any medical emergency, including overdose</li>
+          <li><strong>1-833-859-4357</strong> — Kentucky's KY Help Call Center for SUD treatment navigation</li>
+          <li><strong>1-800-662-4357</strong> — SAMHSA National Helpline (free, confidential, 24/7)</li>
+        </ul>
+      </div>
+    </section>
 
     <Cta heading="Call admissions or verify your insurance" />
-  </article>
+  </div>
 </BaseLayout>

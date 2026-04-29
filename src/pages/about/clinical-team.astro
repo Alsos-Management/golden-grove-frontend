@@ -1,6 +1,7 @@
 ---
 import { getEntry } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import SiloHero from "../../components/SiloHero.astro";
 import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import Cta from "../../components/Cta.astro";
 import SiloStyles from "../../components/SiloStyles.astro";
@@ -26,58 +27,76 @@ const jsonLd = [
 
 const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
 const link = (p: string) => `${BASE}${p}`;
+
+const teamRoles = [
+  { eyebrow: "Medical", title: "Addiction medicine physician", body: "Medical detox, MAT, and ongoing medication management." },
+  { eyebrow: "Psychiatric", title: "Psychiatric provider", body: "Integrated dual-diagnosis psychiatric care for co-occurring mental health conditions." },
+  { eyebrow: "Therapy", title: "Licensed clinical therapist", body: "LCSW, LPCC, or LMFT — individual therapy throughout treatment." },
+  { eyebrow: "Coordination", title: "Case manager", body: "Insurance coordination, discharge planning, family support, and continuity of care." },
+  { eyebrow: "Lived experience", title: "Peer recovery specialist", body: "Lived-experience support throughout treatment and into long-term recovery." },
+  { eyebrow: "24/7", title: "Nursing staff", body: "Round-the-clock nursing in residential settings; daytime nursing in PHP." },
+];
 ---
 
 <BaseLayout title={title} description={description} jsonLd={jsonLd}>
   <SiloStyles />
-  <Breadcrumbs trail={[
-    { label: "Home", href: "/" },
-    { label: "About", href: "/about" },
-    { label: "Clinical Team" },
-  ]} />
+  <div class="silo-body">
+    <SiloHero
+      eyebrow="About Golden Grove · Clinical Team"
+      title="Our clinical team"
+      lede="Addiction treatment outcomes are driven by clinical quality. Golden Grove Recovery's clinical leadership combines decades of addiction medicine experience with the structured, evidence-based protocols our patients deserve."
+    />
+    <Breadcrumbs trail={[
+      { label: "Home", href: "/" },
+      { label: "About", href: "/about" },
+      { label: "Clinical Team" },
+    ]} />
 
-  <article class="silo-page">
-    <div class="silo-eyebrow">About Golden Grove</div>
-    <h1>Our clinical team</h1>
-    <p class="silo-lede">
-      Addiction treatment outcomes are driven by clinical quality. Golden Grove Recovery's clinical
-      leadership combines decades of addiction medicine experience with the structured,
-      evidence-based protocols required for the patients Kentucky Medicaid serves.
-    </p>
-
-    <h2>Medical Directors</h2>
-    {facility.medicalDirectors.map((md) => (
-      <div class="silo-card">
-        <h3>{md.name}{md.credentials.length > 0 ? `, ${md.credentials.join(", ")}` : ""}</h3>
-        <p><strong>{md.role}</strong></p>
-        {md.bio && <p>{md.bio}</p>}
-        {!md.bio && <p style="color: #6B6B6B; font-size: 14px;">Full bio coming soon.</p>}
+    <section class="silo-section is-light">
+      <div class="silo-container">
+        <div class="silo-section-label">Leadership</div>
+        <h2>Medical Directors</h2>
+        <div class="silo-grid-2">
+          {facility.medicalDirectors.map((md) => (
+            <div class="silo-card">
+              <div class="silo-card-eyebrow">{md.role}</div>
+              <h3>{md.name}{md.credentials.length > 0 ? `, ${md.credentials.join(", ")}` : ""}</h3>
+              {md.bio ? <p>{md.bio}</p> : <p>Full bio coming soon.</p>}
+            </div>
+          ))}
+        </div>
       </div>
-    ))}
+    </section>
 
-    <h2>Treatment team disciplines</h2>
-    <p>
-      Beyond medical leadership, every patient at Golden Grove works with a multidisciplinary team
-      that typically includes:
-    </p>
-    <ul>
-      <li><strong>Addiction medicine physician</strong> — for medical detox, MAT, and ongoing medication management</li>
-      <li><strong>Psychiatric provider</strong> — for integrated dual-diagnosis psychiatric care</li>
-      <li><strong>Licensed clinical therapist (LCSW, LPCC, LMFT)</strong> — for individual therapy</li>
-      <li><strong>Case manager</strong> — for insurance coordination, discharge planning, and family support</li>
-      <li><strong>Peer recovery specialist</strong> — lived-experience support throughout treatment</li>
-      <li><strong>Nursing staff</strong> — 24/7 in residential settings</li>
-    </ul>
+    <section class="silo-section is-dust">
+      <div class="silo-container">
+        <div class="silo-section-label">Multidisciplinary care</div>
+        <h2>Treatment team disciplines</h2>
+        <div class="silo-grid">
+          {teamRoles.map((r) => (
+            <div class="silo-card">
+              <div class="silo-card-eyebrow">{r.eyebrow}</div>
+              <h3>{r.title}</h3>
+              <p>{r.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
 
-    <h2>Clinical philosophy</h2>
-    <p>
-      Our approach is grounded in three principles: <strong>ASAM-aligned matched care</strong> (the
-      right level of intensity for the patient's clinical need), <strong>integrated dual
-      diagnosis</strong> (treating SUD and co-occurring mental health conditions in the same
-      episode), and <strong>evidence-based treatment</strong> (CBT, DBT, EMDR, motivational
-      interviewing, contingency management — paired with MAT where indicated).
-    </p>
+    <section class="silo-section is-light">
+      <div class="silo-container silo-narrow">
+        <div class="silo-section-label">Clinical philosophy</div>
+        <h2>How we approach treatment</h2>
+        <p>Our approach is grounded in three principles:</p>
+        <ul>
+          <li><strong>ASAM-aligned matched care</strong> — the right level of intensity for the patient's clinical need, not what's available or convenient.</li>
+          <li><strong>Integrated dual diagnosis</strong> — treating SUD and co-occurring mental health conditions in the same episode of care.</li>
+          <li><strong>Evidence-based treatment</strong> — CBT, DBT, EMDR, motivational interviewing, contingency management — paired with MAT where indicated.</li>
+        </ul>
+      </div>
+    </section>
 
     <Cta heading="Have a clinical question for our team?" />
-  </article>
+  </div>
 </BaseLayout>

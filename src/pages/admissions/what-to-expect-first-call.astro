@@ -1,6 +1,7 @@
 ---
 import { getEntry } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import SiloHero from "../../components/SiloHero.astro";
 import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import Cta from "../../components/Cta.astro";
 import SiloStyles from "../../components/SiloStyles.astro";
@@ -18,60 +19,67 @@ const link = (p: string) => `${BASE}${p}`;
 
 <BaseLayout title={title} description={description} jsonLd={jsonLd}>
   <SiloStyles />
-  <Breadcrumbs trail={[
-    { label: "Home", href: "/" },
-    { label: "Admissions", href: "/admissions" },
-    { label: "What to Expect on Your First Call" },
-  ]} />
+  <div class="silo-body">
+    <SiloHero
+      eyebrow="Admissions · First Call"
+      title="What to expect on your first call"
+      lede="Calling about addiction treatment can feel like the hardest part. Here's exactly what happens when you reach out — so the unknown doesn't add to the hesitation."
+    />
+    <Breadcrumbs trail={[
+      { label: "Home", href: "/" },
+      { label: "Admissions", href: "/admissions" },
+      { label: "What to Expect" },
+    ]} />
 
-  <article class="silo-page">
-    <div class="silo-eyebrow">Admissions</div>
-    <h1>What to expect on your first call</h1>
-    <p class="silo-lede">
-      Calling about addiction treatment can feel like the hardest part. Here's exactly what
-      happens when you reach out to Golden Grove Recovery so the unknown doesn't add to the
-      hesitation.
-    </p>
+    <section class="silo-section is-light">
+      <div class="silo-container">
+        <div class="silo-section-label">Who you'll talk to</div>
+        <h2>A real person from admissions</h2>
+        <p>You'll reach a real person from our admissions team — not a generic call center. They handle hundreds of these calls a year and will lead the conversation. You don't need to have answers prepared. They'll ask the questions.</p>
+      </div>
+    </section>
 
-    <h2>Who you'll talk to</h2>
-    <p>
-      You'll reach a real person from our admissions team — not a generic call center. They handle
-      hundreds of these calls a year and will lead the conversation. You don't need to have answers
-      prepared. They'll ask the questions.
-    </p>
+    <section class="silo-section is-dust">
+      <div class="silo-container">
+        <div class="silo-section-label">What to expect</div>
+        <h2>The conversation, in two parts</h2>
+        <div class="silo-grid-2">
+          <div class="silo-card">
+            <div class="silo-card-eyebrow">What we'll ask</div>
+            <h3>Things admissions will cover</h3>
+            <ul>
+              <li>Who the call is for (yourself, a loved one, a referring provider)</li>
+              <li>What's been going on recently — substance use, mental health, recent crises</li>
+              <li>Insurance information so we can verify coverage</li>
+              <li>Whether you're in immediate medical crisis</li>
+              <li>What treatment you've had before, if any</li>
+              <li>What's making you reach out today</li>
+            </ul>
+          </div>
+          <div class="silo-card">
+            <div class="silo-card-eyebrow">What we won't do</div>
+            <h3>How we keep this conversation safe</h3>
+            <ul>
+              <li>Judge you for what you tell us</li>
+              <li>Pressure you to commit on the call</li>
+              <li>Use the information against you — calls are confidential</li>
+              <li>Promise outcomes we can't deliver</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
 
-    <h2>What we'll ask</h2>
-    <ul>
-      <li>Who the call is for (yourself, a loved one, a referring provider)</li>
-      <li>What's been going on recently — substance use, mental health, recent crises</li>
-      <li>Insurance information (member ID, plan name) so we can verify coverage</li>
-      <li>Whether you're in immediate medical crisis — if you are, we'll help you get to safety first</li>
-      <li>What kind of treatment you've had before, if any</li>
-      <li>What's making you reach out today</li>
-    </ul>
-
-    <h2>What we won't do</h2>
-    <ul>
-      <li>Judge you for what you tell us</li>
-      <li>Pressure you to commit to anything on the call</li>
-      <li>Use the information against you in any way — calls are confidential</li>
-      <li>Promise outcomes we can't deliver</li>
-    </ul>
-
-    <h2>How long the call takes</h2>
-    <p>
-      Most first calls run 15–30 minutes. If we're verifying complex insurance or coordinating with
-      a referring provider, longer calls are normal. You can pause and call back anytime.
-    </p>
-
-    <h2>What happens after the call</h2>
-    <p>
-      We'll typically have a coverage answer the same day. From there, we walk through the
-      <a href={link("/admissions/admissions-process")}>admissions process</a> step by step — including
-      assessment, scheduling, and what to bring. There is no obligation to start treatment.
-    </p>
+    <section class="silo-section is-light">
+      <div class="silo-container silo-narrow">
+        <div class="silo-section-label">Logistics</div>
+        <h2>How long, and what happens after</h2>
+        <p>Most first calls run 15-30 minutes. If we're verifying complex insurance or coordinating with a referring provider, longer calls are normal. You can pause and call back anytime.</p>
+        <p>We'll typically have a coverage answer the same day. From there, we walk through the <a href={link("/admissions/admissions-process")}>admissions process</a> step by step — including assessment, scheduling, and what to bring. There is no obligation to start treatment.</p>
+      </div>
+    </section>
 
     <Cta heading={`Call admissions at ${facility.phone}`}
          subhead="Or send a quick verification request online — we'll respond fast." />
-  </article>
+  </div>
 </BaseLayout>
