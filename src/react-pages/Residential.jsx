@@ -89,7 +89,7 @@ export default function Residential() {
             { time: "1:30 PM", activity: "Afternoon group therapy -- recovery models (12-Step, SMART Recovery, Refuge Recovery)" },
             { time: "3:30 PM", activity: "Holistic wellness -- art therapy, music therapy, fitness, or breathwork" },
             { time: "5:00 PM", activity: "Dinner and free time for journaling, reading, or relaxation" },
-            { time: "7:00 PM", activity: "Evening group -- life skills, relapse prevention, or family sessions" },
+            { time: "7:00 PM", activity: "Evening group -- life skills or relapse prevention" },
             { time: "9:00 PM", activity: "Quiet hours, reflection, and preparation for the next day" },
           ].map((item, i) => (
             <FadeIn key={i} delay={i * 0.03}>

@@ -30,10 +30,10 @@
     { "title": "Integrated mental health care", "detail": "Fentanyl OUD frequently co-occurs with trauma, depression, and anxiety. Integrated dual-diagnosis care addresses root drivers and improves long-term outcomes.", "linksTo": ["/mental-health/"] }
   ],
   "localContext": "Kentucky reported more than 2,000 overdose deaths in recent years, with illicit fentanyl involved in more than 80% of them. Jefferson County (Louisville) has consistently been among the most-affected counties in the state. The urgency of the fentanyl crisis makes rapid access to MAT and residential care a Kentucky Medicaid priority.",
-  "medicaidCoverageSummary": "All six Kentucky Medicaid MCOs cover the full SUD continuum for fentanyl OUD — detox, residential, PHP, IOP, outpatient, and MAT. Naloxone is also a Kentucky Medicaid pharmacy benefit for members at risk.",
+  "medicaidCoverageSummary": "Kentucky Medicaid plans typically cover the full SUD continuum for fentanyl OUD — detox, residential, PHP, IOP, outpatient, and MAT. Naloxone is also a Kentucky Medicaid pharmacy benefit for members at risk.",
   "faqs": [
     { "q": "How is fentanyl addiction treatment different from other opioids?", "a": "The clinical approach is similar — MAT plus behavioral care is the standard — but fentanyl's potency makes overdose risk during any relapse window substantially higher. Treatment emphasizes rapid MAT induction, longer stabilization, and universal naloxone access." },
     { "q": "Can I detox from fentanyl at home?", "a": "Fentanyl withdrawal is not typically life-threatening the way alcohol withdrawal is, but it is severe, and unmanaged withdrawal dramatically increases relapse and fatal overdose risk. Medical detox with MAT induction is strongly recommended." },
-    { "q": "Does Kentucky Medicaid cover fentanyl addiction treatment?", "a": "Yes. All six Kentucky Medicaid MCOs cover medical detox, residential treatment, PHP, IOP, outpatient, and MAT for fentanyl OUD." }
+    { "q": "Does Kentucky Medicaid cover fentanyl addiction treatment?", "a": "Yes. Kentucky Medicaid plans typically cover medical detox, residential treatment, PHP, IOP, outpatient, and MAT for fentanyl OUD." }
   ]
 }

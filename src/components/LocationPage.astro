@@ -32,11 +32,11 @@ const link = (p: string) => `${BASE}${p}`;
   <section class="silo-section is-light">
     <div class="silo-container">
       <div class="silo-section-label">Kentucky Medicaid coverage</div>
-      <h2>{loc.name} residents have access to all six Kentucky Medicaid MCOs</h2>
+      <h2>{loc.name} residents have access to Kentucky Medicaid plans</h2>
       <p>
-        Every Kentucky Medicaid MCO covers the full ASAM continuum of substance use disorder
+        Kentucky Medicaid plans typically cover the clinical continuum of substance use treatment of substance use disorder
         treatment for {loc.name} residents — detox, residential, PHP, IOP, outpatient, and MAT.
-        Pick your plan to verify benefits.
+        Pick your plan to learn what's covered.
       </p>
 
       <div class="silo-grid">
@@ -127,6 +127,6 @@ const link = (p: string) => `${BASE}${p}`;
     </section>
   )}
 
-  <Cta heading={`Verify your coverage from ${loc.name}`}
-       subhead="Our admissions team confirms benefits and coordinates the next step." />
+  <Cta heading={`Discuss treatment from ${loc.name}`}
+       subhead="Our admissions team will walk you through your situation and the next step." />
 </div>

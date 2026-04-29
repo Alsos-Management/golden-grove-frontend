@@ -14,7 +14,7 @@ const title = `Suboxone Treatment in ${facility.city}, ${facility.stateCode} | G
 const description = `Suboxone (buprenorphine/naloxone) treatment for opioid use disorder in Louisville, KY. Induction, maintenance, and Kentucky Medicaid coverage details.`;
 
 const faqs = [
-  { q: "Does Kentucky Medicaid cover Suboxone?", a: "Yes. All six Kentucky Medicaid MCOs cover Suboxone for opioid use disorder. Specific formulations (film vs. tablet, generic vs. brand) may have different prior authorization requirements depending on the MCO's preferred drug list." },
+  { q: "Does Kentucky Medicaid cover Suboxone?", a: "Yes. Kentucky Medicaid plans typically cover Suboxone for opioid use disorder. Specific formulations (film vs. tablet, generic vs. brand) may have different prior authorization requirements depending on the Medicaid plan's preferred drug list." },
   { q: "How is Suboxone different from methadone?", a: "Suboxone is a partial opioid agonist with a built-in ceiling effect on respiratory depression — making overdose risk much lower than methadone. Suboxone can be prescribed in office-based settings; methadone for OUD must be dispensed at federally licensed Opioid Treatment Programs (OTPs)." },
   { q: "Will Suboxone make me feel high?", a: "No. At therapeutic doses, Suboxone relieves cravings and prevents withdrawal without producing euphoria. The partial agonist mechanism produces a 'ceiling effect' — taking more does not create stronger effects." },
   { q: "How long should I stay on Suboxone?", a: "Suboxone is a long-term treatment for many patients. Research consistently shows that longer MAT correlates with lower overdose mortality. Tapering, when clinically appropriate, should be gradual and planned with your prescriber." },
@@ -47,7 +47,7 @@ const link = (p: string) => `${BASE}${p}`;
     <SiloHero
       eyebrow={`${facility.city}, ${facility.stateCode} · Suboxone`}
       title="Suboxone treatment for opioid use disorder"
-      lede="Suboxone (buprenorphine + naloxone) is one of the most widely used and best-evidenced MAT medications for OUD. Covered by every Kentucky Medicaid plan, with both office-based and integrated treatment options."
+      lede="Suboxone (buprenorphine + naloxone) is one of the most widely used and best-evidenced MAT medications for OUD. Covered by Kentucky Medicaid plans typically, with both office-based and integrated treatment options."
     />
     <Breadcrumbs trail={[
       { label: "Home", href: "/" },
@@ -60,9 +60,9 @@ const link = (p: string) => `${BASE}${p}`;
     <section class="silo-section is-light">
       <div class="silo-container">
         <div class="silo-section-label">Verify Suboxone coverage</div>
-        <h2>Every Kentucky Medicaid plan covers Suboxone</h2>
+        <h2>Kentucky Medicaid plans typically cover Suboxone</h2>
         <p>
-          All six Kentucky Medicaid MCOs cover Suboxone for opioid use disorder. Specific
+          Kentucky Medicaid plans typically cover Suboxone for opioid use disorder. Specific
           formulations may have different pharmacy prior authorization requirements, but the benefit
           is universal across plans.
         </p>

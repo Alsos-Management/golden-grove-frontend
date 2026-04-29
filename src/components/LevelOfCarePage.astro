@@ -35,17 +35,17 @@ const link = (p: string) => `${BASE}${p}`;
   <section class="silo-section is-light">
     <div class="silo-container">
       <div class="silo-section-label">Kentucky Medicaid coverage</div>
-      <h2>{l.shortName} is covered by every Kentucky Medicaid MCO</h2>
+      <h2>{l.shortName} is typically covered by Kentucky Medicaid plans</h2>
       <p>
-        {l.medicaidCoverageSummary ?? `All six Kentucky Medicaid managed care organizations cover ${l.shortName.toLowerCase()} based on ASAM medical-necessity determination.`}
+        {l.medicaidCoverageSummary ?? `Kentucky Medicaid plans typically cover ${l.shortName.toLowerCase()} based on medical-necessity determination using clinical criteria.`}
       </p>
 
       <div class="silo-grid">
         {mcos.map((m) => (
           <a class="silo-card silo-card-link" href={link(`/medicaid/${m.data.slug}`)}>
-            <div class="silo-card-eyebrow">Verify with</div>
+            <div class="silo-card-eyebrow">Kentucky Medicaid plan</div>
             <h3>{m.data.shortName}</h3>
-            <p>See {m.data.shortName}'s coverage detail and authorization workflow.</p>
+            <p>See {m.data.shortName}'s coverage detail and what's covered.</p>
             <span class="silo-card-arrow">View plan →</span>
           </a>
         ))}
@@ -97,5 +97,5 @@ const link = (p: string) => `${BASE}${p}`;
     </div>
   </section>
 
-  <Cta heading={`Verify your coverage and start ${l.shortName.toLowerCase()}`} />
+  <Cta heading={`Discuss ${l.shortName.toLowerCase()} with our admissions team`} />
 </div>

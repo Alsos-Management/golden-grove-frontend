@@ -28,14 +28,14 @@ const link = (p: string) => `${BASE}${p}`;
   <SiloHero
     eyebrow={`${facility.city}, ${facility.stateCode} · Dual Diagnosis`}
     title={`${m.name} treatment in ${facility.city}, ${facility.stateCode}`}
-    lede="Integrated dual-diagnosis treatment delivers better outcomes than treating one condition and deferring the other. Covered by every Kentucky Medicaid MCO."
+    lede="Integrated dual-diagnosis treatment delivers better outcomes than treating one condition and deferring the other. Covered by most insurances."
   />
   <Breadcrumbs trail={trail} />
 
   <section class="silo-section is-light">
     <div class="silo-container">
       <div class="silo-section-label">Kentucky Medicaid coverage</div>
-      <h2>Integrated treatment is covered by every Kentucky Medicaid MCO</h2>
+      <h2>Integrated treatment is typically covered by Kentucky Medicaid plans</h2>
       <p>
         Kentucky Medicaid administers behavioral health and substance use disorder services as a
         unified benefit. Psychiatric medication management, therapy, and SUD treatment can all be
@@ -47,7 +47,7 @@ const link = (p: string) => `${BASE}${p}`;
           <a class="silo-card silo-card-link" href={link(`/medicaid/${mco.data.slug}`)}>
             <div class="silo-card-eyebrow">Kentucky Medicaid</div>
             <h3>{mco.data.shortName}</h3>
-            <p>Verify {mco.data.shortName}'s dual-diagnosis coverage and authorization workflow.</p>
+            <p>Verify {mco.data.shortName}'s dual-diagnosis coverage and what's covered.</p>
             <span class="silo-card-arrow">View plan →</span>
           </a>
         ))}
@@ -79,7 +79,7 @@ const link = (p: string) => `${BASE}${p}`;
     </div>
   </section>
 
-  <Cta heading={`Verify your coverage and start integrated treatment`} />
+  <Cta heading={`Discuss integrated treatment with our admissions team`} />
 
   <section class="silo-section is-light">
     <div class="silo-container">

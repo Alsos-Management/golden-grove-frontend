@@ -34,7 +34,7 @@ const treatmentOfferings = [
   {
     eyebrow: "ASAM 3.7 / 4",
     title: "Medical Detox",
-    detail: "Medically supervised withdrawal management with 24/7 clinical monitoring and symptom-based medication. Authorization handled urgently with your Medicaid plan.",
+    detail: "Medically supervised withdrawal management with 24/7 clinical monitoring and symptom-based medication. Medical necessity authorization is typically obtained urgently for detox.",
     href: "/levels-of-care/medical-detox",
   },
   {
@@ -64,7 +64,7 @@ const treatmentOfferings = [
         {
           eyebrow: "Standard of Care",
           title: "MAT — Naltrexone, Vivitrol, Acamprosate",
-          detail: "FDA-approved medications for alcohol use disorder are covered by Kentucky Medicaid and reduce relapse risk meaningfully when paired with therapy.",
+          detail: "FDA-approved medications for alcohol use disorder are typically covered by Kentucky Medicaid plans and reduce relapse risk meaningfully when paired with therapy.",
           href: "/medicaid/medicaid-mat-coverage",
         },
       ]
@@ -72,7 +72,7 @@ const treatmentOfferings = [
   {
     eyebrow: "Continuing Care",
     title: "Outpatient & Aftercare",
-    detail: "Ongoing therapy, MAT management, and relapse-prevention support — covered by Kentucky Medicaid with no arbitrary visit caps.",
+    detail: "Ongoing therapy, MAT management, and relapse-prevention support — covered by Kentucky Medicaid plans subject to medical necessity.",
     href: "/levels-of-care/outpatient",
   },
 ];
@@ -84,20 +84,21 @@ const treatmentOfferings = [
 
   <section class="silo-section is-light">
     <div class="silo-container">
-      <div class="silo-section-label">Verify your coverage in minutes</div>
+      <div class="silo-section-label">Kentucky Medicaid coverage</div>
       <h2>Kentucky Medicaid covers {s.name.toLowerCase()} treatment at every level</h2>
       <p>
-        All six Kentucky Medicaid managed care organizations cover the full ASAM continuum for
-        {s.name.toLowerCase()} — from medical detox through long-term outpatient. Pick your plan to
-        see authorization details, MAT coverage, and how to verify your benefits with our admissions team.
+        Kentucky Medicaid plans typically cover the clinical continuum of substance use treatment for {s.name.toLowerCase()} —
+        from medical detox through long-term outpatient — when treatment is medically necessary.
+        Pick your plan to learn what's covered, how authorization works, and which medications are
+        on the formulary.
       </p>
 
       <div class="silo-grid">
         {mcos.map((m) => (
           <a class="silo-card silo-card-link" href={link(`/medicaid/${m.data.slug}`)}>
-            <div class="silo-card-eyebrow">Kentucky Medicaid</div>
+            <div class="silo-card-eyebrow">Kentucky Medicaid plan</div>
             <h3>{m.data.shortName}</h3>
-            <p>{m.data.shortName} covers detox, residential, PHP, IOP, outpatient, and MAT for {s.name.toLowerCase()}.</p>
+            <p>{m.data.shortName} covers detox, residential, PHP, IOP, outpatient, and medication-assisted treatment for {s.name.toLowerCase()}.</p>
             <span class="silo-card-arrow">View {m.data.shortName} coverage →</span>
           </a>
         ))}
@@ -114,7 +115,7 @@ const treatmentOfferings = [
       <p>
         Treatment is matched to clinical need using ASAM criteria — most patients move through
         multiple levels of care, starting with the highest intensity needed for safe stabilization
-        and stepping down as recovery stabilizes. Every level is covered by Kentucky Medicaid.
+        and stepping down as recovery stabilizes. Levels of care are typically covered by Kentucky Medicaid plans, subject to medical necessity and plan-specific authorization.
       </p>
 
       <div class="silo-grid">
@@ -144,8 +145,8 @@ const treatmentOfferings = [
     </section>
   )}
 
-  <Cta heading={`Verify your coverage and start ${s.name.toLowerCase()} treatment`}
-       subhead="Our admissions team confirms your Medicaid or commercial benefits and walks you through the next step." />
+  <Cta heading={`Discuss ${s.name.toLowerCase()} treatment with our admissions team`}
+       subhead="Tell us about your situation and we'll walk you through your options." />
 
   {s.faqs.length > 0 && (
     <section class="silo-section is-dust">
