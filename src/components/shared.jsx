@@ -72,6 +72,33 @@ export function GlobalStyles() {
       ::-webkit-scrollbar-track { background: ${B.dust}; }
       ::-webkit-scrollbar-thumb { background: ${B.butterscotch}; border-radius: 3px; }
 
+      /* Hero background video (home page) — Louisville Ohio River sunset.
+         Layered as: video (z:0) → coffee-tinted gradient overlay (z:1) → content (z:2).
+         Overlay dims the video so warm sunset palette still shows through but text
+         contrast is guaranteed. Reduced motion replaces video with the brand gradient. */
+      .hero-section .hero-video {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 0;
+        pointer-events: none;
+      }
+      .hero-section .hero-video-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(165deg, rgba(46, 20, 0, 0.82) 0%, rgba(70, 31, 1, 0.66) 45%, rgba(70, 31, 1, 0.55) 100%);
+        z-index: 1;
+        pointer-events: none;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .hero-section .hero-video { display: none !important; }
+        .hero-section .hero-video-overlay {
+          background: linear-gradient(165deg, ${B.coffeeDark} 0%, ${B.coffee} 40%, ${B.butterscotch} 100%);
+        }
+      }
+
       /* Pulsing CTA — GPU-accelerated. Disabled for prefers-reduced-motion. */
       @keyframes gg-cta-pulse {
         0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(242, 209, 125, 0.55); }
