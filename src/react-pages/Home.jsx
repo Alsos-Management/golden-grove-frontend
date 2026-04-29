@@ -5,15 +5,20 @@ import { FadeIn, Wordmark } from "../components/shared";
 export default function Home() {
   return (
     <>
-      {/* HERO */}
+      {/* HERO — Louisville Ohio River sunset video by Curt May (Pexels, royalty-free) */}
       <section className="hero-section" style={{
         minHeight: "100vh", display: "flex", flexDirection: "column",
         justifyContent: "center", alignItems: "center", textAlign: "center",
         padding: "120px 24px 80px",
-        background: `linear-gradient(165deg, ${B.coffeeDark} 0%, ${B.coffee} 40%, ${B.butterscotch} 100%)`,
+        background: B.coffeeDark,
         color: B.white, position: "relative", overflow: "hidden",
       }}>
-        <FadeIn style={{ position: "relative", zIndex: 1, maxWidth: 800 }}>
+        <video className="hero-video" autoPlay muted loop playsInline preload="metadata" aria-hidden="true">
+          <source src="https://videos.pexels.com/video-files/29061047/12561632_1920_1080_30fps.mp4" type="video/mp4" />
+        </video>
+        <div className="hero-video-overlay" aria-hidden="true" />
+
+        <FadeIn style={{ position: "relative", zIndex: 2, maxWidth: 800 }}>
           <div className="hero-wordmark" style={{ marginBottom: 32, display: "flex", justifyContent: "center" }}>
             <Wordmark height={72} variant="white" />
           </div>
@@ -33,7 +38,7 @@ export default function Home() {
           </div>
         </FadeIn>
 
-        <FadeIn delay={0.3} style={{ position: "relative", zIndex: 1, marginTop: 60, width: "100%", maxWidth: 700 }}>
+        <FadeIn delay={0.3} style={{ position: "relative", zIndex: 2, marginTop: 60, width: "100%", maxWidth: 700 }}>
           <div className="hero-stats" style={{
             display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 1,
             background: "rgba(255,255,255,0.08)", borderRadius: 12, overflow: "hidden",
